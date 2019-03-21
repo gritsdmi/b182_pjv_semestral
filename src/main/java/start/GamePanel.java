@@ -47,8 +47,8 @@ public class GamePanel extends JPanel implements Runnable {
         background = new GameBackground();
         bullets = new ArrayList<Bullet>();
         blocks = new ArrayList<Block>();
-        String imagePath = "/home/pavel/IdeaProjects/gritsdmi/src/main/java/start/myTank2.png";
-        String imagePath2 = "/home/pavel/IdeaProjects/gritsdmi/src/main/java/start/TankTower3.png";
+        String imagePath = "src/main/java/start/myTank2.png";
+        String imagePath2 = "src/main/java/start/TankTower3.png";
         try {
             TankPicture = ImageIO.read(new File(imagePath));
             TankTowerPicture = ImageIO.read(new File(imagePath2));
