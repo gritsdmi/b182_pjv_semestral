@@ -31,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFocusable(true);
         addKeyListener(new Listeners());
+        addMouseListener(new MouseListener());
     }
 
 
@@ -73,7 +74,7 @@ public class GamePanel extends JPanel implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println(Player.x + "  " + Player.y);
+//            System.out.println(Player.x + "  " + Player.y);
 //            System.out.println("ban down "+Block.banDown + " ban left "+ Block.banLeft+ " ban top "+ Block.banTop+" ban right "+ Block.banRight);
         }
     }
@@ -119,6 +120,9 @@ public class GamePanel extends JPanel implements Runnable {
 
         }
         turel.update();
+
+
+//        System.out.println(MouseInfo.getPointerInfo().getLocation().toString());
 
     }
 

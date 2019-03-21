@@ -4,37 +4,45 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 
 public class MouseListener implements MouseMotionListener, java.awt.event.MouseListener {
-    @Override
+
+    private GamePanel gp;
+
     public void mouseDragged(MouseEvent e) {
+        System.out.println("doved");
 
     }
 
-    @Override
     public void mouseMoved(MouseEvent e) {
+        System.out.println("moved");
 
     }
 
-    @Override
+    /**
+     * Invoked when a mouse button has been pressed on a component.
+     *
+     * @param e the event to be processed
+     */
+    public void mousePressed(MouseEvent e) {
+        if (e.getButton() == MouseEvent.BUTTON1) {
+
+            GamePanel.bullets.add(new Bullet(Player.x + 25, Player.y + 25, e.getPoint()));
+        }
+    }
+
     public void mouseClicked(MouseEvent e) {
 
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
 
-    }
 
-    @Override
     public void mouseReleased(MouseEvent e) {
 
     }
 
-    @Override
     public void mouseEntered(MouseEvent e) {
 
     }
 
-    @Override
     public void mouseExited(MouseEvent e) {
 
     }

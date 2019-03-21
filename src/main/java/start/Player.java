@@ -149,7 +149,7 @@ public class Player {
             nextMove = true;
         }
         if (isFiring) {
-            GamePanel.bullets.add(new Bullet(x, y));
+//            GamePanel.bullets.add(new Bullet(x, y));
         }
 
     }
