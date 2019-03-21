@@ -16,7 +16,7 @@ public class Turel {
 
     public void draw(Graphics2D g) {
 
-        AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(Player.rotation), 5, 5);
+        AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(Player.rotation), 25, 50);
         AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
 
 // Drawing the rotated image at the required drawing locations
