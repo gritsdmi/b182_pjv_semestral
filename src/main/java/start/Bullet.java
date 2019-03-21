@@ -46,7 +46,11 @@ public class Bullet {
 
     }
 
+    public void draw(Graphics2D g) {
+        g.setColor(color1);
+        g.fillOval((int) x, (int) y, r, r);
 
+    }
 
 
 }
