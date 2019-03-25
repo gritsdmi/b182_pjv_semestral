@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
         setFocusable(true);
         addKeyListener(new Listeners());
         addMouseListener(new MouseListener());
+        addMouseMotionListener(new MouseListener());
     }
 
 
@@ -57,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
             e.printStackTrace();
         }
         player = new Player();
-        turel = new Turel();
+        turel = new Turel(player.x, player.y);
         blocks.add(new Block(Color.RED, 250, 250));
         blocks.add(new Block(Color.RED, 350, 250));
         blocks.add(new Block(Color.RED, 350, 200));
