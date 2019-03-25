@@ -100,7 +100,8 @@ public class Player {
                         nextMove = false;
                     }
 
-                    rotation = 0;
+//                    rotation = 0;
+                    rotation = 90;
 
                     break;
                 case 2:
@@ -110,7 +111,8 @@ public class Player {
                         nextMove = false;
                     }
 
-                    rotation = 90;
+//                    rotation = 90;
+                    rotation = 0;
 
                     break;
                 case 3:
@@ -120,7 +122,8 @@ public class Player {
                         nextMove = false;
                     }
 
-                    rotation = 180;
+//                    rotation = 180;
+                    rotation = 270;
 
                     break;
                 case 4:
@@ -130,7 +133,8 @@ public class Player {
                         nextMove = false;
                     }
 
-                    rotation = 270;
+//                    rotation = 270;
+                    rotation = 180;
 
                     break;
                 default:
