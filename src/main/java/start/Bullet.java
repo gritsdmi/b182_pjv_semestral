@@ -1,5 +1,6 @@
 package start;
 
+import javax.swing.*;
 import java.awt.*;
 
 public class Bullet {
@@ -13,6 +14,9 @@ public class Bullet {
     private double dx;
     private double dy;
     private double angle;
+    private String pathToPNG = "src/main/resources/Entity/Bullet_1.png";
+    private final double scale = 0.7;
+    private Image img;
 
     Color color1;
 
@@ -28,6 +32,8 @@ public class Bullet {
         this.angle = Math.toRadians(Math.toDegrees(Math.atan2(dir.y - this.y, dir.x - this.x)));
         this.dy = Math.sin(angle);
         this.dx = Math.cos(angle);
+        this.img = new ImageIcon(pathToPNG).getImage();
+//        this.img = this.img.getScaledInstance(this.img.getWidth(null),this.img.getHeight(null),)
 
     }
 
@@ -48,7 +54,8 @@ public class Bullet {
 
     public void draw(Graphics2D g) {
         g.setColor(color1);
-        g.fillOval((int) x, (int) y, r, r);
+//        g.fillOval((int) x, (int) y, r, r);
+        g.drawImage(img, (int) (x) - 5, (int) (y) - 3, null);
 
     }
 
