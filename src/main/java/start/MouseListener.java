@@ -8,13 +8,12 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
     private GamePanel gp;
 
     public void mouseDragged(MouseEvent e) {
-        System.out.println("doved");
 
     }
 
     public void mouseMoved(MouseEvent e) {
-        System.out.println("moved");
 
+        GamePanel.turel.setDirection(e.getPoint());
     }
 
     /**

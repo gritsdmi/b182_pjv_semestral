@@ -25,9 +25,9 @@ public class Bullet {
         speed = 10;
         this.dir = directoin;
 
-        this.dy = Math.sin(Math.toRadians(Math.toDegrees(Math.atan2(dir.y - this.y, dir.x - this.x))));
-        this.dx = Math.cos(Math.toRadians(Math.toDegrees(Math.atan2(dir.y - this.y, dir.x - this.x))));
-//        this.angle =
+        this.angle = Math.toRadians(Math.toDegrees(Math.atan2(dir.y - this.y, dir.x - this.x)));
+        this.dy = Math.sin(angle);
+        this.dx = Math.cos(angle);
 
     }
 

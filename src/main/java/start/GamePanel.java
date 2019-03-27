@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable {
         setFocusable(true);
         addKeyListener(new Listeners());
         addMouseListener(new MouseListener());
+        addMouseMotionListener(new MouseListener());
     }
 
 
@@ -48,8 +49,8 @@ public class GamePanel extends JPanel implements Runnable {
         background = new GameBackground();
         bullets = new ArrayList<Bullet>();
         blocks = new ArrayList<Block>();
-        String imagePath = "src/main/java/start/myTank2.png";
-        String imagePath2 = "src/main/java/start/TankTower3.png";
+        String imagePath = "src/main/resources/Entity/myTank2.png";
+        String imagePath2 = "src/main/resources/Entity/TankTower3.png";
         try {
             TankPicture = ImageIO.read(new File(imagePath));
             TankTowerPicture = ImageIO.read(new File(imagePath2));
@@ -57,7 +58,7 @@ public class GamePanel extends JPanel implements Runnable {
             e.printStackTrace();
         }
         player = new Player();
-        turel = new Turel();
+        turel = new Turel(player.x, player.y);
         blocks.add(new Block(Color.RED, 250, 250));
         blocks.add(new Block(Color.RED, 350, 250));
         blocks.add(new Block(Color.RED, 350, 200));
