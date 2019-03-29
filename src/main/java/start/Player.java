@@ -18,7 +18,7 @@ public class Player {
     private double locationX;
     private double locationY;
 
-    private boolean nextMove = true;
+    public static boolean nextMove = true;
     public static int direction;
     public static boolean up;
     public static boolean down;
@@ -34,6 +34,7 @@ public class Player {
     public static boolean prevbanDown = false;
     public static boolean banLeft = false;
     public static boolean prevbanLeft = false;
+    public static int i = 0;
 
 
     //Constructor
@@ -53,50 +54,62 @@ public class Player {
     }
 
     //Metheds
-    public void update() {
-        if (nextMove) {
-            prevbanLeft = false;
-            prevbanDown = false;
-            prevbanRight = false;
-            prevbanTop = false;
-            for (int i = 0; i < GamePanel.blocks.size(); i++) {
-                if ((GamePanel.blocks.get(i).getX() == (x - 50)) && (GamePanel.blocks.get(i).getY() == y)) {
-                    banLeft = true;
-                    prevbanLeft = true;
-                } else if ((GamePanel.blocks.get(i).getX() == (x + 50)) && (GamePanel.blocks.get(i).getY() == y)) {
-                    banRight = true;
-                    prevbanRight = true;
-                } else if ((GamePanel.blocks.get(i).getX() == x) && (GamePanel.blocks.get(i).getY() == (y - 50))) {
-                    banTop = true;
-                    prevbanTop = true;
-                } else if ((GamePanel.blocks.get(i).getX() == x) && (GamePanel.blocks.get(i).getY() == (y + 50))) {
-                    banDown = true;
-                    prevbanDown = true;
-                }
-            }
-            if ((banTop) && (!prevbanTop)) {
-                banTop = false;
 
-            }
-            if ((banRight) && (!prevbanRight)) {
-                banRight = false;
 
-            }
-            if ((banDown) && (!prevbanDown)) {
-                banDown = false;
+    public void checkBans() {
 
-            }
-            if ((banLeft) && (!prevbanLeft)) {
-                banLeft = false;
-
+        prevbanLeft = false;
+        prevbanDown = false;
+        prevbanRight = false;
+        prevbanTop = false;
+        for (int i = 0; i < GamePanel.blocks.size(); i++) {
+            if ((GamePanel.blocks.get(i).getX() == (x - 50)) && (GamePanel.blocks.get(i).getY() == y)) {
+                banLeft = true;
+                prevbanLeft = true;
+            } else if ((GamePanel.blocks.get(i).getX() == (x + 50)) && (GamePanel.blocks.get(i).getY() == y)) {
+                banRight = true;
+                prevbanRight = true;
+            } else if ((GamePanel.blocks.get(i).getX() == x) && (GamePanel.blocks.get(i).getY() == (y - 50))) {
+                banTop = true;
+                prevbanTop = true;
+            } else if ((GamePanel.blocks.get(i).getX() == x) && (GamePanel.blocks.get(i).getY() == (y + 50))) {
+                banDown = true;
+                prevbanDown = true;
             }
         }
+        if ((banTop) && (!prevbanTop)) {
+            banTop = false;
+
+        }
+        if ((banRight) && (!prevbanRight)) {
+            banRight = false;
+
+        }
+        if ((banDown) && (!prevbanDown)) {
+            banDown = false;
+
+        }
+        if ((banLeft) && (!prevbanLeft)) {
+            banLeft = false;
+
+        }
+        nextMove = true;
+
+
+    }
+
+    public void update() {
+
         if (nextMove) {
+            i++;
+
+
             switch (direction) {
                 case 1:
                     if (!banTop) {
                         dx = 0;
                         dy = -speed;
+                        System.out.println("menayo nextmove");
                         nextMove = false;
                     }
 
@@ -107,6 +120,7 @@ public class Player {
                     if (!banRight) {
                         dx = speed;
                         dy = 0;
+                        System.out.println("menayo nextmove");
                         nextMove = false;
                     }
 
@@ -117,6 +131,7 @@ public class Player {
                     if (!banDown) {
                         dx = 0;
                         dy = speed;
+                        System.out.println("menayo nextmove");
                         nextMove = false;
                     }
 
@@ -127,6 +142,7 @@ public class Player {
                     if (!banLeft) {
                         dx = -speed;
                         dy = 0;
+                        System.out.println("menayo nextmove");
                         nextMove = false;
                     }
 
@@ -142,16 +158,28 @@ public class Player {
 
         x += dx;
         y += dy;
-        if ((dy != 0) && (y % 50 == 0) && !nextMove) {
-            nextMove = true;
-        }
-        if ((dx != 0) && (x % 50 == 0) && !nextMove) {
-            nextMove = true;
-        }
+        checkPos();
+
+
+//        if ((dx != 0) && (x % 50 == 0) && !nextMove) {
+//            nextMove = true;
+//            checkBans();
+//        }
         if (isFiring) {
 //            GamePanel.bullets.add(new Bullet(x, y));
         }
 
+    }
+
+    public void checkPos() {
+        if (((dy != 0) && (y % 50 == 0) || (dx != 0) && (x % 50 == 0)) && !nextMove) {
+            dx = 0;
+            dy = 0;
+            i++;
+
+            checkBans();
+
+        }
     }
 
     public void draw(Graphics2D g) {
