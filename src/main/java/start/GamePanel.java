@@ -24,6 +24,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static ArrayList<Block> blocks;
     public static BufferedImage TankPicture;
     public static BufferedImage TankTowerPicture;
+    public static BufferedImage BulletPicture;
 
     //Constructor
     public GamePanel() {
@@ -51,9 +52,12 @@ public class GamePanel extends JPanel implements Runnable {
         blocks = new ArrayList<Block>();
         String imagePath = "src/main/resources/Entity/myTank2.png";
         String imagePath2 = "src/main/resources/Entity/TankTower3.png";
+        String pathToPNG = "src/main/resources/Entity/Bullet_b (копия).png";
+
         try {
             TankPicture = ImageIO.read(new File(imagePath));
             TankTowerPicture = ImageIO.read(new File(imagePath2));
+            BulletPicture = ImageIO.read(new File(pathToPNG));
         } catch (IOException e) {
             e.printStackTrace();
         }
