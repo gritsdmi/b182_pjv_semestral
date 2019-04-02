@@ -9,7 +9,7 @@ public class Bullet {
     //Fields
     private double x;
     private double y;
-    private int speed = 5;
+    private int speed = 10;
 
     private Point dir;
     private double dx;
@@ -54,6 +54,30 @@ public class Bullet {
         return false;
     }
 
+    private boolean controlCollider() {//четвертый пиксель пули
+        for (Block bl : GamePanel.blocks) {
+            if (bl.isAlive()) {
+                if (bl.getX() <= this.x && (bl.getX() + bl.getWidth()) >= this.x) {
+                    if (bl.getY() <= this.y + 4 && (bl.getY() + bl.getHeight()) >= this.y + 4) {
+                        System.out.println("collider");
+                        bl.hit(this);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+
+        //wall              //bull
+//        if (this.xPosition <= a.getX() && (this.xPosition + this.width) >= a.getX()) {
+//            if (this.yPosition <= a.getY() && (this.yPosition + this.height) >= a.getY()) {
+//                hit();
+//                return true;
+//            }
+//        }
+
+    }
+
     private void controlAlive() {
         if (y < 0 || x < 0 || y > 800 || x > 800) this.isAlive = false;
     }
@@ -62,6 +86,7 @@ public class Bullet {
         if (isAlive) {
             y += dy * speed;
             x += dx * speed;
+            if (controlCollider()) this.isAlive = false;
             controlAlive();
         }
 
@@ -77,5 +102,11 @@ public class Bullet {
 
     }
 
+    public double getX() {
+        return x;
+    }
 
+    public double getY() {
+        return y;
+    }
 }

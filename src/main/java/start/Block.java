@@ -4,37 +4,71 @@ import java.awt.*;
 
 public class Block {
     //Fielsds
-    private int x;
-    private int y;
+    private int xPosition;
+    private int yPosition;
+    private int width = 50;
+    private int height = 50;
     private Color color;
     private int health;
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
+    private boolean isAlive;
 
     //Constructor
     public Block(Color c, int x, int y) {
         this.color = c;
-        this.x = x;
-        this.y = y;
-
+        this.xPosition = x;
+        this.yPosition = y;
+        this.isAlive = true;
     }
 
 
     //Methods
 
     public void update() {
-//
+//        controlXP();
 
     }
 
+    private void controlXP() {
+        if (isAlive) {
+            if (health < 1) {
+                this.isAlive = false;
+            }
+        }
+    }
+
+    /**
+     * в зависимости от типа пули будет отнимать разной количество хр
+     */
+    public void hit(Bullet bul) {
+        this.health--;
+        controlXP();
+        System.out.println("hit JP = " + this.health);
+    }
+
     public void draw(Graphics2D g) {
-        g.setColor(color);
-        g.fillRect(x, y, 50, 50);
+        if (isAlive) {
+            g.setColor(color);
+            g.fillRect(xPosition, yPosition, width, height);
+        }
+    }
+
+    public int getX() {
+        return xPosition;
+    }
+
+    public int getY() {
+        return yPosition;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 }
