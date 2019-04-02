@@ -3,7 +3,7 @@ package start;
 import java.awt.*;
 
 
-public class GameBackground {
+public class GameBackground implements Constants {
     //Fields
     private Color color;
 
@@ -17,7 +17,7 @@ public class GameBackground {
 
     public void draw(Graphics2D g) {
         g.setColor(color);
-        g.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
+        g.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
 
     }
 }

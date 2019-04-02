@@ -26,11 +26,11 @@ public class MapGenerator implements Constants {
     public void BildBorder() {
         int bx = 0;
         int by = 0;
-        while (bx != gp.WIDTH - 50) {
+        while (bx != PANEL_WIDTH - 50) {
             gp.blocks.add(new Block(Color.BLACK, bx, by));
             bx = bx + 50;
         }
-        while (by != gp.HEIGHT - 50) {
+        while (by != PANEL_HEIGHT - 50) {
             gp.blocks.add(new Block(Color.BLACK, bx, by));
             by = by + 50;
         }

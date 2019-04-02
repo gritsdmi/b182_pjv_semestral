@@ -5,7 +5,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 
 
-public class Player {
+public class Player implements Constants {
     //Fields
     public static double x;
     public static double y;
@@ -38,8 +38,8 @@ public class Player {
 
     //Constructor
     public Player() {
-        x = GamePanel.WIDTH / 2;
-        y = GamePanel.WIDTH / 2;
+        x = PANEL_WIDTH / 2;
+        y = PANEL_HEIGHT / 2;
         dx = 0;
         dx = 0;
 

@@ -8,10 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class GamePanel extends JPanel implements Runnable {
-
-    public static int WIDTH = 800;
-    public static int HEIGHT = 800;
+public class GamePanel extends JPanel implements Runnable, Constants {
 
     private Thread thread = new Thread(this);
 
@@ -30,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable {
     //Constructor
     public GamePanel() {
         super();
-        setPreferredSize(new Dimension(WIDTH, HEIGHT));
+        setPreferredSize(new Dimension(PANEL_WIDTH, PANEL_HEIGHT));
         setFocusable(true);
         addKeyListener(new Listeners());
         addMouseListener(new MouseListener());
@@ -46,7 +43,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void run() {
-        image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        image = new BufferedImage(PANEL_WIDTH, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
         graphics = (Graphics2D) image.getGraphics();
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         background = new GameBackground();
