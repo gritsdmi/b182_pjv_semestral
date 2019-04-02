@@ -42,7 +42,7 @@ public class Block {
     public void hit(Bullet bul) {
         this.health--;
         controlXP();
-        System.out.println("hit JP = " + this.health);
+//        System.out.println("hit JP = " + this.health);
     }
 
     public void draw(Graphics2D g) {

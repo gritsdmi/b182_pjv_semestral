@@ -59,7 +59,7 @@ public class Bullet {
             if (bl.isAlive()) {
                 if (bl.getX() <= this.x && (bl.getX() + bl.getWidth()) >= this.x) {
                     if (bl.getY() <= this.y + 4 && (bl.getY() + bl.getHeight()) >= this.y + 4) {
-                        System.out.println("collider");
+//                        System.out.println("collider");
                         bl.hit(this);
                         return true;
                     }
@@ -108,5 +108,9 @@ public class Bullet {
 
     public double getY() {
         return y;
+    }
+
+    public boolean isAlive() {
+        return isAlive;
     }
 }

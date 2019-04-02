@@ -117,13 +117,20 @@ public class GamePanel extends JPanel implements Runnable {
         //Bullet update
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update();
-            if (bullets.get(i).remove()) {
+            if (!bullets.get(i).isAlive()) {
                 bullets.remove(i);
                 i--;
             }
-
-
         }
+
+        //Walls update
+        for (int i = 0; i < blocks.size(); i++) {
+            if (!blocks.get(i).isAlive()) {
+                blocks.remove(i);
+                i--;
+            }
+        }
+
         turel.update();
 
 
