@@ -1,6 +1,6 @@
 package start;
 
-public class GameObject {
+public abstract class GameObject {
 
     private int xPosition;
     private int yPosition;

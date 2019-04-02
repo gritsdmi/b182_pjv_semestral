@@ -25,6 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
     public static BufferedImage TankPicture;
     public static BufferedImage TankTowerPicture;
     public static BufferedImage BulletPicture;
+    private MapGenerator mp;
 
     //Constructor
     public GamePanel() {
@@ -34,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
         addKeyListener(new Listeners());
         addMouseListener(new MouseListener());
         addMouseMotionListener(new MouseListener());
+        mp = new MapGenerator(this);
     }
 
 
@@ -63,10 +65,8 @@ public class GamePanel extends JPanel implements Runnable {
         }
         player = new Player();
         turel = new Turel(player.x, player.y);
-        blocks.add(new Block(Color.RED, 250, 250));
-        blocks.add(new Block(Color.RED, 350, 250));
-        blocks.add(new Block(Color.RED, 350, 200));
-        BildBorder();
+        mp.generateMap();
+        mp.BildBorder();
 
         System.out.println(blocks.size());
         while (true) {
@@ -84,27 +84,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void BildBorder() {
-        int bx = 0;
-        int by = 0;
-        while (bx != WIDTH - 50) {
-            blocks.add(new Block(Color.BLACK, bx, by));
-            bx = bx + 50;
-        }
-        while (by != HEIGHT - 50) {
-            blocks.add(new Block(Color.BLACK, bx, by));
-            by = by + 50;
-        }
-        while (bx != 0) {
-            blocks.add(new Block(Color.BLACK, bx, by));
-            bx = bx - 50;
-        }
-        while (by != 0) {
-            blocks.add(new Block(Color.BLACK, bx, by));
-            by = by - 50;
-        }
 
-    }
 
     public void GameUpdate() {
 
