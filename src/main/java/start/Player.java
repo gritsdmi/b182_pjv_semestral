@@ -139,9 +139,11 @@ public class Player implements Constants {
         x += dx;
         y += dy;
         if ((dy != 0) && (y % 50 == 0) && !nextMove) {
+            dy = 0;
             nextMove = true;
         }
         if ((dx != 0) && (x % 50 == 0) && !nextMove) {
+            dx = 0;
             nextMove = true;
         }
     }
