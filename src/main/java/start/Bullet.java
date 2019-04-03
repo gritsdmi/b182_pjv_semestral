@@ -21,6 +21,7 @@ public class Bullet {
     private AffineTransformOp op;
     private BufferedImage scaled;
     private boolean isAlive;
+    private int damage;
 
     //Constructor
     public Bullet(double x, double y, Point direction) {
@@ -32,6 +33,7 @@ public class Bullet {
         this.dy = Math.sin(angle);
         this.dx = Math.cos(angle);
         this.isAlive = true;
+        damage = 1;
 
 //-------------------------------------------------------
         scaled = new BufferedImage(imgBuff.getWidth() * (int) (scale), imgBuff.getHeight() * (int) (scale), BufferedImage.TYPE_INT_ARGB);
@@ -54,6 +56,7 @@ public class Bullet {
         return false;
     }
 
+    //TODO подправить проверку колайдера(проверять не [0,0] пиксель пули)
     private boolean controlCollider() {//четвертый пиксель пули
         for (Block bl : GamePanel.blocks) {
             if (bl.isAlive()) {
@@ -100,5 +103,9 @@ public class Bullet {
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public int getDamage() {
+        return damage;
     }
 }

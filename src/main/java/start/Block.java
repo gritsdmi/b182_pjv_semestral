@@ -27,7 +27,8 @@ public class Block implements Constants {
         this.xPosition = x;
         this.yPosition = y;
         this.isAlive = true;
-        this.color = asociateColor();
+        this.color = associateColor();
+        this.health = 1;
     }
 
     private Color associateColor() {
@@ -67,7 +68,10 @@ public class Block implements Constants {
      * в зависимости от типа пули будет отнимать разной количество хр
      */
     public void hit(Bullet bul) {
-        this.health--;
+        if (type != WALL_TYPE_BORDER) {
+            this.health -= bul.getDamage();
+            System.out.println("hit JP = " + this.health);
+        }
         controlXP();
     }
 
