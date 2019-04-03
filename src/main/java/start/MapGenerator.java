@@ -27,9 +27,9 @@ public class MapGenerator implements Constants {
 
     public boolean generateMap() {
 
-        gp.blocks.add(new Block(Color.RED, 250, 250));
-        gp.blocks.add(new Block(Color.RED, 350, 250));
-        gp.blocks.add(new Block(Color.RED, 350, 200));
+        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 250, 250));
+        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 350, 250));
+        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 350, 200));
 
         return true;
     }
@@ -85,10 +85,7 @@ public class MapGenerator implements Constants {
                 System.out.println();
             }
             lineCounter++;
-
-
         }
-
         parser.close();
         return levelInChar;
     }

@@ -59,7 +59,6 @@ public class Bullet {
             if (bl.isAlive()) {
                 if (bl.getX() <= this.x && (bl.getX() + bl.getWidth()) >= this.x) {
                     if (bl.getY() <= this.y + 4 && (bl.getY() + bl.getHeight()) >= this.y + 4) {
-//                        System.out.println("collider");
                         bl.hit(this);
                         return true;
                     }
@@ -67,15 +66,6 @@ public class Bullet {
             }
         }
         return false;
-
-        //wall              //bull
-//        if (this.xPosition <= a.getX() && (this.xPosition + this.width) >= a.getX()) {
-//            if (this.yPosition <= a.getY() && (this.yPosition + this.height) >= a.getY()) {
-//                hit();
-//                return true;
-//            }
-//        }
-
     }
 
     private void controlAlive() {
@@ -93,8 +83,6 @@ public class Bullet {
     }
 
     public void draw(Graphics2D g) {
-//        g.drawImage(img, (int) (x) - 5, (int) (y) - 10, null);
-//        g.drawImage(op.filter(this.imgBuff, null), (int) x - 5, (int) y - 13, null);
 
         if (isAlive) {
             g.drawImage(op.filter(scaled, null), (int) (x - scaled.getWidth() / 2), (int) (y - scaled.getHeight() / 2), null);

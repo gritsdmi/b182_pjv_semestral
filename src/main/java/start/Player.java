@@ -9,12 +9,9 @@ public class Player implements Constants {
     //Fields
     public static double x;
     public static double y;
-    private int r;
     private int speed = 5;
     private double dx;
     private double dy;
-    private Color color1;
-    private Color color2 = Color.WHITE;
     private double locationX;
     private double locationY;
 
@@ -49,7 +46,6 @@ public class Player implements Constants {
         right = false;
         left = false;
         isFiring = false;
-        color1 = Color.RED;
     }
 
     //Metheds
@@ -148,10 +144,6 @@ public class Player implements Constants {
         if ((dx != 0) && (x % 50 == 0) && !nextMove) {
             nextMove = true;
         }
-        if (isFiring) {
-//            GamePanel.bullets.add(new Bullet(x, y));
-        }
-
     }
 
     public void draw(Graphics2D g) {

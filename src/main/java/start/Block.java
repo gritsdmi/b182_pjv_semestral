@@ -30,7 +30,7 @@ public class Block implements Constants {
         this.color = asociateColor();
     }
 
-    private Color asociateColor() {
+    private Color associateColor() {
         Color c;
         switch (this.type) {
             case WALL_TYPE_BORDER:
@@ -41,6 +41,7 @@ public class Block implements Constants {
                 break;
             default:
                 c = new Color(1f, 0f, 0f, .5f);
+                break;
         }
 
         return c;
@@ -68,7 +69,6 @@ public class Block implements Constants {
     public void hit(Bullet bul) {
         this.health--;
         controlXP();
-//        System.out.println("hit JP = " + this.health);
     }
 
     public void draw(Graphics2D g) {
