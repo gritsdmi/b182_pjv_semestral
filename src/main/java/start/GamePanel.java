@@ -24,6 +24,10 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     public static BufferedImage BulletPicture;
     private MapGenerator mp;
 
+    private long timerFPS;
+    private double millisToFPS;
+    private int sleepTime;
+
     //Constructor
     public GamePanel() {
         super();
@@ -43,6 +47,9 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     }
 
     public void run() {
+
+        millisToFPS = 1000 / FPS;
+
         image = new BufferedImage(PANEL_WIDTH, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
         graphics = (Graphics2D) image.getGraphics();
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -60,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         player = new Player();
         turel = new Turel(player.x, player.y);
         mp.generateMap();
@@ -67,15 +75,27 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
         System.out.println(blocks.size());
         while (true) {
-            GameUpdate();
 
+            timerFPS = System.nanoTime();
+
+            GameUpdate();
             GameRender();
             GameDraw();
+
+            timerFPS = (System.nanoTime() - timerFPS) / 1000000;
+            System.out.println(timerFPS);
+            if (millisToFPS > timerFPS) {
+                sleepTime = (int) (millisToFPS - timerFPS);
+            } else sleepTime = 1;
+
             try {
-                thread.sleep(30);
+                thread.sleep(sleepTime);
+//                thread.sleep(30);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            timerFPS = 0;
+            sleepTime = 1;
 //            System.out.println(Player.x + "  " + Player.y);
 //            System.out.println("ban down "+Block.banDown + " ban left "+ Block.banLeft+ " ban top "+ Block.banTop+" ban right "+ Block.banRight);
         }

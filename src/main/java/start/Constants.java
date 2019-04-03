@@ -4,8 +4,8 @@ public interface Constants {
 
     float SCALE = 2;
 
-    int PANEL_WIDTH = (int) (400 * SCALE) + 1;
-    int PANEL_HEIGHT = (int) (400 * SCALE) + 1;
+    int PANEL_WIDTH = (int) (400 * SCALE);
+    int PANEL_HEIGHT = (int) (400 * SCALE);
 
     int PLAYER_SIZE_HEIGHT = (int) (20 * SCALE * SCALE);
     int PLAYER_SIZE_WIDTH = (int) (20 * SCALE * SCALE);
@@ -22,5 +22,6 @@ public interface Constants {
     byte WALL_TYPE_BORDER = 0;
     byte WALL_TYPE_BRICK = 1;
 
+    int FPS = 30;
 
 }
