@@ -24,4 +24,6 @@ public interface Constants {
 
     int FPS = 30;
 
+    String LEVEL_1 = "src/main/resources/Maps/Level_1.txt";
+
 }

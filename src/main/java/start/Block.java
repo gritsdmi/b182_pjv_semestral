@@ -2,7 +2,7 @@ package start;
 
 import java.awt.*;
 
-public class Block {
+public class Block implements Constants {
     //Fielsds
     private int xPosition;
     private int yPosition;
@@ -11,6 +11,7 @@ public class Block {
     private Color color;
     private int health;
     private boolean isAlive;
+    private byte type = -1;
 
     //Constructor
     public Block(Color c, int x, int y) {
@@ -18,6 +19,31 @@ public class Block {
         this.xPosition = x;
         this.yPosition = y;
         this.isAlive = true;
+    }
+
+
+    public Block(byte type, int x, int y) {
+        this.type = type;
+        this.xPosition = x;
+        this.yPosition = y;
+        this.isAlive = true;
+        this.color = asociateColor();
+    }
+
+    private Color asociateColor() {
+        Color c;
+        switch (this.type) {
+            case WALL_TYPE_BORDER:
+                c = Color.BLACK;
+                break;
+            case WALL_TYPE_BRICK:
+                c = Color.RED;
+                break;
+            default:
+                c = new Color(1f, 0f, 0f, .5f);
+        }
+
+        return c;
     }
 
 
@@ -49,6 +75,12 @@ public class Block {
         if (isAlive) {
             g.setColor(color);
             g.fillRect(xPosition, yPosition, width, height);
+
+            g.setStroke(new BasicStroke(3));
+            g.setColor(Color.GRAY);
+            g.drawRect(this.xPosition, this.yPosition, this.width, this.height);
+            g.setStroke(new BasicStroke(1));
+
         }
     }
 

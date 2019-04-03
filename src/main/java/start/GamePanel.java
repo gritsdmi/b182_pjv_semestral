@@ -70,8 +70,9 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
         player = new Player();
         turel = new Turel(player.x, player.y);
+        mp.buildMap();
         mp.generateMap();
-        mp.BildBorder();
+//        mp.BildBorder();
 
         System.out.println(blocks.size());
         while (true) {
@@ -83,12 +84,13 @@ public class GamePanel extends JPanel implements Runnable, Constants {
             GameDraw();
 
             timerFPS = (System.nanoTime() - timerFPS) / 1000000;
-            System.out.println(timerFPS);
+//            System.out.println(timerFPS);
             if (millisToFPS > timerFPS) {
                 sleepTime = (int) (millisToFPS - timerFPS);
             } else sleepTime = 1;
 
             try {
+//                System.out.println(sleepTime);
                 thread.sleep(sleepTime);
 //                thread.sleep(30);
             } catch (InterruptedException e) {
