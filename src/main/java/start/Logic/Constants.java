@@ -18,6 +18,7 @@ public interface Constants {
     byte PLAYER_ACTUAL_DIRECTION_DOWN = -1;
 
     int BULLET_SPEED = 10;
+    int PLAYER_MOVING_SPEED = 5;
 
     byte WALL_TYPE_BORDER = 0;
     byte WALL_TYPE_BRICK = 1;

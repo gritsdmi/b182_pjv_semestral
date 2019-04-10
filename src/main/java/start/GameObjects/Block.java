@@ -53,11 +53,6 @@ public class Block extends GameObject implements Constants {
 
     //Methods
 
-    public void update() {
-//        controlXP();
-
-    }
-
     private void controlXP() {
         if (isAlive) {
             if (health < 1) {
@@ -88,14 +83,6 @@ public class Block extends GameObject implements Constants {
             g.setStroke(new BasicStroke(1));
 
         }
-    }
-
-    public int getX() {
-        return xPosition;
-    }
-
-    public int getY() {
-        return yPosition;
     }
 
     public int getWidth() {

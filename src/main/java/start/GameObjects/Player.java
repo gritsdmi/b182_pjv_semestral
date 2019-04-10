@@ -12,7 +12,7 @@ public class Player implements Constants {
     //Fields
     public static double x;
     public static double y;
-    private int speed = 5;
+    private int speed = PLAYER_MOVING_SPEED;
     private double dx;
     private double dy;
     private double locationX;

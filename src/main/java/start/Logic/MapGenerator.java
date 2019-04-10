@@ -41,6 +41,7 @@ public class MapGenerator implements Constants {
      * Method, in the future, will parse txt file
      * and generate lvl
      * еще сюда можно притулить тестов, соответствует ли файл нужному формату
+     * @return array of char, represents actual map
      */
     private char[][] readMapFromFile() throws FileNotFoundException {
 
@@ -69,7 +70,7 @@ public class MapGenerator implements Constants {
     }
 
     /**
-     * create Block objects
+     * create Block objects according to actual map
      */
     public void buildMap() {
         int xPos = 0;
