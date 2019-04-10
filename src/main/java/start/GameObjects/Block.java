@@ -1,8 +1,10 @@
-package start;
+package start.GameObjects;
+
+import start.Logic.Constants;
 
 import java.awt.*;
 
-public class Block implements Constants {
+public class Block extends GameObject implements Constants {
     //Fielsds
     private int xPosition;
     private int yPosition;

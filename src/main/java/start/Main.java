@@ -4,7 +4,7 @@ import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("myNewFrame");
+        JFrame frame = new JFrame("NES Tanks");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GamePanel panel = new GamePanel();
 

@@ -1,4 +1,4 @@
-package start;
+package start.Logic;
 
 public interface Constants {
 
@@ -17,7 +17,7 @@ public interface Constants {
     byte PLAYER_ACTUAL_DIRECTION_LEFT = -2;
     byte PLAYER_ACTUAL_DIRECTION_DOWN = -1;
 
-    float BULLET_SPEED = 10;
+    int BULLET_SPEED = 10;
 
     byte WALL_TYPE_BORDER = 0;
     byte WALL_TYPE_BRICK = 1;

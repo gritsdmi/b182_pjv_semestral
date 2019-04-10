@@ -1,15 +1,18 @@
-package start;
+package start.GameObjects;
+
+import start.GamePanel;
+import start.Logic.Constants;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-public class Bullet {
+public class Bullet implements Constants {
     //Fields
     private double x;
     private double y;
-    private int speed = 10;
+    private int speed = BULLET_SPEED;
 
     private Point dir;
     private double dx;
@@ -35,7 +38,7 @@ public class Bullet {
         this.isAlive = true;
         damage = 1;
 
-//-------------------------------------------------------
+        //creating and preparing image to next transformation, scaling if it needed
         scaled = new BufferedImage(imgBuff.getWidth() * (int) (scale), imgBuff.getHeight() * (int) (scale), BufferedImage.TYPE_INT_ARGB);
 
         AffineTransform at = new AffineTransform();
@@ -43,18 +46,14 @@ public class Bullet {
         AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
         scaled = scaleOp.filter(imgBuff, scaled);
 
-//-------------------------------------------------------
+
+        //rotate's image transformation
         at = AffineTransform.getRotateInstance(
                 Math.toRadians(Math.toDegrees(Math.atan2(direction.y - (this.y), direction.x - (this.x))) + 90),
                 scaled.getWidth() / 2, scaled.getHeight() / 2);
         this.op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
     }
 
-    //Methods
-    public boolean remove() {
-//        if (y < 0) return true;
-        return false;
-    }
 
     //TODO подправить проверку колайдера(проверять не [0,0] пиксель пули)
     private boolean controlCollider() {//четвертый пиксель пули
@@ -72,7 +71,7 @@ public class Bullet {
     }
 
     private void controlAlive() {
-        if (y < 0 || x < 0 || y > 800 || x > 800) this.isAlive = false;
+        if (y < 0 || x < 0 || y > PANEL_HEIGHT || x > PANEL_WIDTH) this.isAlive = false;
     }
 
     public void update() {

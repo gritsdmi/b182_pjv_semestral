@@ -1,4 +1,8 @@
-package start;
+package start.Listeners;
+
+import start.GameObjects.Bullet;
+import start.GameObjects.Player;
+import start.GamePanel;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -31,8 +35,6 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
     public void mouseClicked(MouseEvent e) {
 
     }
-
-
 
     public void mouseReleased(MouseEvent e) {
 

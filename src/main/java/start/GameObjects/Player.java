@@ -1,4 +1,7 @@
-package start;
+package start.GameObjects;
+
+import start.GamePanel;
+import start.Logic.Constants;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -157,14 +160,6 @@ public class Player implements Constants {
 
 // Drawing the rotated image at the required drawing locations
         g.drawImage(op.filter(GamePanel.TankPicture, null), (int) x, (int) y, null);
-//
-//        g.drawImage(GamePanel.myPicture,at,null);
-
-//        g.setColor(color1);
-//        g.fillOval((int) (x-r), (int)(y-r), 2*r, 2*r);
-//        g.setStroke(new BasicStroke(2));
-//        g.setColor(color2);
-//        g.drawOval((int) (x-r), (int)(y-r), 2*r, 2*r);
 
     }
 }

@@ -1,5 +1,14 @@
 package start;
 
+import start.GameObjects.Block;
+import start.GameObjects.Bullet;
+import start.GameObjects.Player;
+import start.GameObjects.Turel;
+import start.Listeners.Listeners;
+import start.Listeners.MouseListener;
+import start.Logic.Constants;
+import start.Logic.MapGenerator;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -72,9 +81,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         turel = new Turel(player.x, player.y);
         mp.buildMap();
         mp.generateMap();
-//        mp.BildBorder();
 
-        System.out.println(blocks.size());
         while (true) {
 
             timerFPS = System.nanoTime();
@@ -84,13 +91,11 @@ public class GamePanel extends JPanel implements Runnable, Constants {
             GameDraw();
 
             timerFPS = (System.nanoTime() - timerFPS) / 1000000;
-//            System.out.println(timerFPS);
             if (millisToFPS > timerFPS) {
                 sleepTime = (int) (millisToFPS - timerFPS);
             } else sleepTime = 1;
 
             try {
-//                System.out.println(sleepTime);
                 thread.sleep(sleepTime);
 //                thread.sleep(30);
             } catch (InterruptedException e) {
@@ -98,8 +103,6 @@ public class GamePanel extends JPanel implements Runnable, Constants {
             }
             timerFPS = 0;
             sleepTime = 1;
-//            System.out.println(Player.x + "  " + Player.y);
-//            System.out.println("ban down "+Block.banDown + " ban left "+ Block.banLeft+ " ban top "+ Block.banTop+" ban right "+ Block.banRight);
         }
     }
 
@@ -131,10 +134,6 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         }
 
         turel.update();
-
-
-//        System.out.println(MouseInfo.getPointerInfo().getLocation().toString());
-
     }
 
     public void GameRender() {
