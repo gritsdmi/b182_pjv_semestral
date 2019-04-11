@@ -1,8 +1,10 @@
-package start;
+package start.GameObjects;
+
+import start.Logic.Constants;
 
 import java.awt.*;
 
-public class Block implements Constants {
+public class Block extends GameObject implements Constants {
     //Fielsds
     private int xPosition;
     private int yPosition;
@@ -51,11 +53,6 @@ public class Block implements Constants {
 
     //Methods
 
-    public void update() {
-//        controlXP();
-
-    }
-
     private void controlXP() {
         if (isAlive) {
             if (health < 1) {
@@ -86,14 +83,6 @@ public class Block implements Constants {
             g.setStroke(new BasicStroke(1));
 
         }
-    }
-
-    public int getX() {
-        return xPosition;
-    }
-
-    public int getY() {
-        return yPosition;
     }
 
     public int getWidth() {

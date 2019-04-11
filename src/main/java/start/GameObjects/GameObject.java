@@ -1,15 +1,23 @@
-package start;
+package start.GameObjects;
+
+import java.awt.*;
 
 public abstract class GameObject {
 
     private int xPosition;
     private int yPosition;
 
+    public void update() {
+    }
+
+    public void draw(Graphics2D g) {
+    }
+
     public void setX(int x) {
         this.xPosition = x;
     }
 
-    public double getX() {
+    public int getX() {
         return xPosition;
     }
 
@@ -17,7 +25,7 @@ public abstract class GameObject {
         this.yPosition = y;
     }
 
-    public double getY() {
+    public int getY() {
         return yPosition;
     }
 }

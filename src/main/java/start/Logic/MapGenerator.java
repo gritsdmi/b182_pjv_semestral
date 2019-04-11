@@ -1,6 +1,8 @@
-package start;
+package start.Logic;
 
-import java.awt.*;
+import start.GameObjects.Block;
+import start.GamePanel;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -34,48 +36,25 @@ public class MapGenerator implements Constants {
         return true;
     }
 
-    /**
-     * я бы это переделал
-     */
-    public void BildBorder() {
-        int bx = 0;
-        int by = 0;
-        while (bx != PANEL_WIDTH - 50) {
-            gp.blocks.add(new Block(Color.BLACK, bx, by));
-            bx = bx + 50;
-        }
-        while (by != PANEL_HEIGHT - 50) {
-            gp.blocks.add(new Block(Color.BLACK, bx, by));
-            by = by + 50;
-        }
-        while (bx != 0) {
-            gp.blocks.add(new Block(Color.BLACK, bx, by));
-            bx = bx - 50;
-        }
-        while (by != 0) {
-            gp.blocks.add(new Block(Color.BLACK, bx, by));
-            by = by - 50;
-        }
-
-    }
 
     /**
      * Method, in the future, will parse txt file
      * and generate lvl
      * еще сюда можно притулить тестов, соответствует ли файл нужному формату
+     * @return array of char, represents actual map
      */
     private char[][] readMapFromFile() throws FileNotFoundException {
 
         File map_file = new File(LEVEL_1);
         Scanner parser = new Scanner(map_file);
         String line;
-        char[][] levelInChar = new char[16][16];
+        char[][] levelInChar = new char[16][16];//map size
         int lineCounter = 0;
 
         while (parser.hasNext()) {
             line = parser.nextLine();
-//            System.out.println(line);
-            if (lineCounter > 0) {//ignorovat prvni radek
+
+            if (lineCounter > 0) {//ignore first line
 
                 levelInChar[lineCounter - 1] = line.toCharArray();
 
@@ -90,6 +69,9 @@ public class MapGenerator implements Constants {
         return levelInChar;
     }
 
+    /**
+     * create Block objects according to actual map
+     */
     public void buildMap() {
         int xPos = 0;
         int yPos = 0;

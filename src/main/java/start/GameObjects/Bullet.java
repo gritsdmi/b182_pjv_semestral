@@ -1,15 +1,18 @@
-package start;
+package start.GameObjects;
+
+import start.GamePanel;
+import start.Logic.Constants;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-public class Bullet {
+public class Bullet implements Constants {
     //Fields
-    private double x;
-    private double y;
-    private int speed = 10;
+    private double xPosition;
+    private double yPosition;
+    private int speed = BULLET_SPEED;
 
     private Point dir;
     private double dx;
@@ -25,17 +28,17 @@ public class Bullet {
 
     //Constructor
     public Bullet(double x, double y, Point direction) {
-        this.x = x;
-        this.y = y;
+        this.xPosition = x;
+        this.yPosition = y;
         this.dir = direction;
 
-        this.angle = Math.toRadians(Math.toDegrees(Math.atan2(dir.y - this.y, dir.x - this.x)));
+        this.angle = Math.toRadians(Math.toDegrees(Math.atan2(dir.y - this.yPosition, dir.x - this.xPosition)));
         this.dy = Math.sin(angle);
         this.dx = Math.cos(angle);
         this.isAlive = true;
         damage = 1;
 
-//-------------------------------------------------------
+        //creating and preparing image to next transformation, scaling if it needed
         scaled = new BufferedImage(imgBuff.getWidth() * (int) (scale), imgBuff.getHeight() * (int) (scale), BufferedImage.TYPE_INT_ARGB);
 
         AffineTransform at = new AffineTransform();
@@ -43,25 +46,21 @@ public class Bullet {
         AffineTransformOp scaleOp = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
         scaled = scaleOp.filter(imgBuff, scaled);
 
-//-------------------------------------------------------
+
+        //rotate's image transformation
         at = AffineTransform.getRotateInstance(
-                Math.toRadians(Math.toDegrees(Math.atan2(direction.y - (this.y), direction.x - (this.x))) + 90),
+                Math.toRadians(Math.toDegrees(Math.atan2(direction.y - (this.yPosition), direction.x - (this.xPosition))) + 90),
                 scaled.getWidth() / 2, scaled.getHeight() / 2);
         this.op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
     }
 
-    //Methods
-    public boolean remove() {
-//        if (y < 0) return true;
-        return false;
-    }
 
     //TODO подправить проверку колайдера(проверять не [0,0] пиксель пули)
     private boolean controlCollider() {//четвертый пиксель пули
         for (Block bl : GamePanel.blocks) {
             if (bl.isAlive()) {
-                if (bl.getX() <= this.x && (bl.getX() + bl.getWidth()) >= this.x) {
-                    if (bl.getY() <= this.y + 4 && (bl.getY() + bl.getHeight()) >= this.y + 4) {
+                if (bl.getX() <= this.xPosition && (bl.getX() + bl.getWidth()) >= this.xPosition) {
+                    if (bl.getY() <= this.yPosition + 4 && (bl.getY() + bl.getHeight()) >= this.yPosition + 4) {
                         bl.hit(this);
                         return true;
                     }
@@ -72,13 +71,13 @@ public class Bullet {
     }
 
     private void controlAlive() {
-        if (y < 0 || x < 0 || y > 800 || x > 800) this.isAlive = false;
+        if (yPosition < 0 || xPosition < 0 || yPosition > PANEL_HEIGHT || xPosition > PANEL_WIDTH) this.isAlive = false;
     }
 
     public void update() {
         if (isAlive) {
-            y += dy * speed;
-            x += dx * speed;
+            yPosition += dy * speed;
+            xPosition += dx * speed;
             if (controlCollider()) this.isAlive = false;
             controlAlive();
         }
@@ -88,17 +87,10 @@ public class Bullet {
     public void draw(Graphics2D g) {
 
         if (isAlive) {
-            g.drawImage(op.filter(scaled, null), (int) (x - scaled.getWidth() / 2), (int) (y - scaled.getHeight() / 2), null);
+            g.drawImage(op.filter(scaled, null),
+                    (int) (xPosition - scaled.getWidth() / 2), (int) (yPosition - scaled.getHeight() / 2), null);
         }
 
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
     }
 
     public boolean isAlive() {
