@@ -116,6 +116,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
         //Player update
         player.update();
+
         if (player.M1pressed == true) {
 
             if ((System.nanoTime() - nanotime) / 1000000 > player.getReload()) {

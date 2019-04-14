@@ -12,6 +12,7 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
 
 
     public void mouseDragged(MouseEvent e) {
+
         Player.dir = e.getPoint();
         GamePanel.turel.setDirection(e.getPoint());
 
@@ -20,6 +21,7 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
     public void mouseMoved(MouseEvent e) {
         if (Player.M1pressed == false) {
             GamePanel.turel.setDirection(e.getPoint());
+            Player.dir = e.getPoint();
         }
     }
 
