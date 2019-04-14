@@ -36,6 +36,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     private long timerFPS;
     private double millisToFPS;
     private int sleepTime;
+    private double nanotime = System.nanoTime();
 
     //Constructor
     public GamePanel() {
@@ -46,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         addMouseListener(new MouseListener());
         addMouseMotionListener(new MouseListener());
         mp = new MapGenerator(this);
+
     }
 
 
@@ -65,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         background = new GameBackground();
         bullets = new ArrayList<Bullet>();
         blocks = new ArrayList<Block>();
+
         String imagePath = "src/main/resources/Entity/myTank2.png";
         String imagePath2 = "src/main/resources/Entity/TankTower3.png";
         String pathToPNG = "src/main/resources/Entity/Bullet_b (копия).png";
@@ -81,14 +84,13 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         turel = new Turel(player.x, player.y);
         mp.buildMap();
         mp.generateMap();
-
         while (true) {
-
             timerFPS = System.nanoTime();
 
             GameUpdate();
             GameRender();
             GameDraw();
+
 
             timerFPS = (System.nanoTime() - timerFPS) / 1000000;
             if (millisToFPS > timerFPS) {
@@ -97,7 +99,6 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
             try {
                 thread.sleep(sleepTime);
-//                thread.sleep(30);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -115,7 +116,15 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
         //Player update
         player.update();
+        if (player.M1pressed == true) {
 
+            if ((System.nanoTime() - nanotime) / 1000000 > player.getReload()) {
+                GamePanel.bullets.add(new Bullet(player.x + 25, player.y + 25, player.dir));
+                nanotime = System.nanoTime();
+            }
+
+
+        }
         //Bullet update
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).update();

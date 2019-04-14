@@ -22,6 +22,7 @@ public interface Constants {
 
     byte WALL_TYPE_BORDER = 0;
     byte WALL_TYPE_BRICK = 1;
+    byte WALL_TYPE_TEST = 2;
 
     int FPS = 30;
 

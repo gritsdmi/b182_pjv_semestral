@@ -13,6 +13,7 @@ public class Turel extends GameObject {
     private double angle;
     private Point direction;
 
+
     /**
      * angle between 2 points
      * Math.atan2(direction.y - this.yPos, direction.x - this.xPos)

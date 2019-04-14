@@ -1,6 +1,5 @@
 package start.Listeners;
 
-import start.GameObjects.Bullet;
 import start.GameObjects.Player;
 import start.GamePanel;
 
@@ -11,13 +10,17 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
 
     private GamePanel gp;
 
+
     public void mouseDragged(MouseEvent e) {
+        Player.dir = e.getPoint();
+        GamePanel.turel.setDirection(e.getPoint());
 
     }
 
     public void mouseMoved(MouseEvent e) {
-
-        GamePanel.turel.setDirection(e.getPoint());
+        if (Player.M1pressed == false) {
+            GamePanel.turel.setDirection(e.getPoint());
+        }
     }
 
     /**
@@ -27,8 +30,9 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
      */
     public void mousePressed(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
+            Player.M1pressed = true;
 
-            GamePanel.bullets.add(new Bullet(Player.x + 25, Player.y + 25, e.getPoint()));
+
         }
     }
 
@@ -37,10 +41,11 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
     }
 
     public void mouseReleased(MouseEvent e) {
-
+        Player.M1pressed = false;
     }
 
     public void mouseEntered(MouseEvent e) {
+
 
     }
 

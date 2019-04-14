@@ -15,6 +15,7 @@ public class Listeners implements KeyListener {
             Player.up = true;
             Player.direction = 1;
 
+
         }
         if (key == KeyEvent.VK_A) {
             Player.left = true;

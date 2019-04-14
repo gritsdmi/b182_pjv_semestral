@@ -32,7 +32,7 @@ public class Bullet implements Constants {
         this.yPosition = y;
         this.dir = direction;
 
-        this.angle = Math.toRadians(Math.toDegrees(Math.atan2(dir.y - this.yPosition, dir.x - this.xPosition)));
+        this.angle = Math.toRadians(Math.toDegrees(Math.atan2(dir.y - yPosition, dir.x - xPosition)));
         this.dy = Math.sin(angle);
         this.dx = Math.cos(angle);
         this.isAlive = true;
@@ -59,9 +59,10 @@ public class Bullet implements Constants {
     private boolean controlCollider() {//четвертый пиксель пули
         for (Block bl : GamePanel.blocks) {
             if (bl.isAlive()) {
-                if (bl.getX() <= this.xPosition && (bl.getX() + bl.getWidth()) >= this.xPosition) {
-                    if (bl.getY() <= this.yPosition + 4 && (bl.getY() + bl.getHeight()) >= this.yPosition + 4) {
+                if (bl.getxPosition() <= this.xPosition && (bl.getxPosition() + bl.getWidth()) >= this.xPosition) {
+                    if ((bl.getyPosition() <= this.yPosition) && ((bl.getyPosition() + bl.getHeight()) >= this.yPosition)) {
                         bl.hit(this);
+
                         return true;
                     }
                 }
@@ -78,6 +79,7 @@ public class Bullet implements Constants {
         if (isAlive) {
             yPosition += dy * speed;
             xPosition += dx * speed;
+
             if (controlCollider()) this.isAlive = false;
             controlAlive();
         }

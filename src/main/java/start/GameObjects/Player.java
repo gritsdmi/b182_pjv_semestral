@@ -17,6 +17,7 @@ public class Player implements Constants {
     private double dy;
     private double locationX;
     private double locationY;
+    private double reload = 200;
 
     private boolean nextMove = true;
     public static int direction;
@@ -34,8 +35,12 @@ public class Player implements Constants {
     public static boolean prevbanDown = false;
     public static boolean banLeft = false;
     public static boolean prevbanLeft = false;
+    public static boolean M1pressed = false;
+    public static Point dir;
 
-
+    public double getReload() {
+        return reload;
+    }
     //Constructor
     public Player() {
         x = PANEL_WIDTH / 2;
@@ -59,16 +64,16 @@ public class Player implements Constants {
             prevbanRight = false;
             prevbanTop = false;
             for (int i = 0; i < GamePanel.blocks.size(); i++) {
-                if ((GamePanel.blocks.get(i).getX() == (x - 50)) && (GamePanel.blocks.get(i).getY() == y)) {
+                if ((GamePanel.blocks.get(i).getxPosition() == (x - 50)) && (GamePanel.blocks.get(i).getyPosition() == y)) {
                     banLeft = true;
                     prevbanLeft = true;
-                } else if ((GamePanel.blocks.get(i).getX() == (x + 50)) && (GamePanel.blocks.get(i).getY() == y)) {
+                } else if ((GamePanel.blocks.get(i).getxPosition() == (x + 50)) && (GamePanel.blocks.get(i).getyPosition() == y)) {
                     banRight = true;
                     prevbanRight = true;
-                } else if ((GamePanel.blocks.get(i).getX() == x) && (GamePanel.blocks.get(i).getY() == (y - 50))) {
+                } else if ((GamePanel.blocks.get(i).getxPosition() == x) && (GamePanel.blocks.get(i).getyPosition() == (y - 50))) {
                     banTop = true;
                     prevbanTop = true;
-                } else if ((GamePanel.blocks.get(i).getX() == x) && (GamePanel.blocks.get(i).getY() == (y + 50))) {
+                } else if ((GamePanel.blocks.get(i).getxPosition() == x) && (GamePanel.blocks.get(i).getyPosition() == (y + 50))) {
                     banDown = true;
                     prevbanDown = true;
                 }
@@ -143,12 +148,15 @@ public class Player implements Constants {
         y += dy;
         if ((dy != 0) && (y % 50 == 0) && !nextMove) {
             dy = 0;
+
             nextMove = true;
         }
         if ((dx != 0) && (x % 50 == 0) && !nextMove) {
             dx = 0;
             nextMove = true;
         }
+
+
     }
 
     public void draw(Graphics2D g) {

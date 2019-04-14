@@ -15,13 +15,8 @@ public class Block extends GameObject implements Constants {
     private boolean isAlive;
     private byte type = -1;
 
+
     //Constructor
-    public Block(Color c, int x, int y) {
-        this.color = c;
-        this.xPosition = x;
-        this.yPosition = y;
-        this.isAlive = true;
-    }
 
 
     public Block(byte type, int x, int y) {
@@ -30,7 +25,7 @@ public class Block extends GameObject implements Constants {
         this.yPosition = y;
         this.isAlive = true;
         this.color = associateColor();
-        this.health = 1;
+        this.health = 5;
     }
 
     private Color associateColor() {
@@ -41,6 +36,9 @@ public class Block extends GameObject implements Constants {
                 break;
             case WALL_TYPE_BRICK:
                 c = Color.RED;
+                break;
+            case WALL_TYPE_TEST:
+                c = Color.GREEN;
                 break;
             default:
                 c = new Color(1f, 0f, 0f, .5f);
@@ -53,7 +51,7 @@ public class Block extends GameObject implements Constants {
 
     //Methods
 
-    private void controlXP() {
+    private void controlHP() {
         if (isAlive) {
             if (health < 1) {
                 this.isAlive = false;
@@ -62,14 +60,14 @@ public class Block extends GameObject implements Constants {
     }
 
     /**
-     * в зависимости от типа пули будет отнимать разной количество хр
+     * в зависимости от типа пули будет отнимать разной количество hр
      */
     public void hit(Bullet bul) {
         if (type != WALL_TYPE_BORDER) {
             this.health -= bul.getDamage();
-            System.out.println("hit JP = " + this.health);
+            color = color.darker();
         }
-        controlXP();
+        controlHP();
     }
 
     public void draw(Graphics2D g) {
@@ -85,6 +83,13 @@ public class Block extends GameObject implements Constants {
         }
     }
 
+    public int getxPosition() {
+        return xPosition;
+    }
+
+    public int getyPosition() {
+        return yPosition;
+    }
     public int getWidth() {
         return width;
     }
@@ -93,6 +98,9 @@ public class Block extends GameObject implements Constants {
         return height;
     }
 
+    public int getType() {
+        return type;
+    }
     public boolean isAlive() {
         return isAlive;
     }
