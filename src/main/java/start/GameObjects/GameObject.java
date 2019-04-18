@@ -6,6 +6,7 @@ public abstract class GameObject {
 
     private int xPosition;
     private int yPosition;
+    private boolean isAlive;
 
     public void update() {
     }
@@ -17,15 +18,15 @@ public abstract class GameObject {
         this.xPosition = x;
     }
 
-    public int xPosition() {
-        return xPosition;
+    public int getxPosition() {
+        return this.xPosition;
     }
 
     public void setY(int y) {
         this.yPosition = y;
     }
 
-    public int yPosition() {
-        return yPosition;
+    public int getyPosition() {
+        return this.yPosition;
     }
 }
