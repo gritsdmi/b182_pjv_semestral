@@ -1,9 +1,6 @@
 package start;
 
-import start.GameObjects.Block;
-import start.GameObjects.Bullet;
-import start.GameObjects.Player;
-import start.GameObjects.Turel;
+import start.GameObjects.*;
 import start.Listeners.Listeners;
 import start.Listeners.MouseListener;
 import start.Logic.Constants;
@@ -28,6 +25,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     public static Turel turel;
     public static ArrayList<Bullet> bullets;
     public static ArrayList<Block> blocks;
+    public static ArrayList<Enemy> enemies;
     public static BufferedImage TankPicture;
     public static BufferedImage TankTowerPicture;
     public static BufferedImage BulletPicture;
@@ -67,6 +65,8 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         background = new GameBackground();
         bullets = new ArrayList<Bullet>();
         blocks = new ArrayList<Block>();
+        enemies = new ArrayList<Enemy>();
+        enemies.add(new Enemy(new Point(500, 299)));
 
         String imagePath = "src/main/resources/Entity/myTank2.png";
         String imagePath2 = "src/main/resources/Entity/TankTower3.png";
@@ -144,6 +144,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         }
 
         turel.update();
+        enemies.get(0).update();
     }
 
     public void GameRender() {
@@ -162,6 +163,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
         }
         turel.draw(graphics);
+        enemies.get(0).draw(graphics);
 
 
     }

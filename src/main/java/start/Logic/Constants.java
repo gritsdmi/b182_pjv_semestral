@@ -27,5 +27,10 @@ public interface Constants {
     int FPS = 30;
 
     String LEVEL_1 = "src/main/resources/Maps/Level_1.txt";
+    String LEVEL_2 = "src/main/resources/Maps/Level_2.txt";
+
+    int ENEMY_MOVING_SPEED = 3;
+    int ENEMY_FIRE_DISTANCE = 100;
+    int ENEMY_HEALTH = 2;
 
 }

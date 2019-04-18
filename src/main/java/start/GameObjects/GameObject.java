@@ -17,7 +17,7 @@ public abstract class GameObject {
         this.xPosition = x;
     }
 
-    public int getX() {
+    public int xPosition() {
         return xPosition;
     }
 
@@ -25,7 +25,7 @@ public abstract class GameObject {
         this.yPosition = y;
     }
 
-    public int getY() {
+    public int yPosition() {
         return yPosition;
     }
 }
