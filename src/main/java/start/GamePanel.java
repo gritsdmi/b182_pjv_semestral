@@ -144,7 +144,15 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         }
 
         turel.update();
-        enemies.get(0).update();
+
+        //enemies update
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).update();
+            if (!enemies.get(i).isAlive()) {
+                enemies.remove(i);
+                i--;
+            }
+        }
     }
 
     public void GameRender() {
@@ -163,7 +171,11 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
         }
         turel.draw(graphics);
-        enemies.get(0).draw(graphics);
+
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).draw(graphics);
+
+        }
 
 
     }

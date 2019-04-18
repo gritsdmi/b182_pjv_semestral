@@ -36,46 +36,53 @@ public class Enemy extends GameObject implements Constants {
 
 
     public void update() {
+        if (isAlive) {
 
-        switch (smer) {
-            case 1: //up
-                yPosition -= speed;
-                break;
-            case 2://right
-                xPosition += speed;
-                break;
-            case 3://left
-                xPosition -= speed;
-                break;
-            case 4://down
-                yPosition += speed;
-                break;
-            case 0:
-                yPosition = yPosition;
-                xPosition = xPosition;
-        }
+            switch (smer) {
+                case 1: //up
+                    yPosition -= speed;
+                    break;
+                case 2://right
+                    xPosition += speed;
+                    break;
+                case 3://left
+                    xPosition -= speed;
+                    break;
+                case 4://down
+                    yPosition += speed;
+                    break;
+                case 0:
+                    yPosition = yPosition;
+                    xPosition = xPosition;
+            }
 
-        if (this.xPosition == actualDirection.getX() && this.yPosition == actualDirection.getY()) {
-            //TODO stay here for 3 sec before change way point
-            changePoint();
+            if (this.xPosition == actualDirection.getX() && this.yPosition == actualDirection.getY()) {
+                //TODO stay here for 3 sec before change way point
+                changePoint();
 //            System.out.println("changePoint to " + actualDirection);
-        }
-        setNewDirection();
+            }
+            setNewDirection();
 
+        }
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(color);
-        g.fillOval(this.xPosition, this.yPosition, r, r);
+        if (isAlive) {
+            g.setColor(color);
+            g.fillOval(this.xPosition, this.yPosition, r, r);
+        }
     }
 
     /**
      * в зависимости от типа пули будет отнимать разной количество hр
      */
     public void hit(Bullet bul) {
-        this.health -= bul.getDamage();
-        color = color.darker();
-        controlHP();
+        if (isAlive) {
+            this.health -= bul.getDamage();
+            color = color.darker();
+            controlHP();
+            System.out.println("enemy hit");
+        }
     }
 
     private void controlHP() {
@@ -86,6 +93,7 @@ public class Enemy extends GameObject implements Constants {
         }
     }
 
+    //TODO this function may be inicialized in map class
     private ArrayList<Point> createWayPoints() {
         ArrayList<Point> ret = new ArrayList<Point>();
 
@@ -123,5 +131,19 @@ public class Enemy extends GameObject implements Constants {
 
     public boolean isAlive() {
         return isAlive;
+    }
+
+    public int getRadius() {
+        return r;
+    }
+
+    @Override
+    public int getxPosition() {
+        return xPosition;
+    }
+
+    @Override
+    public int getyPosition() {
+        return yPosition;
     }
 }
