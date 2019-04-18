@@ -12,6 +12,9 @@ public class MapGenerator implements Constants {
 
     private GamePanel gp;
     private char[][] actualMap;
+    private String map = LEVEL_1;
+//    private String map = LEVEL_2;
+
 
     /**
      * или же сделать отделный класс Map?
@@ -29,10 +32,10 @@ public class MapGenerator implements Constants {
 
     public boolean generateMap() {
 
-        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 250, 250));
-        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 350, 250));
-        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 350, 200));
-        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 500, 400));
+//        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 250, 250));
+//        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 350, 250));
+//        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 350, 200));
+//        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 500, 400));
 
 
         return true;
@@ -47,7 +50,7 @@ public class MapGenerator implements Constants {
      */
     private char[][] readMapFromFile() throws FileNotFoundException {
 
-        File map_file = new File(LEVEL_1);
+        File map_file = new File(map);
         Scanner parser = new Scanner(map_file);
         String line;
         char[][] levelInChar = new char[16][16];//map size
