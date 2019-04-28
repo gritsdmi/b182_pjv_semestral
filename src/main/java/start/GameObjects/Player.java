@@ -15,9 +15,14 @@ public class Player implements Constants {
     private int speed = PLAYER_MOVING_SPEED;
     private double dx;
     private double dy;
+
+    public static int score = 0;
+
+
     private double locationX;
     private double locationY;
-    private double reload = 200;
+    private double reload = 250;
+    private GamePanel gp;
 
     private boolean nextMove = true;
     public static int direction;
@@ -25,7 +30,6 @@ public class Player implements Constants {
     public static boolean down;
     public static boolean left;
     public static boolean right;
-    public static boolean isFiring;
     public static int rotation;
     public static boolean banTop = false;
     public static boolean prevbanTop = false;
@@ -41,22 +45,28 @@ public class Player implements Constants {
     public double getReload() {
         return reload;
     }
+
     //Constructor
-    public Player() {
+    public Player(GamePanel gp) {
         x = PANEL_WIDTH / 2;
         y = PANEL_HEIGHT / 2;
         dx = 0;
         dx = 0;
-
+        this.gp = gp;
 
         up = false;
         down = false;
         right = false;
         left = false;
-        isFiring = false;
     }
 
     //Metheds
+
+    public void fireRateChange() {
+        reload -= 50;
+    }
+
+
     public void update() {
         if (nextMove) {
             prevbanLeft = false;
@@ -155,7 +165,15 @@ public class Player implements Constants {
             dx = 0;
             nextMove = true;
         }
+        if (M1pressed == true) {
 
+            if (gp.delay(reload)) {
+                GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir));
+
+            }
+
+
+        }
 
     }
 
@@ -165,9 +183,11 @@ public class Player implements Constants {
         locationY = 25;
         AffineTransform at = AffineTransform.getRotateInstance(Math.toRadians(rotation), locationX, locationY);
         AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-
+        g.setColor(Color.BLACK);
 // Drawing the rotated image at the required drawing locations
         g.drawImage(op.filter(GamePanel.TankPicture, null), (int) x, (int) y, null);
+        g.drawString(score + "", PANEL_WIDTH + 10, 140);
+
 
     }
 }

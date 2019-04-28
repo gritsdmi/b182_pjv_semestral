@@ -14,12 +14,14 @@ public class Block extends GameObject implements Constants {
     private int health;
     private boolean isAlive;
     private byte type = -1;
+    private Player player;
 
 
     //Constructor
 
 
     public Block(byte type, int x, int y) {
+
         this.type = type;
         this.xPosition = x;
         this.yPosition = y;
@@ -54,6 +56,7 @@ public class Block extends GameObject implements Constants {
     private void controlHP() {
         if (isAlive) {
             if (health < 1) {
+                Player.score++;
                 this.isAlive = false;
             }
         }

@@ -2,11 +2,8 @@ package start.GameObjects;
 
 import java.awt.*;
 
-public class Enemy extends GameObject {
+public class Enemy {
     //Fields
-    private double x;
-    private double y;
-    private int r;
 
 
     //Constructor

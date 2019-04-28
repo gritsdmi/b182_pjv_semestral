@@ -34,6 +34,11 @@ public class MapGenerator implements Constants {
         gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 350, 200));
         gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 500, 400));
 
+        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 100, 700));
+        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 150, 700));
+        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 200, 650));
+        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 700, 400));
+
 
         return true;
     }

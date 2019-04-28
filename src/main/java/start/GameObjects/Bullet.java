@@ -54,8 +54,6 @@ public class Bullet implements Constants {
         this.op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
     }
 
-
-    //TODO подправить проверку колайдера(проверять не [0,0] пиксель пули)
     private boolean controlCollider() {//четвертый пиксель пули
         for (Block bl : GamePanel.blocks) {
             if (bl.isAlive()) {
