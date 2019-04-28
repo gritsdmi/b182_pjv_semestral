@@ -190,4 +190,8 @@ public class Player implements Constants {
 
 
     }
+
+    public Rectangle getRectangle() {
+        return new Rectangle((int) x, (int) y, 50, 50);
+    }
 }

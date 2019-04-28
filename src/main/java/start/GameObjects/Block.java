@@ -107,4 +107,8 @@ public class Block extends GameObject implements Constants {
     public boolean isAlive() {
         return isAlive;
     }
+
+    public Rectangle getRectangle() {
+        return new Rectangle(this.xPosition, this.yPosition, width, height);
+    }
 }
