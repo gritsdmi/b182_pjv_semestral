@@ -26,6 +26,7 @@ public class Turel extends GameObject {
         this.direction = new Point(0, 0);
     }
 
+
     public void update() {
         xPosition = Player.x;
         yPosition = Player.y;
@@ -40,6 +41,7 @@ public class Turel extends GameObject {
 // Drawing the rotated image at the required drawing locations
         g.drawImage(op.filter(GamePanel.TankTowerPicture, null), (int) xPosition, (int) yPosition - 25, null);
     }
+
 
     public Point getDirection() {
         return direction;

@@ -23,6 +23,9 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
             GamePanel.turel.setDirection(e.getPoint());
             Player.dir = e.getPoint();
         }
+        for (int i = 0; i < GamePanel.buttons.size(); i++) {
+            GamePanel.buttons.get(i).checkMouse(e.getX(), e.getY());
+        }
     }
 
     /**
@@ -31,7 +34,8 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
      * @param e the event to be processed
      */
     public void mousePressed(MouseEvent e) {
-        if (e.getButton() == MouseEvent.BUTTON1) {
+        if ((e.getButton() == MouseEvent.BUTTON1) && (e.getX() <= 800)) {
+
             Player.M1pressed = true;
 
 
@@ -39,7 +43,9 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
     }
 
     public void mouseClicked(MouseEvent e) {
-
+        for (int i = 0; i < GamePanel.buttons.size(); i++) {
+            GamePanel.buttons.get(i).checkMouseClick(e.getX(), e.getY());
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
