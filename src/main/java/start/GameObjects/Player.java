@@ -15,6 +15,8 @@ public class Player implements Constants {
     private int speed = PLAYER_MOVING_SPEED;
     private double dx;
     private double dy;
+    private boolean shield;
+    private double shieldTime = System.nanoTime();
 
     public static int score = 0;
 
@@ -46,6 +48,14 @@ public class Player implements Constants {
         return reload;
     }
 
+    public void setShield(boolean shield) {
+        this.shield = shield;
+    }
+
+    public boolean isShield() {
+        return shield;
+    }
+
     //Constructor
     public Player(GamePanel gp) {
         x = PANEL_WIDTH / 2;
@@ -53,6 +63,7 @@ public class Player implements Constants {
         dx = 0;
         dx = 0;
         this.gp = gp;
+        shield = false;
 
         up = false;
         down = false;
@@ -66,7 +77,13 @@ public class Player implements Constants {
         reload -= 50;
     }
 
+    public void checkShield() {
+        if ((System.nanoTime() - shieldTime) / 1000000 > 10000) {
+            shieldTime = System.nanoTime();
+            shield = false;
 
+        }
+    }
     public void update() {
         if (nextMove) {
             prevbanLeft = false;
@@ -187,6 +204,11 @@ public class Player implements Constants {
 // Drawing the rotated image at the required drawing locations
         g.drawImage(op.filter(GamePanel.TankPicture, null), (int) x, (int) y, null);
         g.drawString(score + "", PANEL_WIDTH + 10, 140);
+        if (shield) {
+            g.setColor(Color.LIGHT_GRAY);
+            g.drawOval((int) x - 5, (int) y - 5, 60, 60);
+            checkShield();
+        }
 
 
     }

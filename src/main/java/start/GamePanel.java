@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable, Constants {
 
@@ -35,6 +36,10 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     private GameButton continueButton;
     private GameButton startButton;
     private GameButton playButton;
+    private Random random = new Random();
+    private String level;
+    private String[] levels;
+
 
     public static ArrayList<GameButton> buttons;
     private ArrayList<Drop> drops;
@@ -43,8 +48,8 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     public static BufferedImage BulletPicture;
     private MapGenerator mp;
     private volatile boolean exit = false;
-    private volatile boolean paused = false;
-    private final Object pauseLock = new Object();
+    private GameButton test;
+
 
     // stage types:
     //0 - first-start stage
@@ -61,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     private double millisToFPS;
     private int sleepTime;
     private double nanotime = System.nanoTime();
+    private double dropDelayTime = System.nanoTime();
 
 
     //Constructor
@@ -72,6 +78,8 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         addKeyListener(new Listeners());
         addMouseListener(new MouseListener());
         addMouseMotionListener(new MouseListener());
+        levels = new String[]{LEVEL_1, LEVEL_2};
+        level = levels[0];
         mp = new MapGenerator(this);
     }
 
@@ -85,8 +93,53 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
 
     public void run() {
+        generateGame(level);
+
+        ChangeStage(0);
+
+        // WHILE TRUE
+        // WHILE TRUE
+        // WHILE TRUE
+        // WHILE TRUE
+        // WHILE TRUE
+        // WHILE TRUE
+        // WHILE TRUE
 
 
+        while (true) {
+//            System.out.println(player.isShield());
+
+            timerFPS = System.nanoTime();
+            switch (stage) {
+                case 1:
+                    GameUpdate();
+                    paint(graphics);
+
+                    break;
+                case 2:
+
+                    MenuPaint(graphics);
+                    break;
+            }
+
+            timerFPS = (System.nanoTime() - timerFPS) / 1000000;
+            if (millisToFPS > timerFPS) {
+                sleepTime = (int) (millisToFPS - timerFPS);
+            } else sleepTime = 1;
+
+            try {
+                thread.sleep(sleepTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            timerFPS = 0;
+        }
+
+
+    }
+
+
+    public void generateGame(String map) {
         millisToFPS = 1000 / FPS;
 
         image = new BufferedImage(PANEL_WIDTH + 150, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -98,7 +151,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         blocks = new ArrayList<Block>();
         buttons = new ArrayList<GameButton>();
         drops = new ArrayList<Drop>();
-        drops.add(new Drop(600, 600, 1, player));
+        player = new Player(this);
         startButton = new GameButton('s', this);
         menuButton = new GameButton('m', this);
         continueButton = new GameButton('c', this);
@@ -115,47 +168,11 @@ public class GamePanel extends JPanel implements Runnable, Constants {
             e.printStackTrace();
         }
 
-        player = new Player(this);
+
         turel = new Turel(player.x, player.y);
 
-        mp.buildMap();
-        mp.generateMap();
-        ChangeStage(0);
-        while (!exit) {
-//            System.out.println(stage);
-
-            timerFPS = System.nanoTime();
-            switch (stage) {
-                case 1:
-                    GameUpdate();
-                    paint(graphics);
-                    break;
-                case 2:
-
-                    MenuPaint(graphics);
-                    break;
-            }
-//            GameUpdate();
-//            paint(graphics);
-
-
-            timerFPS = (System.nanoTime() - timerFPS) / 1000000;
-            if (millisToFPS > timerFPS) {
-                sleepTime = (int) (millisToFPS - timerFPS);
-            } else sleepTime = 1;
-
-            try {
-                thread.sleep(sleepTime);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            timerFPS = 0;
-        }
-
-        sleepTime = 1;
+        mp.buildMap(map);
     }
-
-
     public void ChangeStage(int newStage) {
         switch (newStage) {
             case 0:
@@ -184,50 +201,36 @@ public class GamePanel extends JPanel implements Runnable, Constants {
                 buttons.add(continueButton);
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
                 break;
+            case 3:
+                stage = 2;
+                while (buttons.size() > 0) {
+                    buttons.remove(0);
+                }
+                test = new GameButton('s', this);
+                GameButton[] newButtons = test.createLevelButtons(levels.length);
+                for (int i = 0; i < newButtons.length; i++) {
+                    buttons.add(newButtons[i]);
+                }
+
+
+
         }
     }
 
+    public void setLevel(String lvl) {
+        level = lvl;
+
+    }
     public void restart() {
-//        this.removeAll();
 
-        image = new BufferedImage(PANEL_WIDTH + 150, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
-        graphics = (Graphics2D) image.getGraphics();
-        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        background = new GameBackground();
-        menuBackground = new MenuBackground();
-        bullets = new ArrayList<Bullet>();
-        blocks = new ArrayList<Block>();
-        buttons = new ArrayList<GameButton>();
-        drops = new ArrayList<Drop>();
-        drops.add(new Drop(600, 600, 1, player));
-        startButton = new GameButton('s', this);
-        menuButton = new GameButton('m', this);
-        continueButton = new GameButton('c', this);
-        String imagePath = "src/main/resources/Entity/myTank2.png";
-        String imagePath2 = "src/main/resources/Entity/TankTower3.png";
-        String pathToPNG = "src/main/resources/Entity/Bullet_b (копия).png";
-
-        try {
-            TankPicture = ImageIO.read(new File(imagePath));
-            TankTowerPicture = ImageIO.read(new File(imagePath2));
-            BulletPicture = ImageIO.read(new File(pathToPNG));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        player = new Player(this);
-        turel = new Turel(player.x, player.y);
-
-        mp.buildMap();
-        mp.generateMap();
-        Player.score = 0;
-        this.revalidate();
+        generateGame(level);
         ChangeStage(0);
 
     }
 
     public void GameUpdate() {
 
+        SpawnDrop();
         // Background update
         background.update();
 
@@ -251,12 +254,14 @@ public class GamePanel extends JPanel implements Runnable, Constants {
             }
         }
         //Drops update
+
         for (int i = 0; i < drops.size(); i++) {
             drops.get(i).update();
             if (drops.get(i).isDead()) {
                 drops.remove(i);
                 i--;
             }
+
         }
 
         turel.update();
@@ -270,6 +275,18 @@ public class GamePanel extends JPanel implements Runnable, Constants {
             return false;
         }
     }
+
+    public void SpawnDrop() {
+        if ((System.nanoTime() - dropDelayTime) / 1000000 > 2000) {
+            dropDelayTime = System.nanoTime();
+
+            int randomFree = random.nextInt(mp.getFreeSpaces().size() - 1);
+            Point newDropPoint = mp.getFreeSpaces().get(randomFree);
+            int randomType = random.nextInt(4);
+            drops.add(new Drop(newDropPoint.x, newDropPoint.y, randomType, player));
+        }
+    }
+
 
     public void MenuPaint(Graphics2D g) {
         Graphics2D g2d = g;

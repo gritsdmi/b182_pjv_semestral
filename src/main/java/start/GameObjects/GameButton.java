@@ -15,6 +15,7 @@ public class GameButton implements Constants {
     private int width;
     private int height;
     private String str;
+    private int number;
 
 
     public GameButton(char type, GamePanel gp) {
@@ -54,9 +55,29 @@ public class GameButton implements Constants {
                 height = 70;
                 str = "Play";
                 break;
+            case 'l':
+                color = Color.GRAY;
+                x = PANEL_WIDTH / 2;
+                width = 150;
+                height = 70;
+                break;
         }
     }
 
+    public GameButton[] createLevelButtons(int amount) {
+        GameButton[] levelButtons = new GameButton[amount];
+        int heightN = 150;
+        int lvl = 1;
+        for (int i = 0; i < levelButtons.length; i++) {
+            levelButtons[i] = new GameButton('l', gp);
+            levelButtons[i].y = heightN;
+            heightN += 100;
+            levelButtons[i].str = "level " + lvl;
+            levelButtons[i].number = lvl;
+            lvl++;
+        }
+        return levelButtons;
+    }
     public void checkMouse(int mouseX, int mouseY) {
         if ((mouseX >= x) && (mouseX <= x + width) && (mouseY >= y) && (mouseY <= y + height)) {
             color = color.darker();
@@ -79,8 +100,18 @@ public class GameButton implements Constants {
                     gp.ChangeStage(1);
                     break;
                 case 'p':
-                    gp.ChangeStage(1);
+                    gp.ChangeStage(3);
                     break;
+                case 'l':
+                    switch (number) {
+                        case 1:
+                            gp.setLevel(LEVEL_1);
+                            break;
+                        case 2:
+                            gp.setLevel(LEVEL_2);
+                            break;
+                    }
+                    gp.ChangeStage(1);
             }
 
 

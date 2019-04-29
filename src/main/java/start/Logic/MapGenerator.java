@@ -3,18 +3,24 @@ package start.Logic;
 import start.GameObjects.Block;
 import start.GamePanel;
 
+import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class MapGenerator implements Constants {
 
     private GamePanel gp;
     private char[][] actualMap;
+    private ArrayList<Point> freeSpaces = new ArrayList<Point>();
     private String map = LEVEL_1;
 //    private String map = LEVEL_2;
 
+    public ArrayList<Point> getFreeSpaces() {
+        return freeSpaces;
+    }
 
     /**
      * или же сделать отделный класс Map?
@@ -23,11 +29,7 @@ public class MapGenerator implements Constants {
     public MapGenerator(GamePanel gp) {
         this.gp = gp;
 
-        try {
-            actualMap = readMapFromFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public boolean generateMap() {
@@ -37,10 +39,7 @@ public class MapGenerator implements Constants {
 //        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 350, 200));
 //        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 500, 400));
 
-        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 100, 700));
-        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 150, 700));
-        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 200, 650));
-        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 700, 400));
+
 
 
         return true;
@@ -53,7 +52,7 @@ public class MapGenerator implements Constants {
      * еще сюда можно притулить тестов, соответствует ли файл нужному формату
      * @return array of char, represents actual map
      */
-    private char[][] readMapFromFile() throws FileNotFoundException {
+    private char[][] readMapFromFile(String map) throws FileNotFoundException {
 
         File map_file = new File(map);
         Scanner parser = new Scanner(map_file);
@@ -79,17 +78,26 @@ public class MapGenerator implements Constants {
         return levelInChar;
     }
 
+
     /**
      * create Block objects according to actual map
      */
-    public void buildMap() {
+    public void buildMap(String map) {
         int xPos = 0;
         int yPos = 0;
-
+        try {
+            actualMap = readMapFromFile(map);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         for (char[] line : actualMap) {
             for (char blockType : line) {
-                if (blockType != '_')
+                if (blockType != '_') {
                     gp.blocks.add(new Block((byte) (Character.getNumericValue(blockType)), xPos, yPos));
+                } else {
+                    freeSpaces.add(new Point(xPos, yPos));
+                }
+
                 xPos += 50;
             }
             xPos = 0;
