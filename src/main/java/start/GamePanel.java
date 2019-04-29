@@ -32,6 +32,8 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     public static Turel turel;
     public static ArrayList<Bullet> bullets;
     public static ArrayList<Block> blocks;
+    public static ArrayList<Enemy> enemies;
+    private ArrayList<Drop> drops;
     private GameButton menuButton;
     private GameButton continueButton;
     private GameButton startButton;
@@ -42,7 +44,6 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
 
     public static ArrayList<GameButton> buttons;
-    private ArrayList<Drop> drops;
     public static BufferedImage TankPicture;
     public static BufferedImage TankTowerPicture;
     public static BufferedImage BulletPicture;
@@ -149,6 +150,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         menuBackground = new MenuBackground();
         bullets = new ArrayList<Bullet>();
         blocks = new ArrayList<Block>();
+        enemies = new ArrayList<Enemy>();
         buttons = new ArrayList<GameButton>();
         drops = new ArrayList<Drop>();
         player = new Player(this);
@@ -170,6 +172,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
 
         turel = new Turel(player.x, player.y);
+        enemies.add(new Enemy(new Point(500, 299)));
 
         mp.buildMap(map);
     }
@@ -261,7 +264,15 @@ public class GamePanel extends JPanel implements Runnable, Constants {
                 drops.remove(i);
                 i--;
             }
+        }
 
+        //Enemies update
+        for (int i = 0; i < enemies.size(); i++) {
+            enemies.get(i).update();
+            if (!enemies.get(i).isAlive()) {
+                enemies.remove(i);
+                i--;
+            }
         }
 
         turel.update();
@@ -328,6 +339,10 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         for (int i = 0; i < drops.size(); i++) {
             drops.get(i).draw(g2d);
 
+        }
+        //Enemies draw
+        for (Enemy enemy : enemies) {
+            enemy.draw(g2d);
         }
         turel.draw(g2d);
         Graphics2D g2 = (Graphics2D) this.getGraphics();

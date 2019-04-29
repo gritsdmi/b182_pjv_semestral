@@ -6,7 +6,7 @@ import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
-public class Enemy extends GameObject implements Constants {
+public class Enemy implements Constants {
     //Fields
     private int xPosition;
     private int yPosition;
@@ -22,8 +22,8 @@ public class Enemy extends GameObject implements Constants {
     private Point actualDirection;
     private byte smer;//1-up 2-right 3-left 4-down
     private int wayPointIndex = 0;
-    //    private ArrayList<Eye> eyes;
-    private Point actualPosition;
+    private ArrayList<Eye> eyes;
+    private Point actualPosition; //enemy's center position
 
 
     public Enemy(Point startPosition) {
@@ -40,19 +40,21 @@ public class Enemy extends GameObject implements Constants {
 //        Line2D right = new Line2D.Float(this.xPosition + r/2,this.yPosition + r/2,0,0);
 //        Line2D down = new Line2D.Float(this.xPosition + r/2,this.yPosition + r/2,0,0);
 
-//        this.eyes = new ArrayList<Eye>();
-//        eyes.add(new Eye(this.actualPosition,"Up"));
-//        eyes.add(new Eye(this.actualPosition,"Right"));
-//        eyes.add(new Eye(this.actualPosition,"Left"));
-//        eyes.add(new Eye(this.actualPosition,"Down"));
+        this.eyes = new ArrayList<Eye>();
+
         this.actualPosition = startPosition;
         this.actualPosition.setLocation(this.xPosition + r / 2, this.yPosition + r / 2);
+
+        eyes.add(new Eye(this.actualPosition, "Up"));
+        eyes.add(new Eye(this.actualPosition, "Right"));
+        eyes.add(new Eye(this.actualPosition, "Left"));
+        eyes.add(new Eye(this.actualPosition, "Down"));
     }
 
 
     public void update() {
         if (isAlive) {
-            updateEyes();
+            for (Eye eye : eyes) eye.update();
 
             switch (smer) {
                 case 1: //up
@@ -120,10 +122,6 @@ public class Enemy extends GameObject implements Constants {
             Point down = new Point(toX4, toY4);
 
             this.actualPosition = new Point(this.xPosition + r / 2, this.yPosition + r / 2);
-//            this.eyes.get(0).setLine(new Line2D.Float(actualPosition,up));
-//            this.eyes.get(1).setLine(new Line2D.Float(actualPosition,right));
-//            this.eyes.get(2).setLine(new Line2D.Float(actualPosition,left));
-//            this.eyes.get(3).setLine(new Line2D.Float(actualPosition,down));
 ////////////////////////////////////////////////////////
         }
     }
@@ -132,7 +130,8 @@ public class Enemy extends GameObject implements Constants {
         if (isAlive) {
             g.setColor(color);
             g.fillOval(this.xPosition, this.yPosition, r, r);
-            drawEyes(g);
+            for (Eye eye : eyes) eye.draw(g);
+//            drawEyes(g);
         }
     }
 
@@ -192,27 +191,27 @@ public class Enemy extends GameObject implements Constants {
 
     }
 
-    private void drawEyes(Graphics2D g) {
-        g.setColor(Color.WHITE);
-        //имплементовать 4 стороны но рисовать 3, в зависимости от стороны
+//    private void drawEyes(Graphics2D g) {
+//        g.setColor(Color.WHITE);
+//        //имплементовать 4 стороны но рисовать 3, в зависимости от стороны
+//
+////        for (Line2D line : eyes){
+////            g.draw(line);
+////        }
+//    }
 
-//        for (Line2D line : eyes){
-//            g.draw(line);
-//        }
-    }
-
-    private void updateEyes() {
-        controlEyesCollider();
-    }
-
-
-    private boolean controlEyesCollider() {
-        //не работает, решение: укорачивать глаз, или boolean variable, или вообще создать класс на глаза
-        // или для каждого глаза считать отдельно...
-
-
-        return true;
-    }
+//    private void updateEyes() {
+//        controlEyesCollider();
+//    }
+//
+//
+//    private boolean controlEyesCollider() {
+//        //не работает, решение: укорачивать глаз, или boolean variable, или вообще создать класс на глаза
+//        // или для каждого глаза считать отдельно...
+//
+//
+//        return true;
+//    }
 
     public boolean isAlive() {
         return isAlive;
@@ -222,12 +221,10 @@ public class Enemy extends GameObject implements Constants {
         return r;
     }
 
-    @Override
     public int getxPosition() {
         return xPosition;
     }
 
-    @Override
     public int getyPosition() {
         return yPosition;
     }
@@ -236,21 +233,24 @@ public class Enemy extends GameObject implements Constants {
 class Eye {
 
     private boolean see;
-    private Point position;
+    private Point position; //start position
+    private Point endPosition; //end position
     private String name;
-    private Line2D direction;
+    private Line2D eye; //direction
 
     public Eye(Point startPosition, String name) {
-        this.position = new Point((int) (startPosition.getX() + 25), (int) (startPosition.getY() + 25));
+        this.position = new Point((int) (startPosition.getX()), (int) (startPosition.getY()));
+        this.endPosition = new Point(0, 0);
         this.name = name;
         this.see = false;
-        this.direction = new Line2D.Float(this.position, new Point(0, 0));
+        this.eye = new Line2D.Float(this.position, this.endPosition);
     }
 
     void update() {
     }
 
-    void draw() {
+    void draw(Graphics2D g) {
+        g.draw(this.eye);
     }
 
     public boolean isSee() {
