@@ -7,10 +7,11 @@ public interface Constants {
     int PANEL_WIDTH = (int) (400 * SCALE);
     int PANEL_HEIGHT = (int) (400 * SCALE);
 
-    int PLAYER_SIZE_HEIGHT = (int) (20 * SCALE * SCALE);
-    int PLAYER_SIZE_WIDTH = (int) (20 * SCALE * SCALE);
+    int PLAYER_SIZE_HEIGHT = 50;
+    int PLAYER_SIZE_WIDTH = 50;
     int PLAYER_SHOT_DELAY = 1;
     int PLAYER_AVOID_DISTANCE = 5;
+    int PLAYER_HEALTH = 10;
 
     byte PLAYER_ACTUAL_DIRECTION_UP = 1;
     byte PLAYER_ACTUAL_DIRECTION_RIGHT = 2;
@@ -29,7 +30,7 @@ public interface Constants {
     String LEVEL_1 = "src/main/resources/Maps/Level_1.txt";
     String LEVEL_2 = "src/main/resources/Maps/Level_2.txt";
 
-    int ENEMY_MOVING_SPEED = 3;
+    int ENEMY_MOVING_SPEED = 2;
     int ENEMY_FIRE_DISTANCE = 300;
     int ENEMY_HEALTH = 2;
 
