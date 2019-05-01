@@ -236,7 +236,7 @@ public class Enemy implements Constants {
             this.health -= bul.getDamage();
             color = color.darker();
             controlHP();
-            System.out.println("enemy hit");
+            System.out.println("enemy hit " + health);
         }
     }
 
@@ -305,7 +305,14 @@ class Eye implements Constants {
     private Point position; //start position
     private Point endPosition; //end position
     private String name;
-    private Line2D eye; //direction
+    private Line2D eye;
+
+    private int smer;
+    private int fireDistance = ENEMY_FIRE_DISTANCE;
+
+    private int enemyReload = 250;
+    private double nanotime = System.nanoTime();
+
 
     public Eye(Point startPosition, String name) {
         this.position = new Point((int) (startPosition.getX()), (int) (startPosition.getY()));
@@ -315,7 +322,105 @@ class Eye implements Constants {
         this.eye = new Line2D.Float(this.position, this.endPosition);
     }
 
-    void update() {
+    //    void update(Point pos, int smerr) {//Point actualPosition, smer направление движения врага
+//        this.smer = smerr;
+    void update(Point pos, Point endPos) {//Point actualPosition,
+        this.position.setLocation(pos);
+        this.endPosition.setLocation(endPos);
+        this.eye.setLine(this.position, this.endPosition);
+
+//        if(position.equals(endPosition)) System.out.println(name);
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        //centralUP line
+        int toX1 = (int) this.position.getX();
+        int toY1 = (int) this.position.getY() - fireDistance;
+
+        //right line
+        int toX2 = (int) this.position.getX() + fireDistance;
+        int toY2 = (int) this.position.getY();
+
+        //left line
+        int toX3 = (int) this.position.getX() - fireDistance;
+        int toY3 = (int) this.position.getY();
+
+        //centralDown line
+        int toX4 = (int) this.position.getX();
+        int toY4 = (int) this.position.getY() + fireDistance;
+
+        switch (smer) {
+            case 1: //up
+                toX4 = (int) this.position.getX();
+                toY4 = (int) this.position.getY();
+                System.out.println(name + "up");
+                break;
+            case 2: //right
+                toX3 = (int) this.position.getX();
+                toY3 = (int) this.position.getY();
+                System.out.println(name + "right");
+
+                break;
+            case 3: //left
+                toX2 = (int) this.position.getX();
+                toY2 = (int) this.position.getY();
+                System.out.println(name + "left");
+
+                break;
+            case 4: //down
+                toX1 = (int) this.position.getX();
+                toY1 = (int) this.position.getY();
+                System.out.println(name + "down");
+
+                break;
+        }
+//        this.endPosition.setLocation();
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //TODO shooting delay
+        if (controlPlayerCollider() && computeShootingDelay(enemyReload)) {
+            GamePanel.bullets.add(new Bullet(position.getX(), position.getY(), GamePanel.player.getCenterPosition(), (byte) 1));
+        }
+
+//            GamePanel.bullets.add(new Bullet(position.getX() + 25, position.getY() + 25, dir, (byte) 0));
+
+
+    }
+
+    private boolean computeShootingDelay(double del) {
+        if ((System.nanoTime() - nanotime) / 1000000 > del) {
+            nanotime = System.nanoTime();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Set boolean variable see depend on ...
+     *
+     * @return true if enemy see player
+     */
+    private boolean controlPlayerCollider() {
+
+        for (Block block : GamePanel.blocks) {
+            if (eye.intersects(block.getRectangle())) {
+//                System.out.println(name + " see block");
+//                eye.setLine(this.position,block.getCenterPosition());
+                if (name.equals("Up") | name.equals("Down")) {
+                    eye.setLine(this.position.getX(), this.position.getY(), endPosition.getX(), block.getCenterPosition().getY());
+                } else {
+                    eye.setLine(this.position.getX(), this.position.getY(), block.getCenterPosition().getX(), endPosition.getY());
+                }
+            }
+        }
+
+        if (this.eye.intersects(GamePanel.player.getRectangle())) {
+//            System.out.println(name +" I see you");
+            this.eye.setLine(this.position, GamePanel.player.getCenterPosition());
+            setSee(true);
+            return true;
+        }
+        setSee(false);
+        return false;
     }
 
     void draw(Graphics2D g) {

@@ -52,6 +52,7 @@ public class Drop implements Constants {
                     break;
                 case 2:
                     System.out.println("restore health");
+                    player.restoreHealth(this);
                     break;
                 case 3:
                     System.out.println("Shield");

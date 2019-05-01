@@ -43,6 +43,7 @@ public class Player implements Constants {
     public static boolean prevbanLeft = false;
     public static boolean M1pressed = false;
     public static Point dir;
+    private int health = PLAYER_HEALTH;
 
     public double getReload() {
         return reload;
@@ -84,6 +85,16 @@ public class Player implements Constants {
 
         }
     }
+
+    public void hit(Bullet bul) {
+        this.health -= bul.getDamage();
+        System.out.println("Player get damage " + "HP: " + health);
+    }
+
+    public void restoreHealth(Drop drop) {
+        this.health = PLAYER_HEALTH;
+    }
+
     public void update() {
         if (nextMove) {
             prevbanLeft = false;
@@ -185,7 +196,7 @@ public class Player implements Constants {
         if (M1pressed == true) {
 
             if (gp.delay(reload)) {
-                GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir));
+                GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir, (byte) 0));
 
             }
 
@@ -214,6 +225,10 @@ public class Player implements Constants {
     }
 
     public Rectangle getRectangle() {
-        return new Rectangle((int) x, (int) y, 50, 50);
+        return new Rectangle((int) x, (int) y, PLAYER_SIZE_WIDTH, PLAYER_SIZE_HEIGHT);
+    }
+
+    public Point getCenterPosition() {
+        return new Point((int) x + 25, (int) y + 25);
     }
 }

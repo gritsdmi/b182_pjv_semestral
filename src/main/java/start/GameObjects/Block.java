@@ -111,4 +111,8 @@ public class Block extends GameObject implements Constants {
     public Rectangle getRectangle() {
         return new Rectangle(this.xPosition, this.yPosition, width, height);
     }
+
+    public Point getCenterPosition() {
+        return new Point((int) xPosition + 25, (int) yPosition + 25);
+    }
 }

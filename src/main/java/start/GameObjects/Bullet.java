@@ -25,9 +25,10 @@ public class Bullet implements Constants {
     private BufferedImage scaled;
     private boolean isAlive;
     private int damage;
+    private byte autor;//0 = player; 1 = enemy
 
     //Constructor
-    public Bullet(double x, double y, Point direction) {
+    public Bullet(double x, double y, Point direction, byte autor) {
         this.xPosition = x;
         this.yPosition = y;
         this.dir = direction;
@@ -52,6 +53,7 @@ public class Bullet implements Constants {
                 Math.toRadians(Math.toDegrees(Math.atan2(direction.y - (this.yPosition), direction.x - (this.xPosition))) + 90),
                 scaled.getWidth() / 2, scaled.getHeight() / 2);
         this.op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+        this.autor = autor;
     }
 
     private boolean controlCollider() {//четвертый пиксель пули
@@ -67,16 +69,27 @@ public class Bullet implements Constants {
             }
         }
 
-        for (Enemy enemy : GamePanel.enemies) {
-            if (enemy.isAlive()) {
-                if (enemy.getxPosition() <= this.xPosition && (enemy.getxPosition() + enemy.getRadius()) >= this.xPosition) {
-                    if (enemy.getyPosition() <= this.yPosition && (enemy.getyPosition() + enemy.getRadius()) >= this.yPosition) {
-                        enemy.hit(this);
-                        return true;
+        if (autor == 0) {
+
+            for (Enemy enemy : GamePanel.enemies) {
+                if (enemy.isAlive()) {
+                    if (enemy.getxPosition() <= this.xPosition && (enemy.getxPosition() + enemy.getRadius()) >= this.xPosition) {
+                        if (enemy.getyPosition() <= this.yPosition && (enemy.getyPosition() + enemy.getRadius()) >= this.yPosition) {
+                            enemy.hit(this);
+                            return true;
+                        }
                     }
                 }
             }
+        } else if (autor == 1) {
+            if (GamePanel.player.getRectangle().getX() <= this.xPosition && (GamePanel.player.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
+                if (GamePanel.player.getRectangle().getY() <= this.yPosition && (GamePanel.player.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
+                    GamePanel.player.hit(this);
+                    return true;
+                }
+            }
         }
+
         return false;
     }
 
