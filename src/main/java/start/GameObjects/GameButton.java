@@ -50,7 +50,7 @@ public class GameButton implements Constants {
             case 'p':
                 color = Color.GRAY;
                 x = PANEL_WIDTH / 2;
-                y = 300;
+                y = 350;
                 width = 150;
                 height = 70;
                 str = "Play";
@@ -94,7 +94,8 @@ public class GameButton implements Constants {
                     gp.ChangeStage(2);
                     break;
                 case 's':
-                    gp.restart();
+                    gp.ChangeStage(0);
+
                     break;
                 case 'c':
                     gp.ChangeStage(1);

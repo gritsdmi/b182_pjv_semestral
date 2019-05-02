@@ -68,9 +68,9 @@ public class MapGenerator implements Constants {
                 levelInChar[lineCounter - 1] = line.toCharArray();
 
                 for (int i = 0; i < line.length(); i++) {
-                    System.out.print(levelInChar[lineCounter - 1][i]);
+//                    System.out.print(levelInChar[lineCounter - 1][i]);
                 }
-                System.out.println();
+//                System.out.println();
             }
             lineCounter++;
         }
@@ -83,6 +83,7 @@ public class MapGenerator implements Constants {
      * create Block objects according to actual map
      */
     public void buildMap(String map) {
+        freeSpaces.clear();
         int xPos = 0;
         int yPos = 0;
         try {

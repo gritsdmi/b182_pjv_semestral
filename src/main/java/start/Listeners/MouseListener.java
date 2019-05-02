@@ -40,6 +40,7 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
 
 
         }
+
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -49,6 +50,7 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
     }
 
     public void mouseReleased(MouseEvent e) {
+
         Player.M1pressed = false;
     }
 

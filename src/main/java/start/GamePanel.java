@@ -41,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     private Random random = new Random();
     private String level;
     private String[] levels;
+    private ArrayList<Point> freeSpacesMap;
 
 
     public static ArrayList<GameButton> buttons;
@@ -174,19 +175,24 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         turel = new Turel(player.x, player.y);
         enemies.add(new Enemy(new Point(500, 299)));
 
-        mp.buildMap(map);
+        mp.buildMap(level);
+        freeSpacesMap = mp.getFreeSpaces();
     }
+
     public void ChangeStage(int newStage) {
         switch (newStage) {
             case 0:
                 stage = 2;
-
+                while (buttons.size() > 0) {
+                    buttons.remove(0);
+                }
                 buttons.add(playButton);
 
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
                 break;
 
             case 1:
+
                 stage = 1;
 
                 while (buttons.size() > 0) {
@@ -197,6 +203,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
                 background.setDim(PANEL_WIDTH, PANEL_HEIGHT);
                 break;
             case 2:
+
                 stage = 2;
                 buttons.remove(menuButton);
                 buttons.add(startButton);
@@ -205,6 +212,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
                 break;
             case 3:
+
                 stage = 2;
                 while (buttons.size() > 0) {
                     buttons.remove(0);
@@ -222,18 +230,16 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
     public void setLevel(String lvl) {
         level = lvl;
-
-    }
-    public void restart() {
-
         generateGame(level);
-        ChangeStage(0);
+//        revalidate();
+
 
     }
+
 
     public void GameUpdate() {
 
-        SpawnDrop();
+
         // Background update
         background.update();
 
@@ -274,7 +280,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
                 i--;
             }
         }
-
+        SpawnDrop();
         turel.update();
     }
 
@@ -291,8 +297,8 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         if ((System.nanoTime() - dropDelayTime) / 1000000 > 2000) {
             dropDelayTime = System.nanoTime();
 
-            int randomFree = random.nextInt(mp.getFreeSpaces().size() - 1);
-            Point newDropPoint = mp.getFreeSpaces().get(randomFree);
+            int randomFree = random.nextInt(freeSpacesMap.size() - 1);
+            Point newDropPoint = freeSpacesMap.get(randomFree);
             int randomType = random.nextInt(4);
             drops.add(new Drop(newDropPoint.x, newDropPoint.y, randomType, player));
         }
