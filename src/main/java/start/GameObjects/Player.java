@@ -16,7 +16,8 @@ public class Player implements Constants {
     private double dx;
     private double dy;
     private boolean shield;
-    private double shieldTime = System.nanoTime();
+    private double shieldTime;
+    private double fireUpTime;
 
     public static int score = 0;
 
@@ -44,13 +45,22 @@ public class Player implements Constants {
     public static boolean M1pressed = false;
     public static Point dir;
     private int health = PLAYER_HEALTH;
+    private int healthBarLength;
+    private int fireLevel;
+    private boolean isFireUpBuffed;
+
+    public int getHealth() {
+        return health;
+    }
 
     public double getReload() {
         return reload;
     }
 
     public void setShield(boolean shield) {
+
         this.shield = shield;
+        shieldTime = System.nanoTime();
     }
 
     public boolean isShield() {
@@ -63,8 +73,11 @@ public class Player implements Constants {
         y = PANEL_HEIGHT / 2;
         dx = 0;
         dx = 0;
+        healthBarLength = 100;
         this.gp = gp;
         shield = false;
+        fireLevel = 0;
+        isFireUpBuffed = false;
 
         up = false;
         down = false;
@@ -72,23 +85,42 @@ public class Player implements Constants {
         left = false;
     }
 
-    //Metheds
+    //Methods
 
     public void fireRateChange() {
-        reload -= 50;
+        if (!isFireUpBuffed) {
+            fireUpTime = System.nanoTime();
+            reload -= 80;
+            isFireUpBuffed = true;
+
+        }
+
+    }
+
+    public void checkFireUp() {
+        if ((System.nanoTime() - fireUpTime) / 1000000 > 9000) {
+
+            reload += 80;
+            isFireUpBuffed = false;
+
+        }
     }
 
     public void checkShield() {
-        if ((System.nanoTime() - shieldTime) / 1000000 > 10000) {
-            shieldTime = System.nanoTime();
+        if ((System.nanoTime() - shieldTime) / 1000000 > 11000) {
             shield = false;
 
         }
     }
 
     public void hit(Bullet bul) {
-        this.health -= bul.getDamage();
-        System.out.println("Player get damage " + "HP: " + health);
+        if (!shield) {
+            this.health -= bul.getDamage();
+            System.out.println("Player get damage " + "HP: " + health);
+        } else {
+            System.out.println("Blocked");
+        }
+
     }
 
     public void restoreHealth(Drop drop) {
@@ -202,6 +234,10 @@ public class Player implements Constants {
 
 
         }
+        if (isFireUpBuffed) {
+            checkFireUp();
+        }
+        healthBarLength = health;
 
     }
 
@@ -220,6 +256,12 @@ public class Player implements Constants {
             g.drawOval((int) x - 5, (int) y - 5, 60, 60);
             checkShield();
         }
+        g.drawString("hp", 805, 110);
+        g.setColor(Color.red);
+        g.fillRect(825, 100, healthBarLength, 30);
+        g.setColor(Color.BLACK);
+        g.setStroke(new BasicStroke(3));
+        g.drawRect(825, 100, 100, 30);
 
 
     }

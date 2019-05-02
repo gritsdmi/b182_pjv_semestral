@@ -109,7 +109,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
 
         while (true) {
-//            System.out.println(player.isShield());
+//            System.out.println(player.getHealth());
 
             timerFPS = System.nanoTime();
             switch (stage) {
@@ -222,6 +222,15 @@ public class GamePanel extends JPanel implements Runnable, Constants {
                 for (int i = 0; i < newButtons.length; i++) {
                     buttons.add(newButtons[i]);
                 }
+                break;
+            case 4:
+                stage = 2;
+                while (buttons.size() > 0) {
+                    buttons.remove(0);
+                }
+                buttons.add(new GameButton('n', this));
+                background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
+                break;
 
 
 
@@ -282,6 +291,9 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         }
         SpawnDrop();
         turel.update();
+        if (player.getHealth() <= 0) {
+            ChangeStage(4);
+        }
     }
 
     public boolean delay(double del) {

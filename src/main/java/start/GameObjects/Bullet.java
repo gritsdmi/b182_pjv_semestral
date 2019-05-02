@@ -37,7 +37,7 @@ public class Bullet implements Constants {
         this.dy = Math.sin(angle);
         this.dx = Math.cos(angle);
         this.isAlive = true;
-        damage = 1;
+        damage = 10;
 
         //creating and preparing image to next transformation, scaling if it needed
         scaled = new BufferedImage(imgBuff.getWidth() * (int) (scale), imgBuff.getHeight() * (int) (scale), BufferedImage.TYPE_INT_ARGB);

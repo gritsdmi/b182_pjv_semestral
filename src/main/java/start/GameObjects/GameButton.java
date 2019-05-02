@@ -28,7 +28,7 @@ public class GameButton implements Constants {
                 y = 0;
                 width = 149;
                 height = 70;
-                str = "Pouse";
+                str = "Pause";
                 break;
 
             case 's':
@@ -60,6 +60,14 @@ public class GameButton implements Constants {
                 x = PANEL_WIDTH / 2;
                 width = 150;
                 height = 70;
+                break;
+            case 'n':
+                color = Color.GRAY;
+                x = PANEL_WIDTH / 2;
+                y = 200;
+                width = 250;
+                height = 100;
+                str = "Start new game";
                 break;
         }
     }
@@ -102,6 +110,10 @@ public class GameButton implements Constants {
                     break;
                 case 'p':
                     gp.ChangeStage(3);
+                    break;
+                case 'n':
+                    gp.ChangeStage(0);
+
                     break;
                 case 'l':
                     switch (number) {
