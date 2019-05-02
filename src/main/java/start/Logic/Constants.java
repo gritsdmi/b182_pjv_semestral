@@ -33,5 +33,7 @@ public interface Constants {
     int ENEMY_MOVING_SPEED = 2;
     int ENEMY_FIRE_DISTANCE = 300;
     int ENEMY_HEALTH = 2;
+    int ENEMY_SHOOTING_DELAY = 250;
+    int ENEMY_MOVING_OFFSET = 50;
 
 }

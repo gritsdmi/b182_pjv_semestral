@@ -6,6 +6,7 @@ import start.Logic.Constants;
 import java.awt.*;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Enemy implements Constants {
     //Fields
@@ -19,57 +20,11 @@ public class Enemy implements Constants {
     private boolean isAlive;
     private Color color;
     private int fireDistance = ENEMY_FIRE_DISTANCE;
-    private ArrayList<Point> wayPoints;
-    private Point actualDirection;
+    private Point lastSeen;
     private byte smer;//1-up 2-right 3-left 4-down
-    private int wayPointIndex = 0;
-    private ArrayList<Eye> eyes;
     private Point actualPosition; //enemy's center position
-    private double enemyReload = 250;
-
-
-    // функция на выравнивание позиции на 50 пиксель
-    private void fce() {
-        if (xPosition % 50 == 1) {
-            xPosition--;
-            System.out.println("x==1");
-        } else if (xPosition % 50 == 49) {
-            xPosition++;
-            System.out.println("x==49");
-        }
-//        else
-//        if(xPosition % 50 == 2){
-//            xPosition--;
-//            xPosition--;
-//            System.out.println("x==2");
-//        }else
-//        if(xPosition % 50 == 48){
-//            xPosition++;
-//            xPosition++;
-//            System.out.println("x==48");
-//        }
-
-        if (yPosition % 50 == 1) {
-            yPosition--;
-            System.out.println("y==1");
-        } else if (yPosition % 50 == 49) {
-            yPosition++;
-            System.out.println("y==49");
-        }
-//        else
-//        if(yPosition % 50 == 2){
-//            yPosition--;
-//            yPosition--;
-//            System.out.println("y==2");
-//        }else
-//        if(yPosition % 50 == 48){
-//            yPosition++;
-//            yPosition++;
-//            System.out.println("y==48");
-//        }
-    }
-    //TODO на каждый 50 блок делать проверку на доступные стороны
-
+    private ArrayList<Eye> eyes;
+    private ArrayList<Eye> movingEyes;
 
 
     public Enemy(Point startPosition) {
@@ -77,26 +32,25 @@ public class Enemy implements Constants {
         this.yPosition = (int) startPosition.getY();
         color = Color.PINK;
         this.isAlive = true;
-        this.wayPoints = createWayPoints();
-        this.actualDirection = new Point(xPosition, yPosition);
         this.smer = 0;
 
-//        Line2D up = new Line2D.Float(this.xPosition + r/2,this.yPosition + r/2,0,0);
-//        Line2D left = new Line2D.Float(this.xPosition + r/2,this.yPosition + r/2,0,0);
-//        Line2D right = new Line2D.Float(this.xPosition + r/2,this.yPosition + r/2,0,0);
-//        Line2D down = new Line2D.Float(this.xPosition + r/2,this.yPosition + r/2,0,0);
-
-        this.eyes = new ArrayList<Eye>();
+        this.eyes = new ArrayList<>();
+        this.movingEyes = new ArrayList<>();
 
         this.actualPosition = startPosition;
         this.actualPosition.setLocation(this.xPosition + r / 2, this.yPosition + r / 2);
 
-        eyes.add(new Eye(this.actualPosition, "Up"));
-        eyes.add(new Eye(this.actualPosition, "Right"));
-        eyes.add(new Eye(this.actualPosition, "Left"));
-        eyes.add(new Eye(this.actualPosition, "Down"));
-    }
+        eyes.add(new Eye(this, this.actualPosition, "Up", 0));
+        eyes.add(new Eye(this, this.actualPosition, "Right", 0));
+        eyes.add(new Eye(this, this.actualPosition, "Left", 0));
+        eyes.add(new Eye(this, this.actualPosition, "Down", 0));
 
+        movingEyes.add(new Eye(this, this.actualPosition, "MoveUp", 1));
+        movingEyes.add(new Eye(this, this.actualPosition, "MoveRight", 1));
+        movingEyes.add(new Eye(this, this.actualPosition, "MoveLeft", 1));
+        movingEyes.add(new Eye(this, this.actualPosition, "MoveDown", 1));
+
+    }
 
     public void update() {
         if (isAlive) {
@@ -118,118 +72,83 @@ public class Enemy implements Constants {
                     yPosition = yPosition;
                     xPosition = xPosition;
             }
+            this.actualPosition.setLocation(this.xPosition + 25, this.yPosition + 25);
 
-            if (this.xPosition == actualDirection.getX() && this.yPosition == actualDirection.getY()) {
-                //TODO stay here for 3 sec before change way point
-                changePoint();
-//            System.out.println("changePoint to " + actualDirection);
-            }
-            setNewDirection();
-///////////////////////////////////////////////////////
-//            //centralUP line
-//            int toX1 = this.xPosition + r / 2;
-//            int toY1 = this.yPosition + r / 2 - fireDistance;
-//
-//            //right line
-//            int toX2 = this.xPosition + r / 2 + fireDistance;
-//            int toY2 = this.yPosition + r / 2;
-//
-//            //left line
-//            int toX3 = this.xPosition + r / 2 - fireDistance;
-//            int toY3 = this.yPosition + r / 2;
-//
-//            //centralDown line
-//            int toX4 = this.xPosition + r / 2;
-//            int toY4 = this.yPosition + r / 2 + fireDistance;
-//
-//
-//            switch (smer) {
-//                case 1: //up
-//                    toX4 = this.xPosition + r / 2;
-//                    toY4 = this.yPosition + r / 2;
-//                    break;
-//                case 2: //right
-//                    toX3 = this.xPosition + r / 2;
-//                    toY3 = this.yPosition + r / 2;
-//                    break;
-//                case 3: //left
-//                    toX2 = this.xPosition + r / 2;
-//                    toY2 = this.yPosition + r / 2;
-//                    break;
-//                case 4: //down
-//                    toX1 = this.xPosition + r / 2;
-//                    toY1 = this.yPosition + r / 2;
-//                    break;
-//            }
-            int toX1 = (int) this.actualPosition.getX();
-            int toY1 = (int) this.actualPosition.getY() - fireDistance;
+
+            //central up line
+            Point up = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - fireDistance);
+            Point movUp = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - ENEMY_MOVING_OFFSET);
 
             //right line
-            int toX2 = (int) this.actualPosition.getX() + fireDistance;
-            int toY2 = (int) this.actualPosition.getY();
+            Point right = new Point((int) this.actualPosition.getX() + fireDistance, (int) this.actualPosition.getY());
+            Point movRight = new Point((int) this.actualPosition.getX() + ENEMY_MOVING_OFFSET, (int) this.actualPosition.getY());
+
 
             //left line
-            int toX3 = (int) this.actualPosition.getX() - fireDistance;
-            int toY3 = (int) this.actualPosition.getY();
+            Point left = new Point((int) this.actualPosition.getX() - fireDistance, (int) this.actualPosition.getY());
+            Point movLeft = new Point((int) this.actualPosition.getX() - ENEMY_MOVING_OFFSET, (int) this.actualPosition.getY());
 
-            //centralDown line
-            int toX4 = (int) this.actualPosition.getX();
-            int toY4 = (int) this.actualPosition.getY() + fireDistance;
+
+            //central down line
+            Point down = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + fireDistance);
+            Point movDown = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + ENEMY_MOVING_OFFSET);
+
 
             switch (smer) {
                 case 1: //up
-                    toX4 = (int) this.actualPosition.getX();
-                    toY4 = (int) this.actualPosition.getY();
+                    down.setLocation(this.actualPosition);
+                    movDown.setLocation(this.actualPosition);
                     break;
                 case 2: //right
-                    toX3 = (int) this.actualPosition.getX();
-                    toY3 = (int) this.actualPosition.getY();
+                    left.setLocation(this.actualPosition);
+                    movLeft.setLocation(this.actualPosition);
                     break;
                 case 3: //left
-                    toX2 = (int) this.actualPosition.getX();
-                    toY2 = (int) this.actualPosition.getY();
+                    right.setLocation(this.actualPosition);
+                    movRight.setLocation(this.actualPosition);
                     break;
                 case 4: //down
-                    toX1 = (int) this.actualPosition.getX();
-                    toY1 = (int) this.actualPosition.getY();
+                    up.setLocation(this.actualPosition);
+                    movUp.setLocation(this.actualPosition);
                     break;
             }
-            Point up = new Point(toX1, toY1);
-            Point right = new Point(toX2, toY2);
-            Point left = new Point(toX3, toY3);
-            Point down = new Point(toX4, toY4);
 
-            ArrayList<Point> qq = new ArrayList<Point>();
-            qq.add(up);
-            qq.add(right);
-            qq.add(left);
-            qq.add(down);
+
+            ArrayList<Point> searchingEyesList = new ArrayList<>();
+            searchingEyesList.add(up);
+            searchingEyesList.add(right);
+            searchingEyesList.add(left);
+            searchingEyesList.add(down);
+
+            ArrayList<Point> movingEyesList = new ArrayList<>();
+            movingEyesList.add(movUp);
+            movingEyesList.add(movRight);
+            movingEyesList.add(movLeft);
+            movingEyesList.add(movDown);
+
             for (int i = 0; i < eyes.size(); i++) {
-                eyes.get(i).update(this.actualPosition, qq.get(i));
+                eyes.get(i).update(this.actualPosition, searchingEyesList.get(i));
+                movingEyes.get(i).update(this.actualPosition, movingEyesList.get(i));
             }
-
-
-            this.actualPosition.setLocation(this.xPosition + 25, this.yPosition + 25);
-////////////////////////////////////////////////////////
         }
-//        System.out.println("xPos "+ xPosition +" yPos "+ yPosition );
 
-        //функция на выравнивание позиции на 50 пиксель
-        fce();
-
+        align();
+        if (control50()) newRandomMovingDirection();
     }
 
     public void draw(Graphics2D g) {
         if (isAlive) {
             g.setColor(color);
             g.fillOval(this.xPosition + 3, this.yPosition + 3, r, r);
-            for (Eye eye : eyes) eye.draw(g);
-//            drawEyes(g);
+//            for (Eye eye : eyes) eye.draw(g);
+//            for (Eye eye : movingEyes) eye.draw(g);
         }
     }
 
     /**
-     * в зависимости от типа пули будет отнимать разной количество hр
+     * Depend on Bullet's type entity get different damage.
+     * @param bul is bullet, which do damage.
+     * @see Bullet
      */
     public void hit(Bullet bul) {
         if (isAlive) {
@@ -259,27 +178,71 @@ public class Enemy implements Constants {
         return ret;
     }
 
+    // функция на выравнивание позиции на 50 пиксель
     /**
-     * @param
+     * Function which align enemy's position to 50th pixel
+     * Worked only when Enemy's speed = 2
      */
-    private void changePoint() {
-//        System.out.println("index of way points "+index);
-        wayPointIndex = wayPointIndex >= wayPoints.size() ? (wayPointIndex % wayPoints.size()) : wayPointIndex;
-        this.actualDirection = this.wayPoints.get(wayPointIndex++);
+    private void align() {
+        if (xPosition % 50 == 1) xPosition--;
+        else if (xPosition % 50 == 49) xPosition++;
+
+        if (yPosition % 50 == 1) yPosition--;
+        else if (yPosition % 50 == 49) yPosition++;
+
     }
 
-    private void setNewDirection() {
-        //right
-        if (this.actualDirection.getX() - this.xPosition > 0) smer = 2;
-            //left
-        else if (this.actualDirection.getX() - this.xPosition < 0) smer = 3;
-        //down
-        if (this.actualDirection.getY() - this.yPosition > 0) smer = 4;
-            //up
-        else if (this.actualDirection.getY() - this.yPosition < 0) smer = 1;
-//        System.out.print("setNewDir= " + smer);
-//        System.out.println(this.actualDirection.toString() + this.yPosition);
+    /**
+     * Function randomly choose new moving direction
+     * New direction depend on free space around
+     * Enemy can't moving backward (only in case when another ways are impossible)
+     *
+     * @return int newDirection
+     */
+    private int newRandomMovingDirection() {
+        int newDirection = 0;
+        ArrayList<Byte> possibleDirections = new ArrayList<>();
+        for (Eye eye : movingEyes) {
+            if (!eye.isSee()) {
+                switch (eye.getName()) {
+                    case "MoveUp":
+                        possibleDirections.add((byte) 1);
+                        break;
+                    case "MoveRight":
+                        possibleDirections.add((byte) 2);
+                        break;
+                    case "MoveLeft":
+                        possibleDirections.add((byte) 3);
+                        break;
+                    case "MoveDown":
+                        possibleDirections.add((byte) 4);
+                        break;
+                }
+            }
+        }
+        for (int i = 0; i < possibleDirections.size(); i++) {
+            if (possibleDirections.get(i) == createOpositeSmer(smer)) {
+                possibleDirections.remove(i);
+                i--;
+            }
+        }
+        if (possibleDirections.isEmpty()) possibleDirections.add(createOpositeSmer(smer));
+        newDirection = possibleDirections.get(new Random().nextInt(possibleDirections.size()));
+        smer = (byte) newDirection;
+        return newDirection;
+    }
 
+    private boolean control50() {
+        return xPosition % 50 == 0 & yPosition % 50 == 0;
+    }
+
+    private byte createOpositeSmer(byte smerr) {
+        if (smerr == 1) return 4;
+        else if (smerr == 2) return 3;
+        else if (smerr == 3) return 2;
+        else if (smerr == 4) return 1;
+
+        return 0;
     }
 
     public boolean isAlive() {
@@ -297,6 +260,10 @@ public class Enemy implements Constants {
     public int getyPosition() {
         return yPosition;
     }
+
+    public int getSmer() {
+        return smer;
+    }
 }
 
 class Eye implements Constants {
@@ -306,83 +273,28 @@ class Eye implements Constants {
     private Point endPosition; //end position
     private String name;
     private Line2D eye;
+    private byte type;//0 = seeing 1 = moving
 
-    private int smer;
-    private int fireDistance = ENEMY_FIRE_DISTANCE;
-
-    private int enemyReload = 250;
     private double nanotime = System.nanoTime();
 
 
-    public Eye(Point startPosition, String name) {
-        this.position = new Point((int) (startPosition.getX()), (int) (startPosition.getY()));
-        this.endPosition = new Point(0, 0);
+    public Eye(Enemy enemy, Point startPosition, String name, int type) {
+        this.type = (byte) type;
+        this.position = startPosition;
+        this.endPosition = new Point(startPosition);
         this.name = name;
         this.see = false;
         this.eye = new Line2D.Float(this.position, this.endPosition);
     }
 
-    //    void update(Point pos, int smerr) {//Point actualPosition, smer направление движения врага
-//        this.smer = smerr;
-    void update(Point pos, Point endPos) {//Point actualPosition,
+    void update(Point pos, Point endPos) {
         this.position.setLocation(pos);
         this.endPosition.setLocation(endPos);
         this.eye.setLine(this.position, this.endPosition);
 
-//        if(position.equals(endPosition)) System.out.println(name);
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-        //centralUP line
-        int toX1 = (int) this.position.getX();
-        int toY1 = (int) this.position.getY() - fireDistance;
-
-        //right line
-        int toX2 = (int) this.position.getX() + fireDistance;
-        int toY2 = (int) this.position.getY();
-
-        //left line
-        int toX3 = (int) this.position.getX() - fireDistance;
-        int toY3 = (int) this.position.getY();
-
-        //centralDown line
-        int toX4 = (int) this.position.getX();
-        int toY4 = (int) this.position.getY() + fireDistance;
-
-        switch (smer) {
-            case 1: //up
-                toX4 = (int) this.position.getX();
-                toY4 = (int) this.position.getY();
-                System.out.println(name + "up");
-                break;
-            case 2: //right
-                toX3 = (int) this.position.getX();
-                toY3 = (int) this.position.getY();
-                System.out.println(name + "right");
-
-                break;
-            case 3: //left
-                toX2 = (int) this.position.getX();
-                toY2 = (int) this.position.getY();
-                System.out.println(name + "left");
-
-                break;
-            case 4: //down
-                toX1 = (int) this.position.getX();
-                toY1 = (int) this.position.getY();
-                System.out.println(name + "down");
-
-                break;
-        }
-//        this.endPosition.setLocation();
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //TODO shooting delay
-        if (controlPlayerCollider() && computeShootingDelay(enemyReload)) {
+        if (controlPlayerCollider() && computeShootingDelay(ENEMY_SHOOTING_DELAY)) {
             GamePanel.bullets.add(new Bullet(position.getX(), position.getY(), GamePanel.player.getCenterPosition(), (byte) 1));
         }
-
-//            GamePanel.bullets.add(new Bullet(position.getX() + 25, position.getY() + 25, dir, (byte) 0));
-
-
     }
 
     private boolean computeShootingDelay(double del) {
@@ -395,7 +307,7 @@ class Eye implements Constants {
     }
 
     /**
-     * Set boolean variable see depend on ...
+     * Set boolean variable see depend on type of Eye
      *
      * @return true if enemy see player
      */
@@ -403,30 +315,43 @@ class Eye implements Constants {
 
         for (Block block : GamePanel.blocks) {
             if (eye.intersects(block.getRectangle())) {
-//                System.out.println(name + " see block");
-//                eye.setLine(this.position,block.getCenterPosition());
-                if (name.equals("Up") | name.equals("Down")) {
-                    eye.setLine(this.position.getX(), this.position.getY(), endPosition.getX(), block.getCenterPosition().getY());
-                } else {
-                    eye.setLine(this.position.getX(), this.position.getY(), block.getCenterPosition().getX(), endPosition.getY());
+                if (type == 0) {
+                    if (name.equals("Up") | name.equals("Down")) {
+                        eye.setLine(this.position.getX(), this.position.getY(), endPosition.getX(), block.getCenterPosition().getY());
+                    } else {
+                        eye.setLine(this.position.getX(), this.position.getY(), block.getCenterPosition().getX(), endPosition.getY());
+                    }
+                } else if (type == 1) {
+                    setSee(true);
+                    return false;
                 }
             }
         }
 
-        if (this.eye.intersects(GamePanel.player.getRectangle())) {
-//            System.out.println(name +" I see you");
-            this.eye.setLine(this.position, GamePanel.player.getCenterPosition());
-            setSee(true);
-            return true;
+        if (type == 0) {
+            if (this.eye.intersects(GamePanel.player.getRectangle())) {
+                this.eye.setLine(this.position, GamePanel.player.getCenterPosition());
+                setSee(true);
+                return true;
+            }
         }
+
         setSee(false);
         return false;
     }
 
     void draw(Graphics2D g) {
-        if (isSee()) g.setColor(Color.RED);
-        else g.setColor(Color.WHITE);
-        g.draw(this.eye);
+        if (type == 0) {
+            if (isSee()) g.setColor(Color.RED);
+            else g.setColor(Color.WHITE);
+            g.draw(this.eye);
+        }
+
+        if (type == 1) {
+            if (isSee()) g.setColor(Color.RED);
+            else g.setColor(Color.green);
+            g.draw(this.eye);
+        }
     }
 
     public boolean isSee() {
@@ -436,4 +361,9 @@ class Eye implements Constants {
     public void setSee(boolean see) {
         this.see = see;
     }
+
+    public String getName() {
+        return this.name;
+    }
+
 }
