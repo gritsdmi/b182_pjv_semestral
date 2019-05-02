@@ -113,9 +113,9 @@ public class Player implements Constants {
         }
     }
 
-    public void hit(Bullet bul) {
+    public void hit(int damage) {
         if (!shield) {
-            this.health -= bul.getDamage();
+            this.health -= damage;
             System.out.println("Player get damage " + "HP: " + health);
         } else {
             System.out.println("Blocked");

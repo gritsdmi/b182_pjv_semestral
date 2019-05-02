@@ -84,7 +84,7 @@ public class Bullet implements Constants {
         } else if (autor == 1) {
             if (GamePanel.player.getRectangle().getX() <= this.xPosition && (GamePanel.player.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
                 if (GamePanel.player.getRectangle().getY() <= this.yPosition && (GamePanel.player.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
-                    GamePanel.player.hit(this);
+                    GamePanel.player.hit(this.getDamage());
                     return true;
                 }
             }

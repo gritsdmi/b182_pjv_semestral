@@ -45,6 +45,7 @@ public class Drop implements Constants {
         if (((player.x + 5 > x) && (player.x + 5 < x + 50) && (player.y + 5 > y) && (player.y + 5 < y + 50)) || ((player.x + 45 > x) && (player.x + 45 < x + 50) && (player.y + 45 > y) && (player.y + 45 < y + 50))) {
             switch (type) {
                 case 0:
+                    player.hit(30);
                     System.out.println("ti govno");
                     break;
                 case 1:
