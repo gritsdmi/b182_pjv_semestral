@@ -275,6 +275,9 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
         for (int i = 0; i < drops.size(); i++) {
             drops.get(i).update();
+            if (drops.get(i).checkTimer()) {
+                drops.remove(i);
+            }
             if (drops.get(i).isDead()) {
                 drops.remove(i);
                 i--;

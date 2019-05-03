@@ -90,7 +90,7 @@ public class Player implements Constants {
     public void fireRateChange() {
         if (!isFireUpBuffed) {
             fireUpTime = System.nanoTime();
-            reload -= 80;
+            reload -= 100;
             isFireUpBuffed = true;
 
         }
@@ -98,9 +98,9 @@ public class Player implements Constants {
     }
 
     public void checkFireUp() {
-        if ((System.nanoTime() - fireUpTime) / 1000000 > 9000) {
+        if ((System.nanoTime() - fireUpTime) / 1000000 > 7500) {
 
-            reload += 80;
+            reload += 100;
             isFireUpBuffed = false;
 
         }
@@ -256,13 +256,14 @@ public class Player implements Constants {
             g.drawOval((int) x - 5, (int) y - 5, 60, 60);
             checkShield();
         }
-        g.drawString("hp", 805, 110);
+
+
         g.setColor(Color.red);
         g.fillRect(825, 100, healthBarLength, 30);
         g.setColor(Color.BLACK);
         g.setStroke(new BasicStroke(3));
         g.drawRect(825, 100, 100, 30);
-
+        g.drawString("hp", 805, 110);
 
     }
 

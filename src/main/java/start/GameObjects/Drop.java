@@ -11,12 +11,14 @@ public class Drop implements Constants {
     private int type;
     private boolean dead;
     private Color color;
+    private double lifeTimer;
 
     public boolean isDead() {
         return dead;
     }
 
     public Drop(int x, int y, int type, Player player) {
+        lifeTimer = System.nanoTime();
         this.x = x;
         this.y = y;
         this.type = type;
@@ -40,6 +42,13 @@ public class Drop implements Constants {
         }
     }
 
+    public boolean checkTimer() {
+        if (((System.nanoTime() - lifeTimer) / 1000000) > 10000) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public void update() {
         if (((player.x + 5 > x) && (player.x + 5 < x + 50) && (player.y + 5 > y) && (player.y + 5 < y + 50)) || ((player.x + 45 > x) && (player.x + 45 < x + 50) && (player.y + 45 > y) && (player.y + 45 < y + 50))) {
