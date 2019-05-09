@@ -25,10 +25,10 @@ public class Bullet implements Constants {
     private BufferedImage scaled;
     private boolean isAlive;
     private int damage;
-    private byte autor;//0 = player; 1 = enemy
+    private int autor;//0 = player; 1 = enemy
 
     //Constructor
-    public Bullet(double x, double y, Point direction, byte autor) {
+    public Bullet(double x, double y, Point direction, int autor) {
         this.xPosition = x;
         this.yPosition = y;
         this.dir = direction;

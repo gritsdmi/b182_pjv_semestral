@@ -69,8 +69,10 @@ public class Player implements Constants {
 
     //Constructor
     public Player(GamePanel gp) {
-        x = PANEL_WIDTH / 2;
-        y = PANEL_HEIGHT / 2;
+//        x = PANEL_WIDTH / 1.5;
+//        y = PANEL_HEIGHT / 1.5;
+        x = 600;
+        y = 600;
         dx = 0;
         dx = 0;
         healthBarLength = 100;
@@ -116,9 +118,9 @@ public class Player implements Constants {
     public void hit(int damage) {
         if (!shield) {
             this.health -= damage;
-            System.out.println("Player get damage " + "HP: " + health);
+//            System.out.println("Player get damage " + "HP: " + health);
         } else {
-            System.out.println("Blocked");
+//            System.out.println("Blocked");
         }
 
     }
@@ -271,7 +273,21 @@ public class Player implements Constants {
         return new Rectangle((int) x, (int) y, PLAYER_SIZE_WIDTH, PLAYER_SIZE_HEIGHT);
     }
 
+    public Rectangle getSmallRectangle() {
+//        return new Rectangle((int) (x + 22), (int) (y+22), 5, 5);
+        return new Rectangle((int) (x + 10), (int) (y + 10), 30, 30); // 30x30
+    }
+
     public Point getCenterPosition() {
         return new Point((int) x + 25, (int) y + 25);
+    }
+
+    public Point getPosition() {
+        return new Point((int) x, (int) y);
+    }
+
+    public boolean isMoving() {
+        if (x % 50 == 0 && y % 50 == 0) return false;
+        else return true;
     }
 }

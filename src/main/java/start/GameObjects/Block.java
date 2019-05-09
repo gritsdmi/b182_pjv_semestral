@@ -13,14 +13,14 @@ public class Block extends GameObject implements Constants {
     private Color color;
     private int health;
     private boolean isAlive;
-    private byte type = -1;
+    private int type = -1;
     private Player player;
 
 
     //Constructor
 
 
-    public Block(byte type, int x, int y) {
+    public Block(int type, int x, int y) {
 
         this.type = type;
         this.xPosition = x;
