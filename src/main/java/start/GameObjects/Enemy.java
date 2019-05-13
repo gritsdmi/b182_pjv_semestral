@@ -62,12 +62,12 @@ public class Enemy implements Constants {
         try {
 
             if (Math.abs(pos1.getX() - pos2.getX()) < 15 && Math.abs(pos1.getY() - pos2.getY()) < 15) {
-                System.out.println("Equal");
+//                System.out.println("Equal");
                 mood = 1;
                 return true;
             }
         } catch (NullPointerException e) {
-            System.out.println("Null pointer equal");
+//            System.err.println("Null pointer equal");
         }
         return false;
     }
@@ -76,7 +76,7 @@ public class Enemy implements Constants {
         if (isAlive) {
             if (mood == 1 && control50()) {//fury mode && control 50 == true
                 smer = 0;
-                System.out.println("Fury && 50 in update. smer = 0" + "Pos " + this.getPosition());
+//                System.out.println("Fury && 50 in update. smer = 0" + "Pos " + this.getPosition());
                 boolean temp = false;
                 for (Eye eye : eyes) {
                     temp = temp || eye.isSeeHim();
@@ -384,7 +384,6 @@ public class Enemy implements Constants {
 
     public void setSmer(int smer) {
         this.smer = smer;
-        System.out.println("Smer " + smer + " setted");
     }
 
     public void setLastSeenPoint(Point lastSeen) {
@@ -423,6 +422,7 @@ class Eye implements Constants {
     private Enemy enemy;
     private boolean see; // use for blocks
     private boolean seeHim; //use for player
+    private boolean seeAnother;
     private Point position; //start position
     private Point endPosition; //end position
     private String name;
@@ -440,6 +440,7 @@ class Eye implements Constants {
         this.name = name;
         this.see = false;
         this.seeHim = false;
+        this.seeAnother = false;
         this.eye = new Line2D.Float(this.position, this.endPosition);
     }
 
@@ -536,10 +537,13 @@ class Eye implements Constants {
                         } else {
                             eye.setLine(this.position.getX(), this.position.getY(), en.getActualPosition().getX(), endPosition.getY());
                         }
+                        seeAnother = true;
                     } else if (type == 1) {//moving
                         setSee(true);
                         return false;
                     }
+                } else {
+                    seeAnother = false;
                 }
             }
         }
