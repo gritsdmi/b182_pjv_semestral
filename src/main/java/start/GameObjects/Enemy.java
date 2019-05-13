@@ -2,6 +2,7 @@ package start.GameObjects;
 
 import start.GamePanel;
 import start.Logic.Constants;
+import start.Logic.SpawnPoint;
 
 import java.awt.*;
 import java.awt.geom.Line2D;
@@ -338,11 +339,17 @@ public class Enemy implements Constants {
         return xPosition % 50 == 0 && yPosition % 50 == 0;//тут былр написано "&"
     }
 
-    private int createOpositeSmer(int smerr) {
-        if (smerr == 1) return 4;
-        else if (smerr == 2) return 3;
-        else if (smerr == 3) return 2;
-        else if (smerr == 4) return 1;
+    /**
+     * Method compute opposite direction according to input variable.
+     *
+     * @param dir represents direction to which method creat new opposite direction
+     * @return opposite direction
+     */
+    private int createOpositeSmer(int dir) {
+        if (dir == 1) return 4;
+        else if (dir == 2) return 3;
+        else if (dir == 3) return 2;
+        else if (dir == 4) return 1;
 
         return 0;
     }
@@ -471,7 +478,13 @@ class Eye implements Constants {
         }
     }
 
-
+    /**
+     * Method compute shooting delay.
+     *
+     * @param del represents delay between shots. Is the constant, described in Constants class.
+     * @return true if enemy can shot, otherwise - false.
+     * @see Constants
+     */
     private boolean computeShootingDelay(double del) {
         if ((System.nanoTime() - nanotime) / 1000000 > del) {
             nanotime = System.nanoTime();
@@ -484,7 +497,7 @@ class Eye implements Constants {
     /**
      * Set boolean variable see true if Line2D eye
      * intersects Block's Rectangle or another Enemy's Rectangle
-     *
+     * <p>
      * Set boolean variable seeHim true if Line2D eye
      * intersects player's Rectangle
      *
@@ -495,7 +508,9 @@ class Eye implements Constants {
      * @return true if enemy see player
      */
     private boolean controlPlayerCollider() {
+        //0 - playerSeeing; 1 - moving
 
+        //loop controls if enemy see blocks
         for (Block block : GamePanel.blocks) {
             if (eye.intersects(block.getRectangle())) {
                 if (type == 0) {
@@ -511,29 +526,31 @@ class Eye implements Constants {
             }
         }
 
-        for (Enemy en : GamePanel.enemies) {
-            if (eye.intersects(en.getRectangle()) && !en.equals(enemy)) {
-                if (type == 0) {
-                    if (name.equals("Up") | name.equals("Down")) {
-                        eye.setLine(this.position.getX(), this.position.getY(), endPosition.getX(), en.getActualPosition().getY());
-                    } else {
-                        eye.setLine(this.position.getX(), this.position.getY(), en.getActualPosition().getX(), endPosition.getY());
+        //loop controls if enemy see another enemy
+        for (SpawnPoint sp : GamePanel.getEnemySpawns()) {
+            for (Enemy en : sp.getEnemies()) {
+                if (eye.intersects(en.getRectangle()) && !en.equals(enemy)) {
+                    if (type == 0) {//player seeing
+                        if (name.equals("Up") | name.equals("Down")) {
+                            eye.setLine(this.position.getX(), this.position.getY(), endPosition.getX(), en.getActualPosition().getY());
+                        } else {
+                            eye.setLine(this.position.getX(), this.position.getY(), en.getActualPosition().getX(), endPosition.getY());
+                        }
+                    } else if (type == 1) {//moving
+                        setSee(true);
+                        return false;
                     }
-                } else if (type == 1) {
-                    setSee(true);
-                    return false;
                 }
             }
         }
 
         setSee(false);
 
-        if (type == 0) {//seeing eyes
+        if (type == 0) {// player seeing eyes
             if (this.eye.intersects(GamePanel.player.getSmallRectangle())) {//игрока видно
                 enemy.setMood(1);//set fury mode
                 if (!GamePanel.player.isMoving()) {
-                    enemy.setLastSeenPoint(GamePanel.player.getPosition());
-                    System.out.println("last point setted" + enemy.getLastSeen() + "player stay");
+                    enemy.setLastSeenPoint(GamePanel.player.getPosition());//set point where enemy seen player(zarovnany na 50pixel)
                     enemy.setLastSeenSmer(this.nameToSmer());
                 }
 
@@ -544,11 +561,9 @@ class Eye implements Constants {
             } else {//игрока не видно этим глазом &&
                 if (this.isSeeHim()) {//если он только что видел
                     if (enemy.getMood() == 1) {//если только что был fury//потерял игрока из виду
-                        System.out.println("dont see && fury " + name);
                         enemy.setMood(2);// last seen mode on
 //                        enemy.setLastSeenPoint(GamePanel.player.getPosition());
 //                        enemy.setLastSeenSmer(this.nameToSmer());
-                        System.out.println("last seen mode on" + " last point" + enemy.getLastSeen());
                     } else if (enemy.getMood() == 2) {//если enemy ищет меня
                         //todo переключение на normal mood (0)
                     }
@@ -595,6 +610,12 @@ class Eye implements Constants {
         return type;
     }
 
+    /**
+     * Method convert eye's name to int variable
+     * which represents direction of eye.
+     *
+     * @return int converted direction
+     */
     public int nameToSmer() {
         switch (name) {
             case "Up":

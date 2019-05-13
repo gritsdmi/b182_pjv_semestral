@@ -5,6 +5,7 @@ import start.Listeners.Listeners;
 import start.Listeners.MouseListener;
 import start.Logic.Constants;
 import start.Logic.MapGenerator;
+import start.Logic.SpawnPoint;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -32,8 +33,8 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     public static Turel turel;
     public static ArrayList<Bullet> bullets;
     public static ArrayList<Block> blocks;
-    public static ArrayList<Enemy> enemies;
     private ArrayList<Drop> drops;
+    private static ArrayList<SpawnPoint> enemySpawns;
     private GameButton menuButton;
     private GameButton continueButton;
     private GameButton startButton;
@@ -151,7 +152,6 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         menuBackground = new MenuBackground();
         bullets = new ArrayList<Bullet>();
         blocks = new ArrayList<Block>();
-        enemies = new ArrayList<Enemy>();
         buttons = new ArrayList<GameButton>();
         drops = new ArrayList<Drop>();
         player = new Player(this);
@@ -173,10 +173,10 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
 
         turel = new Turel(player.x, player.y);
-        enemies.add(new Enemy(new Point(500, 299)));
 
         mp.buildMap(level);
         freeSpacesMap = mp.getFreeSpaces();
+        enemySpawns = mp.getSpawnPoints();
     }
 
     public void ChangeStage(int newStage) {
@@ -278,20 +278,32 @@ public class GamePanel extends JPanel implements Runnable, Constants {
             if (drops.get(i).checkTimer()) {
                 drops.remove(i);
             }
-            if (drops.get(i).isDead()) {
-                drops.remove(i);
-                i--;
+            try {
+
+                if (drops.get(i).isDead()) {
+                    drops.remove(i);
+                    i--;
+                }
+            } catch (IndexOutOfBoundsException e) {
+                System.err.println("drop/time exception fixed");
             }
         }
 
-        //Enemies update
-        for (int i = 0; i < enemies.size(); i++) {
-            enemies.get(i).update();
-            if (!enemies.get(i).isAlive()) {
-                enemies.remove(i);
-                i--;
+        /**
+         * treads??
+         */
+        //new Enemies update
+        for (SpawnPoint sp : enemySpawns) {
+            sp.update();
+            for (int i = 0; i < sp.getEnemies().size(); i++) {
+                sp.getEnemies().get(i).update();
+                if (!sp.getEnemies().get(i).isAlive()) {
+                    sp.getEnemies().remove(i);
+                    i--;
+                }
             }
         }
+
         SpawnDrop();
         turel.update();
         if (player.getHealth() <= 0) {
@@ -361,10 +373,14 @@ public class GamePanel extends JPanel implements Runnable, Constants {
             drops.get(i).draw(g2d);
 
         }
-        //Enemies draw
-        for (Enemy enemy : enemies) {
-            enemy.draw(g2d);
+
+        //new Enemies draw
+        for (SpawnPoint sp : enemySpawns) {
+            for (Enemy enemy : sp.getEnemies()) {
+                enemy.draw(g2d);
+            }
         }
+
         turel.draw(g2d);
         Graphics2D g2 = (Graphics2D) this.getGraphics();
         g2.drawImage(image, 0, 0, this);
@@ -372,4 +388,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         g2.dispose();
     }
 
+    public static ArrayList<SpawnPoint> getEnemySpawns() {
+        return enemySpawns;
+    }
 }

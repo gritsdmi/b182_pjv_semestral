@@ -10,47 +10,32 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * class represents level's map
+ */
 public class MapGenerator implements Constants {
 
-    private GamePanel gp;
+    private final GamePanel gp;
     private char[][] actualMap;
-    private ArrayList<Point> freeSpaces = new ArrayList<Point>();
-    private String map = LEVEL_1;
-//    private String map = LEVEL_2;
+    private ArrayList<Point> freeSpaces;
+    private ArrayList<SpawnPoint> spawnPoints;
 
-    public ArrayList<Point> getFreeSpaces() {
-        return freeSpaces;
-    }
-
-    /**
-     * или же сделать отделный класс Map?
-     */
 
     public MapGenerator(GamePanel gp) {
         this.gp = gp;
 
+        freeSpaces = new ArrayList<>();
+        spawnPoints = new ArrayList<>();
 
-    }
-
-    public boolean generateMap() {
-
-//        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 250, 250));
-//        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 350, 250));
-//        gp.blocks.add(new Block(Constants.WALL_TYPE_BRICK, 350, 200));
-//        gp.blocks.add(new Block(Constants.WALL_TYPE_TEST, 500, 400));
-
-
-
-
-        return true;
     }
 
 
     /**
-     * Method, in the future, will parse txt file
+     * Method parse txt file
      * and generate lvl
      * еще сюда можно притулить тестов, соответствует ли файл нужному формату
-     * @return array of char, represents actual map
+     *
+     * @return 2 dimensional array of char, represents actual map
      */
     private char[][] readMapFromFile(String map) throws FileNotFoundException {
 
@@ -67,10 +52,6 @@ public class MapGenerator implements Constants {
 
                 levelInChar[lineCounter - 1] = line.toCharArray();
 
-                for (int i = 0; i < line.length(); i++) {
-//                    System.out.print(levelInChar[lineCounter - 1][i]);
-                }
-//                System.out.println();
             }
             lineCounter++;
         }
@@ -81,9 +62,13 @@ public class MapGenerator implements Constants {
 
     /**
      * create Block objects according to actual map
+     *
+     * @param map path to file
      */
     public void buildMap(String map) {
         freeSpaces.clear();
+        spawnPoints.clear();
+
         int xPos = 0;
         int yPos = 0;
         try {
@@ -93,8 +78,10 @@ public class MapGenerator implements Constants {
         }
         for (char[] line : actualMap) {
             for (char blockType : line) {
-                if (blockType != '_') {
-                    gp.blocks.add(new Block((byte) (Character.getNumericValue(blockType)), xPos, yPos));
+                if (blockType == 'x') {
+                    spawnPoints.add(new SpawnPoint(this, 10, new Point(xPos, yPos)));
+                } else if (blockType != '_') {
+                    gp.blocks.add(new Block((Character.getNumericValue(blockType)), xPos, yPos));
                 } else {
                     freeSpaces.add(new Point(xPos, yPos));
                 }
@@ -105,4 +92,15 @@ public class MapGenerator implements Constants {
             yPos += 50;
         }
     }
+
+
+    public ArrayList<Point> getFreeSpaces() {
+        return freeSpaces;
+    }
+
+    public ArrayList<SpawnPoint> getSpawnPoints() {
+        return spawnPoints;
+    }
+
 }
+

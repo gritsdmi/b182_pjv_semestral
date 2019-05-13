@@ -2,6 +2,7 @@ package start.GameObjects;
 
 import start.GamePanel;
 import start.Logic.Constants;
+import start.Logic.SpawnPoint;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
@@ -71,12 +72,15 @@ public class Bullet implements Constants {
 
         if (autor == 0) {
 
-            for (Enemy enemy : GamePanel.enemies) {
-                if (enemy.isAlive()) {
-                    if (enemy.getxPosition() <= this.xPosition && (enemy.getxPosition() + enemy.getRadius()) >= this.xPosition) {
-                        if (enemy.getyPosition() <= this.yPosition && (enemy.getyPosition() + enemy.getRadius()) >= this.yPosition) {
-                            enemy.hit(this);
-                            return true;
+            for (SpawnPoint sp : GamePanel.getEnemySpawns()) {
+
+                for (Enemy enemy : sp.getEnemies()) {
+                    if (enemy.isAlive()) {
+                        if (enemy.getxPosition() <= this.xPosition && (enemy.getxPosition() + enemy.getRadius()) >= this.xPosition) {
+                            if (enemy.getyPosition() <= this.yPosition && (enemy.getyPosition() + enemy.getRadius()) >= this.yPosition) {
+                                enemy.hit(this);
+                                return true;
+                            }
                         }
                     }
                 }

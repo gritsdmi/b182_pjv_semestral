@@ -27,7 +27,7 @@ public class Block extends GameObject implements Constants {
         this.yPosition = y;
         this.isAlive = true;
         this.color = associateColor();
-        this.health = 50;
+        this.health = WALL_HEALTH;
     }
 
     private Color associateColor() {
