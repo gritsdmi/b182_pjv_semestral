@@ -65,7 +65,7 @@ public class Enemy implements Constants {
         mood = 0;
 
         try {
-            tankImg = ImageIO.read(new File("src/main/resources/Entity/myTank2.png"));
+            tankImg = ImageIO.read(new File("src/main/resources/Entity/GrayPixelTank.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
