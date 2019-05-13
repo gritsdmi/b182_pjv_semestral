@@ -29,7 +29,7 @@ public class SpawnPoint implements Constants {
         this.enemies = new ArrayList<>();
 //        actualEnemiesCount = enemies.size();
         this.nanotime = System.nanoTime();
-        System.out.println("Spawn created" + spawnPoint.toString());
+//        System.out.println("Spawn created" + spawnPoint.toString());
         isActive = true;
     }
 
@@ -37,7 +37,7 @@ public class SpawnPoint implements Constants {
         if (isActive) {
             if (computeSpawningDelay(ENEMY_SPAWN_DELAY) && enemies.size() < ENEMY_MAX_COUNT_ON_MAP) {
                 enemies.add(new Enemy(new Point(spawnPoint)));
-                System.out.println("new enemy spawned" + spawnPoint.toString());
+//                System.out.println("new enemy spawned" + spawnPoint.toString());
                 capacity--;
                 controlCapacity();
             }

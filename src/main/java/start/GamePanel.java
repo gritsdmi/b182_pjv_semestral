@@ -161,7 +161,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         playButton = new GameButton('p', this);
         String imagePath = "src/main/resources/Entity/myTank2.png";
         String imagePath2 = "src/main/resources/Entity/TankTower3.png";
-        String pathToPNG = "src/main/resources/Entity/Bullet_b (копия).png";
+        String pathToPNG = "src/main/resources/Entity/Bullet.png";
 
         try {
             TankPicture = ImageIO.read(new File(imagePath));
