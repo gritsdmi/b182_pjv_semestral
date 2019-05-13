@@ -3,6 +3,7 @@ package start;
 import java.io.*;
 import java.net.Socket;
 
+
 public class Client implements Runnable {
     private int id;
     private BufferedWriter out;
@@ -34,8 +35,9 @@ public class Client implements Runnable {
                 System.out.println("Вы что-то хотели сказать? Введите это здесь:");
                 int i = 0;
                 while (true) {
-                    out.write(i + "\n"); // отправляем сообщение на сервер
+                    out.write(GamePanel.player.getX() + "   " + GamePanel.player.getY() + "\n");
                     out.flush();
+                    String serverWord = in.readLine();
                     i++;
                 }
 //                String word = reader.readLine(); // ждём пока клиент что-нибудь

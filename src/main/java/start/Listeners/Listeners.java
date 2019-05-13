@@ -1,6 +1,6 @@
 package start.Listeners;
 
-import start.GameObjects.Player;
+import start.GamePanel;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,26 +12,24 @@ public class Listeners implements KeyListener {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_W) {
-            Player.up = true;
-            Player.direction = 1;
+
+            GamePanel.player.setDirection(1);
 
 
         }
         if (key == KeyEvent.VK_A) {
-            Player.left = true;
-            Player.direction = 4;
+
+            GamePanel.player.setDirection(4);
 
         }
 
         if (key == KeyEvent.VK_S) {
-            Player.down = true;
-            Player.direction = 3;
+            GamePanel.player.setDirection(3);
 
         }
 
         if (key == KeyEvent.VK_D) {
-            Player.right = true;
-            Player.direction = 2;
+            GamePanel.player.setDirection(2);
 
         }
         if (key == KeyEvent.VK_SPACE) {
@@ -45,22 +43,20 @@ public class Listeners implements KeyListener {
         int key = e.getKeyCode();
 
         if (key == KeyEvent.VK_W) {
-            Player.up = false;
-            Player.direction = 0;
+            GamePanel.player.setDirection(0);
         }
         if (key == KeyEvent.VK_A) {
-            Player.left = false;
-            Player.direction = 0;
+
+            GamePanel.player.setDirection(0);
         }
 
         if (key == KeyEvent.VK_S) {
-            Player.down = false;
-            Player.direction = 0;
+
+            GamePanel.player.setDirection(0);
         }
 
         if (key == KeyEvent.VK_D) {
-            Player.right = false;
-            Player.direction = 0;
+            GamePanel.player.setDirection(0);
         }
         if (key == KeyEvent.VK_SPACE) {
         }

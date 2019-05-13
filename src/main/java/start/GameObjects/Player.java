@@ -3,15 +3,36 @@ package start.GameObjects;
 import start.GamePanel;
 import start.Logic.Constants;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 
 public class Player implements Constants {
     //Fields
-    public static double x;
-    public static double y;
+    private double x;
+    private double y;
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
     private int speed = PLAYER_MOVING_SPEED;
     private double dx;
     private double dy;
@@ -28,51 +49,71 @@ public class Player implements Constants {
     private GamePanel gp;
 
     private boolean nextMove = true;
-    public static int direction;
-    public static boolean up;
-    public static boolean down;
-    public static boolean left;
-    public static boolean right;
-    public static int rotation;
-    public static boolean banTop = false;
-    public static boolean prevbanTop = false;
-    public static boolean banRight = false;
-    public static boolean prevbanRight = false;
-    public static boolean banDown = false;
-    public static boolean prevbanDown = false;
-    public static boolean banLeft = false;
-    public static boolean prevbanLeft = false;
-    public static boolean M1pressed = false;
-    public static Point dir;
+    private int direction;
+
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+
+    private int rotation;
+    private boolean banTop = false;
+    private boolean prevbanTop = false;
+    private boolean banRight = false;
+    private boolean prevbanRight = false;
+    private boolean banDown = false;
+    private boolean prevbanDown = false;
+    private boolean banLeft = false;
+    private boolean prevbanLeft = false;
+    private boolean M1pressed = false;
+
+    public boolean isM1pressed() {
+        return M1pressed;
+    }
+
+    public void setM1pressed(boolean m1pressed) {
+        M1pressed = m1pressed;
+    }
+
+    private Point dir;
+    private BufferedImage tankPicture;
+    private BufferedImage tankTowerPicture;
     private int health = PLAYER_HEALTH;
     private int healthBarLength;
     private int fireLevel;
     private boolean isFireUpBuffed;
 
+    public void setDir(Point dir) {
+        this.dir = dir;
+    }
+
+    //TUREL
+    //TUREL
+    //TUREL
+    //TUREL
+    //TUREL
+
+    private Point turelDirection = new Point(0, 0);
+
+    public void turelSetDirection(Point direction) {
+        turelDirection = direction;
+    }
+
     public int getHealth() {
         return health;
     }
 
-    public double getReload() {
-        return reload;
-    }
 
-    public void setShield(boolean shield) {
 
-        this.shield = shield;
-        shieldTime = System.nanoTime();
-    }
 
-    public boolean isShield() {
-        return shield;
-    }
+
 
     //Constructor
-    public Player(GamePanel gp) {
-//        x = PANEL_WIDTH / 1.5;
-//        y = PANEL_HEIGHT / 1.5;
-        x = 600;
-        y = 600;
+    public Player(GamePanel gp, int x, int y) {
+
+        this.x = x;
+        this.y = y;
         dx = 0;
         dx = 0;
         healthBarLength = 100;
@@ -81,13 +122,16 @@ public class Player implements Constants {
         fireLevel = 0;
         isFireUpBuffed = false;
 
-        up = false;
-        down = false;
-        right = false;
-        left = false;
+
     }
 
     //Methods
+
+    public void setShield(boolean shield) {
+
+        this.shield = shield;
+        shieldTime = System.nanoTime();
+    }
 
     public void fireRateChange() {
         if (!isFireUpBuffed) {
@@ -95,6 +139,17 @@ public class Player implements Constants {
             reload -= 200;
             isFireUpBuffed = true;
 
+        }
+
+    }
+
+    public void setTankPictures(String tankPic, String turelPIc) {
+        try {
+            tankPicture = ImageIO.read(new File(tankPic));
+            tankTowerPicture = ImageIO.read(new File(turelPIc));
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }
@@ -227,10 +282,10 @@ public class Player implements Constants {
             dx = 0;
             nextMove = true;
         }
-        if (M1pressed == true) {
+        if (M1pressed) {
 
             if (gp.delay(reload)) {
-                GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir, (byte) 0));
+                GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir, 0));
 
             }
 
@@ -251,7 +306,7 @@ public class Player implements Constants {
         AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
         g.setColor(Color.BLACK);
 // Drawing the rotated image at the required drawing locations
-        g.drawImage(op.filter(GamePanel.TankPicture, null), (int) x, (int) y, null);
+        g.drawImage(op.filter(tankPicture, null), (int) x, (int) y, null);
         g.drawString(score + "", PANEL_WIDTH + 10, 140);
         if (shield) {
             g.setColor(Color.LIGHT_GRAY);
@@ -266,6 +321,17 @@ public class Player implements Constants {
         g.setStroke(new BasicStroke(3));
         g.drawRect(825, 100, 100, 30);
         g.drawString("hp", 805, 110);
+
+
+        //TUREL
+
+
+        AffineTransform turelAt = AffineTransform.getRotateInstance(Math.toRadians(Math.toDegrees(
+                Math.atan2(turelDirection.y - (y + 25), turelDirection.x - (x + 25))) + 90), 25, 50);
+        AffineTransformOp turelOp = new AffineTransformOp(turelAt, AffineTransformOp.TYPE_BILINEAR);
+
+// Drawing the rotated image at the required drawing locations
+        g.drawImage(turelOp.filter(tankTowerPicture, null), (int) x, (int) y - 25, null);
 
     }
 

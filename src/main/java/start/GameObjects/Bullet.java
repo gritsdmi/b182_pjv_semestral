@@ -30,6 +30,7 @@ public class Bullet implements Constants {
 
     //Constructor
     public Bullet(double x, double y, Point direction, int autor) {
+
         this.xPosition = x;
         this.yPosition = y;
         this.dir = direction;

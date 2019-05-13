@@ -51,7 +51,7 @@ public class Drop implements Constants {
     }
 
     public void update() {
-        if (((player.x + 5 > x) && (player.x + 5 < x + 50) && (player.y + 5 > y) && (player.y + 5 < y + 50)) || ((player.x + 45 > x) && (player.x + 45 < x + 50) && (player.y + 45 > y) && (player.y + 45 < y + 50))) {
+        if (((player.getX() + 5 > x) && (player.getX() + 5 < x + 50) && (player.getY() + 5 > y) && (player.getY() + 5 < y + 50)) || ((player.getX() + 45 > x) && (player.getX() + 45 < x + 50) && (player.getY() + 45 > y) && (player.getY() + 45 < y + 50))) {
             switch (type) {
                 case 0:
                     player.hit(30);

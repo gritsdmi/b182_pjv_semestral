@@ -14,7 +14,7 @@ public class GameBackground implements Constants {
     public GameBackground() {
         width = PANEL_WIDTH;
         height = PANEL_HEIGHT;
-        color = Color.BLUE;
+        color = Color.WHITE;
     }
 
     public void update() {

@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     public static GameBackground background;
     public static MenuBackground menuBackground;
     public static Player player;
-    public static Turel turel;
+    public static Player player2;
     public static ArrayList<Bullet> bullets;
     public static ArrayList<Block> blocks;
     private ArrayList<Drop> drops;
@@ -134,30 +134,9 @@ public class GamePanel extends JPanel implements Runnable, Constants {
                 case 1:
 
                     GameUpdate();
+
                     paint(graphics);
-                    if (multiplayer) {
-                        printWriter.println(player.x + " " + player.y);
 
-//                        try {
-//                            scanner = new Scanner(inputSocket.getInputStream());
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-//                        try {
-//                            reader = new BufferedReader(new
-//                                    InputStreamReader(inputSocket.getInputStream()));
-//                            String nStr = reader.readLine();
-//                            System.out.println(nStr);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                        }
-////                        if(scanner.hasNextLine()){
-////                            System.out.println(scanner.nextLine());
-////                        }
-
-                        System.out.println(gameReader.string);
-
-                    }
                     break;
                 case 2:
 
@@ -195,25 +174,25 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         blocks = new ArrayList<Block>();
         buttons = new ArrayList<GameButton>();
         drops = new ArrayList<Drop>();
-        player = new Player(this);
+        player = new Player(this, 600, 600);
+        player2 = new Player(this, 250, 600);
         startButton = new GameButton('s', this);
         menuButton = new GameButton('m', this);
         continueButton = new GameButton('c', this);
         playButton = new GameButton('p', this);
-        String imagePath = "src/main/resources/Entity/myTank2.png";
-        String imagePath2 = "src/main/resources/Entity/TankTower3.png";
+
         String pathToPNG = "src/main/resources/Entity/Bullet.png";
 
+        player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
+        player2.setTankPictures("src/main/resources/Entity/RedPixelTank.png", "src/main/resources/Entity/RedPixelTankTower.png");
         try {
-            TankPicture = ImageIO.read(new File(imagePath));
-            TankTowerPicture = ImageIO.read(new File(imagePath2));
             BulletPicture = ImageIO.read(new File(pathToPNG));
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-
-        turel = new Turel(player.x, player.y);
 
         mp.buildMap(level);
         freeSpacesMap = mp.getFreeSpaces();
@@ -316,6 +295,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
         //Player update
         player.update();
+        player2.update();
 
         //Bullet update
         for (int i = 0; i < bullets.size(); i++) {
@@ -367,7 +347,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         }
 
         SpawnDrop();
-        turel.update();
+
         if (player.getHealth() <= 0) {
             ChangeStage(4);
         }
@@ -415,6 +395,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         menuBackground.draw(g2d);
         // Player draw
         player.draw(g2d);
+        player2.draw(g2d);
         //Bullet draw
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).draw(g2d);
@@ -443,7 +424,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
             }
         }
 
-        turel.draw(g2d);
+
         Graphics2D g2 = (Graphics2D) this.getGraphics();
         g2.drawImage(image, 0, 0, this);
 
