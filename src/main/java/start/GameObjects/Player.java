@@ -24,7 +24,7 @@ public class Player implements Constants {
 
     private double locationX;
     private double locationY;
-    private double reload = 250;
+    private double reload = 400;
     private GamePanel gp;
 
     private boolean nextMove = true;
@@ -92,7 +92,7 @@ public class Player implements Constants {
     public void fireRateChange() {
         if (!isFireUpBuffed) {
             fireUpTime = System.nanoTime();
-            reload -= 100;
+            reload -= 200;
             isFireUpBuffed = true;
 
         }
@@ -102,7 +102,7 @@ public class Player implements Constants {
     public void checkFireUp() {
         if ((System.nanoTime() - fireUpTime) / 1000000 > 7500) {
 
-            reload += 100;
+            reload += 200;
             isFireUpBuffed = false;
 
         }

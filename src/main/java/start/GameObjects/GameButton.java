@@ -69,6 +69,30 @@ public class GameButton implements Constants {
                 height = 100;
                 str = "Start new game";
                 break;
+            case 'i':
+                color = Color.GRAY;
+                x = PANEL_WIDTH / 2;
+                y = 600;
+                width = 150;
+                height = 70;
+                str = "poshli v internet";
+                break;
+            case 'q':
+                color = Color.GRAY;
+                x = PANEL_WIDTH / 2;
+                y = 600;
+                width = 150;
+                height = 70;
+                str = "Play as client";
+                break;
+            case 'f':
+                color = Color.GRAY;
+                x = PANEL_WIDTH / 2;
+                y = 100;
+                width = 150;
+                height = 70;
+                str = "Play as server";
+                break;
         }
     }
 
@@ -125,6 +149,22 @@ public class GameButton implements Constants {
                             break;
                     }
                     gp.ChangeStage(1);
+                    break;
+                case 'i':
+
+                    gp.ChangeStage(5);
+
+                    break;
+                case 'q':
+                    gp.StartClient();
+                    gp.ChangeStage(3);
+                    break;
+
+                case 'f':
+                    gp.StartServer();
+                    gp.ChangeStage(3);
+                    break;
+
             }
 
 

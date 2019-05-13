@@ -11,10 +11,14 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class GamePanel extends JPanel implements Runnable, Constants {
 
@@ -52,7 +56,17 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     private MapGenerator mp;
     private volatile boolean exit = false;
     private GameButton test;
+    private Socket socket;
+    private Socket inputSocket;
+    private boolean multiplayer;
+    private Scanner scanner;
+    private PrintWriter printWriter;
+    private BufferedReader reader;
+    private GameReader gameReader;
 
+    public void setMultiplayer(boolean multiplayer) {
+        this.multiplayer = multiplayer;
+    }
 
     // stage types:
     //0 - first-start stage
@@ -83,7 +97,10 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         addMouseMotionListener(new MouseListener());
         levels = new String[]{LEVEL_1, LEVEL_2};
         level = levels[0];
+        multiplayer = false;
         mp = new MapGenerator(this);
+
+
     }
 
 
@@ -96,7 +113,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
 
     public void run() {
-        generateGame(level);
+//        generateGame(level);
 
         ChangeStage(0);
 
@@ -115,9 +132,32 @@ public class GamePanel extends JPanel implements Runnable, Constants {
             timerFPS = System.nanoTime();
             switch (stage) {
                 case 1:
+
                     GameUpdate();
                     paint(graphics);
+                    if (multiplayer) {
+                        printWriter.println(player.x + " " + player.y);
 
+//                        try {
+//                            scanner = new Scanner(inputSocket.getInputStream());
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+//                        try {
+//                            reader = new BufferedReader(new
+//                                    InputStreamReader(inputSocket.getInputStream()));
+//                            String nStr = reader.readLine();
+//                            System.out.println(nStr);
+//                        } catch (IOException e) {
+//                            e.printStackTrace();
+//                        }
+////                        if(scanner.hasNextLine()){
+////                            System.out.println(scanner.nextLine());
+////                        }
+
+                        System.out.println(gameReader.string);
+
+                    }
                     break;
                 case 2:
 
@@ -143,6 +183,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
 
     public void generateGame(String map) {
+
         millisToFPS = 1000 / FPS;
 
         image = new BufferedImage(PANEL_WIDTH + 150, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
@@ -182,12 +223,14 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     public void ChangeStage(int newStage) {
         switch (newStage) {
             case 0:
+                generateGame(level);
+
                 stage = 2;
                 while (buttons.size() > 0) {
                     buttons.remove(0);
                 }
                 buttons.add(playButton);
-
+                buttons.add(new GameButton('i', this));
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
                 break;
 
@@ -231,10 +274,29 @@ public class GamePanel extends JPanel implements Runnable, Constants {
                 buttons.add(new GameButton('n', this));
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
                 break;
+            case 5:
+                while (buttons.size() > 0) {
+                    buttons.remove(0);
+                }
+                buttons.add(new GameButton('q', this));
+                buttons.add(new GameButton('f', this));
+                background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
+                break;
+
 
 
 
         }
+    }
+
+    public void StartServer() {
+        Server server = new Server();
+        server.start();
+    }
+
+    public void StartClient() {
+        Client client = new Client();
+        client.start();
     }
 
     public void setLevel(String lvl) {
