@@ -4,8 +4,14 @@ import start.GamePanel;
 import start.Logic.Constants;
 import start.Logic.SpawnPoint;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.image.AffineTransformOp;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -13,14 +19,9 @@ public class Enemy implements Constants {
     //Fields
     private int xPosition;
     private int yPosition;
-    private int dx;
-    private int dy;
     private int health = ENEMY_HEALTH;
-    private int r = 46;
-    private int speed = ENEMY_MOVING_SPEED;
     private boolean isAlive;
     private Color color;
-    private int fireDistance = ENEMY_FIRE_DISTANCE;
     private Point lastSeen;
     private int lastSeenSmer;
     private int smer;//1-up 2-right 3-left 4-down
@@ -29,6 +30,13 @@ public class Enemy implements Constants {
     private ArrayList<Eye> movingEyes;
     private int mood;//0 - normal; 1 - fury; 2 - go to the last seen point
     private int eyesOffset = 20;
+    private int wight = 46;
+    private int height = 46;
+
+    private BufferedImage tankImg;
+    private AffineTransform at;
+    private AffineTransformOp op;
+    private int rotation;
 
 
     public Enemy(Point startPosition) {
@@ -42,7 +50,7 @@ public class Enemy implements Constants {
         this.movingEyes = new ArrayList<>();
 
         this.actualPosition = startPosition;
-        this.actualPosition.setLocation(this.xPosition + r / 2, this.yPosition + r / 2);
+        this.actualPosition.setLocation(this.xPosition + 25, this.yPosition + 25);
 
         eyes.add(new Eye(this, this.actualPosition, "Up", 0));
         eyes.add(new Eye(this, this.actualPosition, "Right", 0));
@@ -55,14 +63,61 @@ public class Enemy implements Constants {
         movingEyes.add(new Eye(this, this.actualPosition, "MoveDown", 1));
 
         mood = 0;
+
+        try {
+            tankImg = ImageIO.read(new File("src/main/resources/Entity/myTank2.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //image fields
+        this.rotation = 0;
+        directionToRotation();
+        rotateTankImage();
     }
+
+    /**
+     * Method create new AffineTransform according to actual direction
+     *
+     * @see AffineTransform
+     * @see AffineTransformOp
+     */
+    private void rotateTankImage() {
+        at = AffineTransform.getRotateInstance(Math.toRadians(rotation), 25, 25);
+        op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+
+    }
+
+
+    /**
+     * Method compute direction to rotation according to actual direction
+     */
+    private void directionToRotation() {
+        switch (smer) {
+            case 1:
+                rotation = 0;
+                break;
+            case 2:
+                rotation = 90;
+                break;
+            case 3:
+                rotation = 270;
+                break;
+            case 4:
+                rotation = 180;
+                break;
+            default:
+                rotation = rotation;
+                break;
+        }
+    }
+
 
     //TODO may be override
     boolean roughlyEqual(Point pos1, Point pos2) {
         try {
 
             if (Math.abs(pos1.getX() - pos2.getX()) < 15 && Math.abs(pos1.getY() - pos2.getY()) < 15) {
-//                System.out.println("Equal");
                 mood = 1;
                 return true;
             }
@@ -76,11 +131,9 @@ public class Enemy implements Constants {
         if (isAlive) {
             if (mood == 1 && control50()) {//fury mode && control 50 == true
                 smer = 0;
-//                System.out.println("Fury && 50 in update. smer = 0" + "Pos " + this.getPosition());
                 boolean temp = false;
                 for (Eye eye : eyes) {
                     temp = temp || eye.isSeeHim();
-//                    System.out.println(eye.isSeeHim());
                 }
                 if (!temp) newRandomMovingDirection(); //
             } else if (mood == 2) {//go to last point
@@ -95,62 +148,46 @@ public class Enemy implements Constants {
 
             switch (smer) {
                 case 1: //up
-                    yPosition -= speed;
+                    yPosition -= ENEMY_MOVING_SPEED;
                     break;
                 case 2://right
-                    xPosition += speed;
+                    xPosition += ENEMY_MOVING_SPEED;
                     break;
                 case 3://left
-                    xPosition -= speed;
+                    xPosition -= ENEMY_MOVING_SPEED;
                     break;
                 case 4://down
-                    yPosition += speed;
+                    yPosition += ENEMY_MOVING_SPEED;
                     break;
                 case 0:
-                    yPosition = yPosition;
-                    xPosition = xPosition;
+                    break;
             }
 
             this.actualPosition.setLocation(this.xPosition + 25, this.yPosition + 25);
 
-            /**Starts of eyes*/
-//            Point upStart = new Point(0,0);
-//            Point rightStart = new Point(0,0);
-//            Point leftStart = new Point(0,0);
-//            Point downStart = new Point(0,0);
-
 
             /**ends of eyes*/
             //central up line
-//            upStart.setLocation(this.actualPosition.getX(),this.actualPosition.getY() - eyesOffset);
-            Point upEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - fireDistance);
+            Point upEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - ENEMY_FIRE_DISTANCE);
             Point movUp = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - ENEMY_MOVING_OFFSET);
 
             //right line
-//            rightStart.setLocation(this.actualPosition.getX()+eyesOffset,this.actualPosition.getY());
-            Point rightEnd = new Point((int) this.actualPosition.getX() + fireDistance, (int) this.actualPosition.getY());
+            Point rightEnd = new Point((int) this.actualPosition.getX() + ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
             Point movRight = new Point((int) this.actualPosition.getX() + ENEMY_MOVING_OFFSET, (int) this.actualPosition.getY());
 
 
             //left line
-//            leftStart.setLocation(this.actualPosition.getX()-eyesOffset,this.actualPosition.getY());
-            Point leftEnd = new Point((int) this.actualPosition.getX() - fireDistance, (int) this.actualPosition.getY());
+            Point leftEnd = new Point((int) this.actualPosition.getX() - ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
             Point movLeft = new Point((int) this.actualPosition.getX() - ENEMY_MOVING_OFFSET, (int) this.actualPosition.getY());
 
 
             //central down line
-//            downStart.setLocation(this.actualPosition.getX(),this.actualPosition.getY() + eyesOffset);
-            Point downEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + fireDistance);
+            Point downEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + ENEMY_FIRE_DISTANCE);
             Point movDown = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + ENEMY_MOVING_OFFSET);
 
 
             switch (smer) {
                 case 1: //up
-//                    upStart.setLocation(this.actualPosition.getX(), this.actualPosition.getY() - 20);
-//                    rightStart.setLocation(this.actualPosition.getX(), this.actualPosition.getY() - 20);
-//                    leftStart.setLocation(this.actualPosition.getX(), this.actualPosition.getY() - 20);
-//                    downStart.setLocation(this.actualPosition);
-
                     upEnd.setLocation(upEnd.getX(), upEnd.getY() - 20);
                     rightEnd.setLocation(rightEnd.getX(), rightEnd.getY() - 20);
                     leftEnd.setLocation(leftEnd.getX(), leftEnd.getY() - 20);
@@ -160,11 +197,6 @@ public class Enemy implements Constants {
                     movDown.setLocation(this.actualPosition);
                     break;
                 case 2: //right
-//                    upStart.setLocation(this.actualPosition.getX()+20, this.actualPosition.getY());
-//                    rightStart.setLocation(this.actualPosition.getX()+20, this.actualPosition.getY());
-//                    leftStart.setLocation(this.actualPosition);
-//                    downStart.setLocation(this.actualPosition.getX()+20,this.actualPosition.getY());
-
                     upEnd.setLocation(upEnd.getX() + 20, upEnd.getY());
                     rightEnd.setLocation(rightEnd.getX() + 20, rightEnd.getY());
                     downEnd.setLocation(downEnd.getX() + 20, downEnd.getY());
@@ -173,12 +205,6 @@ public class Enemy implements Constants {
                     movLeft.setLocation(this.actualPosition);
                     break;
                 case 3: //left
-
-//                    upStart.setLocation(this.actualPosition.getX()-20, this.actualPosition.getY());
-//                    rightStart.setLocation(this.actualPosition);
-//                    leftStart.setLocation(this.actualPosition.getX()-20, this.actualPosition.getY());
-//                    downStart.setLocation(this.actualPosition.getX()-20,this.actualPosition.getY());
-
                     upEnd.setLocation(upEnd.getX() - 20, upEnd.getY());
                     leftEnd.setLocation(leftEnd.getX() - 20, leftEnd.getY());
                     downEnd.setLocation(downEnd.getX() - 20, downEnd.getY());
@@ -188,11 +214,6 @@ public class Enemy implements Constants {
                     movRight.setLocation(this.actualPosition);
                     break;
                 case 4: //down
-//                    upStart.setLocation(this.actualPosition);
-//                    rightStart.setLocation(this.actualPosition.getX(), this.actualPosition.getY() + 20);
-//                    leftStart.setLocation(this.actualPosition.getX(), this.actualPosition.getY() + 20);
-//                    downStart.setLocation(this.actualPosition.getX(), this.actualPosition.getY() + 20);
-
                     rightEnd.setLocation(rightEnd.getX(), rightEnd.getY() + 20);
                     leftEnd.setLocation(leftEnd.getX(), leftEnd.getY() + 20);
                     downEnd.setLocation(downEnd.getX(), downEnd.getY() + 20);
@@ -202,12 +223,6 @@ public class Enemy implements Constants {
                     movUp.setLocation(this.actualPosition);
                     break;
             }
-
-//            ArrayList<Point> startPointsSearchingEyes = new ArrayList<>();
-//            startPointsSearchingEyes.add(upStart);
-//            startPointsSearchingEyes.add(rightStart);
-//            startPointsSearchingEyes.add(leftStart);
-//            startPointsSearchingEyes.add(downStart);
 
             ArrayList<Point> endPointsSearchingEyes = new ArrayList<>();
             endPointsSearchingEyes.add(upEnd);
@@ -234,6 +249,8 @@ public class Enemy implements Constants {
                     newRandomMovingDirection();
                 }
             }
+            directionToRotation();
+            rotateTankImage();
         }
 
 
@@ -252,7 +269,8 @@ public class Enemy implements Constants {
     public void draw(Graphics2D g) {
         if (isAlive) {
             g.setColor(color);
-            g.fillOval(this.xPosition + 3, this.yPosition + 3, r, r);
+//            g.fillOval(this.xPosition + 3, this.yPosition + 3, r, r);
+            g.drawImage(op.filter(tankImg, null), xPosition, yPosition,null);
 //            for (Eye eye : eyes) eye.draw(g);
 //            for (Eye eye : movingEyes) eye.draw(g);
         }
@@ -358,10 +376,6 @@ public class Enemy implements Constants {
         return isAlive;
     }
 
-    public int getRadius() {
-        return r;
-    }
-
     public int getxPosition() {
         return xPosition;
     }
@@ -414,7 +428,13 @@ public class Enemy implements Constants {
         return new Rectangle(xPosition, yPosition, 50, 50);
     }
 
+    public int getWight() {
+        return wight;
+    }
 
+    public int getHeight() {
+        return height;
+    }
 }
 
 class Eye implements Constants {

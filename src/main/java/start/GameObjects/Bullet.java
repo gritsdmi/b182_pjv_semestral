@@ -77,8 +77,8 @@ public class Bullet implements Constants {
 
                 for (Enemy enemy : sp.getEnemies()) {
                     if (enemy.isAlive()) {
-                        if (enemy.getxPosition() <= this.xPosition && (enemy.getxPosition() + enemy.getRadius()) >= this.xPosition) {
-                            if (enemy.getyPosition() <= this.yPosition && (enemy.getyPosition() + enemy.getRadius()) >= this.yPosition) {
+                        if (enemy.getxPosition() <= this.xPosition && (enemy.getxPosition() + enemy.getWight()) >= this.xPosition) {
+                            if (enemy.getyPosition() <= this.yPosition && (enemy.getyPosition() + enemy.getHeight()) >= this.yPosition) {
                                 enemy.hit(this);
                                 return true;
                             }
