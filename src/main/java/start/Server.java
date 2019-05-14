@@ -11,7 +11,7 @@ public class Server implements Runnable {
     private BufferedWriter out;
     private ServerSocket serverSocket;
     private GamePanel gp;
-    String myCoords;
+    Point myCoords;
 
     public Server(GamePanel gp) {
         this.gp = gp;
@@ -44,17 +44,17 @@ public class Server implements Runnable {
                         GamePanel.player2.setPosition(new Point(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])));
 
                         // не долго думая отвечает клиенту
+
                         oos.writeObject(GamePanel.blocks);
-//                        System.out.println(GamePanel.blocks.size());
                         oos.flush();
                         oos.reset();
+
                         oos.writeObject(GamePanel.bullets);
-//                        System.out.println(GamePanel.blocks.size());
                         oos.flush();
                         oos.reset();
-                        myCoords = GamePanel.player.getX() + " " + GamePanel.player.getY() + "\n";
+
+                        myCoords = new Point(GamePanel.player.getPosition());
                         oos.writeObject(myCoords);
-//                        System.out.println(GamePanel.blocks.size());
                         oos.flush();
                         oos.reset();
 

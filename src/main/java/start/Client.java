@@ -42,7 +42,7 @@ public class Client implements Runnable {
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 
-                String word;
+                Point coor = new Point(0, 0);
                 while (true) {
 
 
@@ -53,9 +53,9 @@ public class Client implements Runnable {
                     b = (ArrayList<Block>) ois.readObject();
                     GamePanel.blocks = b;
                     GamePanel.bullets = (ArrayList<Bullet>) ois.readObject();
-                    word = (String) ois.readObject();
-                    String[] coords = word.split(" ");
-                    GamePanel.player2.setPosition(new Point(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])));
+                    coor.setLocation((Point) ois.readObject());
+
+                    GamePanel.player2.setPosition(coor);
 
 
                 }
