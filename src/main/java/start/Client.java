@@ -35,23 +35,21 @@ public class Client implements Runnable {
                 //  у сервера доступ на соединение
                 reader = new BufferedReader(new InputStreamReader(System.in));
                 // читать соообщения с сервера
-                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+//                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 // писать туда же
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 
-                ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
+//                ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
 
                 while (true) {
 
 
                     out.write(GamePanel.player.getX() + " " + GamePanel.player.getY() + "\n");
-                    System.out.println(GamePanel.player.getX() + " " + GamePanel.player.getY() + "\n");
                     out.flush();
 
 
                     b = (ArrayList<Block>) ois.readObject();
-                    System.out.println(b);
                 }
 //                String word = reader.readLine(); // ждём пока клиент что-нибудь
                 // не напишет в консоль

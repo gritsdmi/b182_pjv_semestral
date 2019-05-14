@@ -3,8 +3,9 @@ package start.GameObjects;
 import start.Logic.Constants;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Block extends GameObject implements Constants {
+public class Block extends GameObject implements Constants, Serializable {
     //Fielsds
     private int xPosition;
     private int yPosition;
