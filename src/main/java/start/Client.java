@@ -1,10 +1,7 @@
 package start;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
-import java.nio.ByteBuffer;
 
 
 public class Client implements Runnable {
@@ -13,9 +10,7 @@ public class Client implements Runnable {
     private BufferedReader in;
     private BufferedReader reader;
     private Socket clientSocket;
-    private BufferedImage image;
-    private byte[] sizeAr;
-    private byte[] imageAr;
+
     private GamePanel gp;
 
     public Client(GamePanel gp) {
@@ -31,7 +26,8 @@ public class Client implements Runnable {
         try {
             try {
                 // адрес - локальный хост, порт - 4004, такой же как у сервера
-                clientSocket = new Socket("172.16.176.140", 8080); // этой строкой мы запрашиваем
+//                clientSocket = new Socket("172.16.176.140", 8080); // этой строкой мы запрашиваем
+                clientSocket = new Socket("172.68.214.176", 8080); // этой строкой мы запрашиваем
                 //  у сервера доступ на соединение
                 reader = new BufferedReader(new InputStreamReader(System.in));
                 // читать соообщения с сервера
@@ -39,24 +35,15 @@ public class Client implements Runnable {
                 // писать туда же
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
-                InputStream inputStream = clientSocket.getInputStream();
-                sizeAr = new byte[4];
 
                 while (true) {
 
 
                     out.write(GamePanel.player.getX() + " " + GamePanel.player.getY() + "\n");
                     out.flush();
-                    inputStream.read(sizeAr);
-                    int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
-
-                    imageAr = new byte[size];
-                    inputStream.read(imageAr);
-
-                    image = ImageIO.read(new ByteArrayInputStream(imageAr));
 
 
-//                    String serverWord = in.readLine();
+                    String serverWord = in.readLine();
 
                 }
 //                String word = reader.readLine(); // ждём пока клиент что-нибудь
