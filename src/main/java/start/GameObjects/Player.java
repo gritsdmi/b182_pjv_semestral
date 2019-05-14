@@ -14,23 +14,28 @@ import java.io.IOException;
 
 public class Player implements Constants {
     //Fields
-    private double x;
-    private double y;
+    private int x;
+    private int y;
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y = y;
     }
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
+    }
+
+    public void setPosition(Point newPosition) {
+        this.x = (int) newPosition.getX();
+        this.y = (int) newPosition.getY();
     }
 
     private int speed = PLAYER_MOVING_SPEED;

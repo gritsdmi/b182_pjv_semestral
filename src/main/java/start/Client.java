@@ -30,8 +30,8 @@ public class Client implements Runnable {
         try {
             try {
                 // адрес - локальный хост, порт - 4004, такой же как у сервера
-//                clientSocket = new Socket("172.16.176.140", 8080); // этой строкой мы запрашиваем
-                clientSocket = new Socket("172.68.214.176", 8080); // этой строкой мы запрашиваем
+                clientSocket = new Socket("172.16.176.140", 8080); // этой строкой мы запрашиваем
+//                clientSocket = new Socket("172.68.214.176", 8080); // этой строкой мы запрашиваем
                 //  у сервера доступ на соединение
                 reader = new BufferedReader(new InputStreamReader(System.in));
                 // читать соообщения с сервера

@@ -1,5 +1,6 @@
 package start;
 
+import java.awt.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -37,8 +38,9 @@ public class Server implements Runnable {
                         String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
 //                        System.out.println(word);
                         String[] coords = word.split(" ");
-                        GamePanel.player2.setX(Double.parseDouble(coords[0]));
-                        GamePanel.player2.setY(Double.parseDouble(coords[1]));
+//                        GamePanel.player2.setX(Double.parseDouble(coords[0]));
+//                        GamePanel.player2.setY(Double.parseDouble(coords[1]));
+                        GamePanel.player2.setPosition(new Point(Integer.parseInt(coords[0]), Integer.parseInt(coords[0])));
 
                         // не долго думая отвечает клиенту
 

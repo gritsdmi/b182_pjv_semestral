@@ -13,10 +13,11 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class GamePanel extends JPanel implements Runnable, Constants {
+public class GamePanel extends JPanel implements Runnable, Constants, Serializable {
 
 
     private Thread thread = new Thread(this);
@@ -459,4 +460,9 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     public static ArrayList<SpawnPoint> getEnemySpawns() {
         return enemySpawns;
     }
+
+    private void getByffImage() {
+
+    }
+
 }
