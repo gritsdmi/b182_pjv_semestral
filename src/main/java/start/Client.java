@@ -44,7 +44,7 @@ public class Client implements Runnable {
                 while (true) {
 
 
-                    out.write(GamePanel.player.getX() + " " + GamePanel.player.getY() + " " + GamePanel.player.isM1pressed() + "\n");
+                    out.write(GamePanel.player.getX() + " " + GamePanel.player.getY() + "\n");
                     out.flush();
                     inputStream.read(sizeAr);
                     int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();

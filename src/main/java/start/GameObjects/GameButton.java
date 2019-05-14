@@ -158,7 +158,8 @@ public class GameButton implements Constants {
                 case 'q':
                     gp.StartClient();
                     GamePanel.isClient = true;
-                    gp.ChangeStage(3);
+                    gp.setLevel(LEVEL_1);
+                    gp.ChangeStage(1);
                     break;
 
                 case 'f':
