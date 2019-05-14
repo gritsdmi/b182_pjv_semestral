@@ -289,7 +289,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     }
 
     public void StartClient() {
-        Client client = new Client();
+        Client client = new Client(this);
         client.start();
     }
 

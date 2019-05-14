@@ -16,9 +16,10 @@ public class Client implements Runnable {
     private BufferedImage image;
     private byte[] sizeAr;
     private byte[] imageAr;
+    private GamePanel gp;
 
-    public Client() {
-        id = 0;
+    public Client(GamePanel gp) {
+        this.gp = gp;
     }
 
     public void start() {

@@ -40,7 +40,7 @@ public class Server implements Runnable {
                     byte[] size;
                     while (true) {
                         String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
-                        System.out.println(word);
+//                        System.out.println(word);
                         String[] coords = word.split(" ");
                         GamePanel.player2.setX(Double.parseDouble(coords[0]));
                         GamePanel.player2.setY(Double.parseDouble(coords[1]));
