@@ -1,7 +1,10 @@
 package start;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 
 
 public class Client implements Runnable {
@@ -10,7 +13,9 @@ public class Client implements Runnable {
     private BufferedReader in;
     private BufferedReader reader;
     private Socket clientSocket;
-
+    private BufferedImage image;
+    private byte[] sizeAr;
+    private byte[] imageAr;
 
     public Client() {
         id = 0;
@@ -33,13 +38,25 @@ public class Client implements Runnable {
                 // писать туда же
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
+                InputStream inputStream = clientSocket.getInputStream();
+                sizeAr = new byte[4];
 
-                int i = 0;
                 while (true) {
+
+
                     out.write(GamePanel.player.getX() + " " + GamePanel.player.getY() + " " + GamePanel.player.isM1pressed() + "\n");
                     out.flush();
-                    String serverWord = in.readLine();
-                    i++;
+                    inputStream.read(sizeAr);
+                    int size = ByteBuffer.wrap(sizeAr).asIntBuffer().get();
+
+                    imageAr = new byte[size];
+                    inputStream.read(imageAr);
+
+                    image = ImageIO.read(new ByteArrayInputStream(imageAr));
+
+
+//                    String serverWord = in.readLine();
+
                 }
 //                String word = reader.readLine(); // ждём пока клиент что-нибудь
                 // не напишет в консоль

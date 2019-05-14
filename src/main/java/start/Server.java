@@ -1,17 +1,23 @@
 package start;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 
 public class Server implements Runnable {
     private int id;
     private BufferedReader in;
     private BufferedWriter out;
     private ServerSocket serverSocket;
+    private BufferedImage image;
+    private GamePanel gp;
+    private OutputStream outputStream;
 
-    public Server() {
-        id = 0;
+    public Server(GamePanel gp) {
+        this.gp = gp;
     }
 
     public void start() {
@@ -29,7 +35,9 @@ public class Server implements Runnable {
                     in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     // и отправлять
                     out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-
+                    outputStream = socket.getOutputStream();
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    byte[] size;
                     while (true) {
                         String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
                         String[] coords = word.split(" ");
@@ -37,8 +45,19 @@ public class Server implements Runnable {
                         GamePanel.player2.setY(Double.parseDouble(coords[1]));
 
                         // не долго думая отвечает клиенту
-                        out.write("Привет, это Сервер! Подтверждаю, вы написали : " + word + "\n");
-                        out.flush(); // выталкиваем все из буфера
+
+
+                        image = gp.getImage();
+
+
+                        ImageIO.write(image, "jpg", byteArrayOutputStream);
+
+                        size = ByteBuffer.allocate(4).putInt(byteArrayOutputStream.size()).array();
+                        outputStream.write(size);
+                        outputStream.write(byteArrayOutputStream.toByteArray());
+                        outputStream.flush();
+//                        out.write("Привет, это Сервер! Подтверждаю, вы написали : " + word + "\n");
+//                        out.flush(); // выталкиваем все из буфера
 
 
                     }

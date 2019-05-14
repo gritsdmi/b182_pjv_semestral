@@ -22,6 +22,11 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     private Thread thread = new Thread(this);
 
     private BufferedImage image;
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
     private Graphics2D graphics;
 
     public static GameBackground background;
@@ -279,7 +284,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     }
 
     public void StartServer() {
-        Server server = new Server();
+        Server server = new Server(this);
         server.start();
     }
 
