@@ -5,7 +5,6 @@ import start.Logic.Constants;
 import start.Logic.SpawnPoint;
 
 import java.awt.*;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 
@@ -21,8 +20,8 @@ public class Bullet implements Constants, Serializable {
     private double angle;
     private final double scale = 1.0;
 
-    private static BufferedImage imgBuff = GamePanel.BulletPicture;
-    private AffineTransformOp op;
+    //    private static BufferedImage imgBuff = GamePanel.BulletPicture;
+//    private AffineTransformOp op;
     private BufferedImage scaled;
     private boolean isAlive;
     private int damage;
@@ -42,7 +41,7 @@ public class Bullet implements Constants, Serializable {
         damage = 10;
 
         //creating and preparing image to next transformation, scaling if it needed
-        scaled = new BufferedImage(imgBuff.getWidth() * (int) (scale), imgBuff.getHeight() * (int) (scale), BufferedImage.TYPE_INT_ARGB);
+//        scaled = new BufferedImage(imgBuff.getWidth() * (int) (scale), imgBuff.getHeight() * (int) (scale), BufferedImage.TYPE_INT_ARGB);
 /*
         AffineTransform at = new AffineTransform();
         at.scale(scale, scale);
