@@ -30,7 +30,9 @@ public class Server implements Runnable {
                     in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                     // и отправлять
                     out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
+                    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
                     while (true) {
                         String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
 //                        System.out.println(word);
@@ -40,8 +42,8 @@ public class Server implements Runnable {
 
                         // не долго думая отвечает клиенту
 
-
-                        out.write("Привет, это Сервер! Подтверждаю, вы написали : " + word + "\n");
+                        oos.writeObject(GamePanel.blocks);
+//                        out.write("Привет, это Сервер! Подтверждаю, вы написали : " + word + "\n");
                         out.flush(); // выталкиваем все из буфера
 
 

@@ -1,7 +1,10 @@
 package start;
 
+import start.GameObjects.Block;
+
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 
 public class Client implements Runnable {
@@ -10,6 +13,7 @@ public class Client implements Runnable {
     private BufferedReader in;
     private BufferedReader reader;
     private Socket clientSocket;
+    public static ArrayList<Block> b;
 
     private GamePanel gp;
 
@@ -34,7 +38,9 @@ public class Client implements Runnable {
                 in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 // писать туда же
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
+                ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 
+                ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
 
                 while (true) {
 
@@ -43,8 +49,8 @@ public class Client implements Runnable {
                     out.flush();
 
 
-                    String serverWord = in.readLine();
-
+                    b = (ArrayList<Block>) ois.readObject();
+                    System.out.println(b);
                 }
 //                String word = reader.readLine(); // ждём пока клиент что-нибудь
                 // не напишет в консоль
@@ -58,7 +64,7 @@ public class Client implements Runnable {
                 in.close();
                 out.close();
             }
-        } catch (IOException e) {
+        } catch (IOException | ClassNotFoundException e) {
             System.err.println(e);
         }
     }
