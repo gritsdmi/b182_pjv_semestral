@@ -36,19 +36,22 @@ public class Server implements Runnable {
 //                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
                     ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+//                    oos.flush();
                     while (true) {
                         String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
                         String[] coords = word.split(" ");
-//                        GamePanel.player2.setX(Double.parseDouble(coords[0]));
-//                        GamePanel.player2.setY(Double.parseDouble(coords[1]));
                         GamePanel.player2.setPosition(new Point(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])));
 
                         // не долго думая отвечает клиенту
-
                         oos.writeObject(GamePanel.blocks);
+//                        System.out.println(GamePanel.blocks.size());
                         oos.flush();
-//                        out.write("Привет, это Сервер! Подтверждаю, вы написали : " + word + "\n");
-//                        out.flush(); // выталкиваем все из буфера
+                        oos.reset();
+                        oos.writeObject(GamePanel.bullets);
+//                        System.out.println(GamePanel.blocks.size());
+                        oos.flush();
+                        oos.reset();
+
 
 
                     }

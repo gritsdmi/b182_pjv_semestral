@@ -1,6 +1,7 @@
 package start;
 
 import start.GameObjects.Block;
+import start.GameObjects.Bullet;
 
 import java.io.*;
 import java.net.Socket;
@@ -50,6 +51,9 @@ public class Client implements Runnable {
 
 
                     b = (ArrayList<Block>) ois.readObject();
+                    GamePanel.blocks = b;
+                    GamePanel.bullets = (ArrayList<Bullet>) ois.readObject();
+
                 }
 //                String word = reader.readLine(); // ждём пока клиент что-нибудь
                 // не напишет в консоль

@@ -137,6 +137,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                         paint(graphics);
                     } else {
                         GameUpdate();
+//                        System.out.println(blocks.size());
 
                         paint(graphics);
                     }
@@ -428,10 +429,12 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         }
         //Blocks draw
+
+
         for (int i = 0; i < blocks.size(); i++) {
             blocks.get(i).draw(g2d);
-
         }
+
         //Buttons draw
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).draw(g2d);
