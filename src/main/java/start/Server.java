@@ -35,6 +35,7 @@ public class Server implements Runnable {
                         String[] coords = word.split(" ");
                         GamePanel.player2.setX(Double.parseDouble(coords[0]));
                         GamePanel.player2.setY(Double.parseDouble(coords[1]));
+
                         // не долго думая отвечает клиенту
                         out.write("Привет, это Сервер! Подтверждаю, вы написали : " + word + "\n");
                         out.flush(); // выталкиваем все из буфера

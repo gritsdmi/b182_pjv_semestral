@@ -282,19 +282,23 @@ public class Player implements Constants {
             dx = 0;
             nextMove = true;
         }
-        if (M1pressed) {
+        if (!GamePanel.isClient) {
+            if (M1pressed) {
 
-            if (gp.delay(reload)) {
-                GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir, 0));
+                if (gp.delay(reload)) {
+                    GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir, 0));
+
+                }
+
 
             }
-
-
+            if (isFireUpBuffed) {
+                checkFireUp();
+            }
         }
-        if (isFireUpBuffed) {
-            checkFireUp();
-        }
+
         healthBarLength = health;
+
 
     }
 

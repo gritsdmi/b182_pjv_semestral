@@ -11,20 +11,13 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class GamePanel extends JPanel implements Runnable, Constants {
 
-    public Thread getThread() {
-        return thread;
-    }
 
     private Thread thread = new Thread(this);
 
@@ -50,23 +43,18 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
 
     public static ArrayList<GameButton> buttons;
-    public static BufferedImage TankPicture;
-    public static BufferedImage TankTowerPicture;
     public static BufferedImage BulletPicture;
     private MapGenerator mp;
     private volatile boolean exit = false;
     private GameButton test;
-    private Socket socket;
-    private Socket inputSocket;
-    private boolean multiplayer;
-    private Scanner scanner;
-    private PrintWriter printWriter;
-    private BufferedReader reader;
-    private GameReader gameReader;
 
-    public void setMultiplayer(boolean multiplayer) {
-        this.multiplayer = multiplayer;
-    }
+    public static boolean isServer;
+    public static boolean isClient;
+
+
+    public static boolean menu;
+
+
 
     // stage types:
     //0 - first-start stage
@@ -97,9 +85,18 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         addMouseMotionListener(new MouseListener());
         levels = new String[]{LEVEL_1, LEVEL_2};
         level = levels[0];
-        multiplayer = false;
         mp = new MapGenerator(this);
+        menu = true;
+        buttons = new ArrayList<GameButton>();
+        background = new GameBackground();
 
+        startButton = new GameButton('s', this);
+        menuButton = new GameButton('m', this);
+        continueButton = new GameButton('c', this);
+        playButton = new GameButton('p', this);
+        image = new BufferedImage(PANEL_WIDTH + 150, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        graphics = (Graphics2D) image.getGraphics();
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
     }
 
@@ -113,8 +110,6 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
 
     public void run() {
-//        generateGame(level);
-
         ChangeStage(0);
 
         // WHILE TRUE
@@ -125,21 +120,28 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         // WHILE TRUE
         // WHILE TRUE
 
-
         while (true) {
 //            System.out.println(player.getHealth());
 
             timerFPS = System.nanoTime();
             switch (stage) {
                 case 1:
+                    if (isClient) {
+                        GameUpdateClient();
+                        paint(graphics);
+                    } else {
+                        GameUpdate();
 
-                    GameUpdate();
+                        paint(graphics);
+                    }
 
-                    paint(graphics);
 
                     break;
                 case 2:
 
+                    MenuPaint(graphics);
+                    break;
+                default:
                     MenuPaint(graphics);
                     break;
             }
@@ -174,8 +176,18 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         blocks = new ArrayList<Block>();
         buttons = new ArrayList<GameButton>();
         drops = new ArrayList<Drop>();
-        player = new Player(this, 600, 600);
-        player2 = new Player(this, 250, 600);
+        if (isClient) {
+            player2 = new Player(this, 600, 600);
+            player = new Player(this, 250, 600);
+            player2.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
+            player.setTankPictures("src/main/resources/Entity/RedPixelTank.png", "src/main/resources/Entity/RedPixelTankTower.png");
+        } else {
+            player = new Player(this, 600, 600);
+            player2 = new Player(this, 250, 600);
+            player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
+            player2.setTankPictures("src/main/resources/Entity/RedPixelTank.png", "src/main/resources/Entity/RedPixelTankTower.png");
+        }
+
         startButton = new GameButton('s', this);
         menuButton = new GameButton('m', this);
         continueButton = new GameButton('c', this);
@@ -183,8 +195,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
 
         String pathToPNG = "src/main/resources/Entity/Bullet.png";
 
-        player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
-        player2.setTankPictures("src/main/resources/Entity/RedPixelTank.png", "src/main/resources/Entity/RedPixelTankTower.png");
+
         try {
             BulletPicture = ImageIO.read(new File(pathToPNG));
 
@@ -202,8 +213,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     public void ChangeStage(int newStage) {
         switch (newStage) {
             case 0:
-                generateGame(level);
-
+                menu = true;
                 stage = 2;
                 while (buttons.size() > 0) {
                     buttons.remove(0);
@@ -281,11 +291,16 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     public void setLevel(String lvl) {
         level = lvl;
         generateGame(level);
+        menu = false;
 //        revalidate();
 
 
     }
 
+    public void GameUpdateClient() {
+        background.update();
+        player.update();
+    }
 
     public void GameUpdate() {
 
@@ -351,6 +366,10 @@ public class GamePanel extends JPanel implements Runnable, Constants {
         if (player.getHealth() <= 0) {
             ChangeStage(4);
         }
+        if (isServer) {
+
+        }
+
     }
 
     public boolean delay(double del) {
@@ -389,6 +408,7 @@ public class GamePanel extends JPanel implements Runnable, Constants {
     }
 
     public void paint(Graphics2D g) {
+
 
         Graphics2D g2d = g;
         background.draw(g2d);

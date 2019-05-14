@@ -157,11 +157,13 @@ public class GameButton implements Constants {
                     break;
                 case 'q':
                     gp.StartClient();
+                    GamePanel.isClient = true;
                     gp.ChangeStage(3);
                     break;
 
                 case 'f':
                     gp.StartServer();
+                    GamePanel.isServer = true;
                     gp.ChangeStage(3);
                     break;
 

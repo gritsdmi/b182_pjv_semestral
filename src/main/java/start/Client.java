@@ -11,6 +11,7 @@ public class Client implements Runnable {
     private BufferedReader reader;
     private Socket clientSocket;
 
+
     public Client() {
         id = 0;
     }
@@ -32,10 +33,10 @@ public class Client implements Runnable {
                 // писать туда же
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
 
-                System.out.println("Вы что-то хотели сказать? Введите это здесь:");
+
                 int i = 0;
                 while (true) {
-                    out.write(GamePanel.player.getX() + " " + GamePanel.player.getY() + "\n");
+                    out.write(GamePanel.player.getX() + " " + GamePanel.player.getY() + " " + GamePanel.player.isM1pressed() + "\n");
                     out.flush();
                     String serverWord = in.readLine();
                     i++;

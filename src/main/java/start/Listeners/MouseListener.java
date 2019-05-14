@@ -7,7 +7,7 @@ import java.awt.event.MouseMotionListener;
 
 public class MouseListener implements MouseMotionListener, java.awt.event.MouseListener {
 
-    private GamePanel gp;
+
 
 
     public void mouseDragged(MouseEvent e) {
@@ -18,13 +18,16 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
     }
 
     public void mouseMoved(MouseEvent e) {
-        if (!GamePanel.player.isM1pressed()) {
-            GamePanel.player.turelSetDirection(e.getPoint());
-            GamePanel.player.setDir(e.getPoint());
+        if (!GamePanel.menu) {
+            if (!GamePanel.player.isM1pressed()) {
+                GamePanel.player.turelSetDirection(e.getPoint());
+                GamePanel.player.setDir(e.getPoint());
+            }
+            for (int i = 0; i < GamePanel.buttons.size(); i++) {
+                GamePanel.buttons.get(i).checkMouse(e.getX(), e.getY());
+            }
         }
-        for (int i = 0; i < GamePanel.buttons.size(); i++) {
-            GamePanel.buttons.get(i).checkMouse(e.getX(), e.getY());
-        }
+
     }
 
     /**
@@ -33,14 +36,12 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
      * @param e the event to be processed
      */
     public void mousePressed(MouseEvent e) {
-        if ((e.getButton() == MouseEvent.BUTTON1) && (e.getX() <= 800)) {
-//            Player.M1pressed = true;
-            GamePanel.player.setM1pressed(true);
-
-
-
-
+        if (!GamePanel.menu) {
+            if ((e.getButton() == MouseEvent.BUTTON1) && (e.getX() <= 800)) {
+                GamePanel.player.setM1pressed(true);
+            }
         }
+
 
     }
 
@@ -51,8 +52,10 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
     }
 
     public void mouseReleased(MouseEvent e) {
-//        Player.M1pressed = false;
-        GamePanel.player.setM1pressed(false);
+        if (!GamePanel.menu) {
+            GamePanel.player.setM1pressed(false);
+        }
+
 
 
     }
