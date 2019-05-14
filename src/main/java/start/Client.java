@@ -3,6 +3,7 @@ package start;
 import start.GameObjects.Block;
 import start.GameObjects.Bullet;
 
+import java.awt.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -41,8 +42,7 @@ public class Client implements Runnable {
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
 
-//                ObjectOutputStream oos = new ObjectOutputStream(clientSocket.getOutputStream());
-
+                String word;
                 while (true) {
 
 
@@ -53,6 +53,10 @@ public class Client implements Runnable {
                     b = (ArrayList<Block>) ois.readObject();
                     GamePanel.blocks = b;
                     GamePanel.bullets = (ArrayList<Bullet>) ois.readObject();
+                    word = (String) ois.readObject();
+                    String[] coords = word.split(" ");
+                    GamePanel.player2.setPosition(new Point(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])));
+
 
                 }
 //                String word = reader.readLine(); // ждём пока клиент что-нибудь

@@ -11,6 +11,7 @@ public class Server implements Runnable {
     private BufferedWriter out;
     private ServerSocket serverSocket;
     private GamePanel gp;
+    String myCoords;
 
     public Server(GamePanel gp) {
         this.gp = gp;
@@ -48,6 +49,11 @@ public class Server implements Runnable {
                         oos.flush();
                         oos.reset();
                         oos.writeObject(GamePanel.bullets);
+//                        System.out.println(GamePanel.blocks.size());
+                        oos.flush();
+                        oos.reset();
+                        myCoords = GamePanel.player.getX() + " " + GamePanel.player.getY() + "\n";
+                        oos.writeObject(myCoords);
 //                        System.out.println(GamePanel.blocks.size());
                         oos.flush();
                         oos.reset();
