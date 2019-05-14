@@ -36,7 +36,7 @@ public class Server implements Runnable {
                     ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
                     while (true) {
                         String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
-//                        System.out.println(word);
+                        System.out.println(word);
                         String[] coords = word.split(" ");
 //                        GamePanel.player2.setX(Double.parseDouble(coords[0]));
 //                        GamePanel.player2.setY(Double.parseDouble(coords[1]));
@@ -45,8 +45,10 @@ public class Server implements Runnable {
                         // не долго думая отвечает клиенту
 
                         oos.writeObject(GamePanel.blocks);
+                        System.out.println(GamePanel.blocks);
+                        oos.flush();
 //                        out.write("Привет, это Сервер! Подтверждаю, вы написали : " + word + "\n");
-                        out.flush(); // выталкиваем все из буфера
+//                        out.flush(); // выталкиваем все из буфера
 
 
                     }

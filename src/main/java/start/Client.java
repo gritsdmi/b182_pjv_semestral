@@ -46,6 +46,7 @@ public class Client implements Runnable {
 
 
                     out.write(GamePanel.player.getX() + " " + GamePanel.player.getY() + "\n");
+                    System.out.println(GamePanel.player.getX() + " " + GamePanel.player.getY() + "\n");
                     out.flush();
 
 
