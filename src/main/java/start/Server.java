@@ -76,7 +76,9 @@ public class Server implements Runnable {
                         oos.flush();
                         oos.reset();
 
-
+                        if (GamePanel.player.getHealth() <= 0) {
+                            break;
+                        }
 
                     }
                 } finally { // в любом случае сокет будет закрыт
