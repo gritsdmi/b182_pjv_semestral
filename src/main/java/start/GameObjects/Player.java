@@ -320,7 +320,7 @@ public class Player implements Constants {
             }
         } else {
             if (gp.delay2(reload)) {
-                GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir, 0));
+                GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir, 2));
 
             }
         }

@@ -25,7 +25,7 @@ public class Bullet implements Constants, Serializable {
     private BufferedImage scaled;
     private boolean isAlive;
     private int damage;
-    private int autor;//0 = player; 1 = enemy
+    private int autor;//0 = player; 1 = enemy 2 = another player
 
     //Constructor
     public Bullet(double x, double y, Point direction, int autor) {
@@ -72,7 +72,7 @@ public class Bullet implements Constants, Serializable {
             }
         }
 
-        if (autor == 0) {
+        if (autor == 0) {//player autor
 
             for (SpawnPoint sp : GamePanel.getEnemySpawns()) {
 
@@ -87,11 +87,32 @@ public class Bullet implements Constants, Serializable {
                     }
                 }
             }
-        } else if (autor == 1) {
+        } else if (autor == 1) {//enemy autor
             if (GamePanel.player.getRectangle().getX() <= this.xPosition && (GamePanel.player.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
                 if (GamePanel.player.getRectangle().getY() <= this.yPosition && (GamePanel.player.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
                     GamePanel.player.hit(this.getDamage());
                     return true;
+                }
+            }
+        }
+
+        //if multiplayer mode on
+        if (GamePanel.isServer || GamePanel.isClient) {
+            if (GamePanel.isServer) {
+                if (autor == 2) {//eсли это пулька выпущена клиентом
+                    if (GamePanel.player.getRectangle().getX() <= this.xPosition && (GamePanel.player.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
+                        if (GamePanel.player.getRectangle().getY() <= this.yPosition && (GamePanel.player.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
+                            GamePanel.player.hit(this.getDamage());
+                            return true;
+                        }
+                    }
+                } else if (autor == 0) {//если эту пульку выпустил сервер
+                    if (GamePanel.player2.getRectangle().getX() <= this.xPosition && (GamePanel.player2.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
+                        if (GamePanel.player2.getRectangle().getY() <= this.yPosition && (GamePanel.player2.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
+                            GamePanel.player2.hit(this.getDamage());
+                            return true;
+                        }
+                    }
                 }
             }
         }
