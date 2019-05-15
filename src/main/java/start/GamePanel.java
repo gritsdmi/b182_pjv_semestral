@@ -104,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         image = new BufferedImage(PANEL_WIDTH + 150, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
         graphics = (Graphics2D) image.getGraphics();
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        enemySpawns = new ArrayList<>();
 
     }
 
