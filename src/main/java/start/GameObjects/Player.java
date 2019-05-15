@@ -329,6 +329,10 @@ public class Player implements Constants {
 
     }
 
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
     public void draw(Graphics2D g) {
 
         locationX = 25;

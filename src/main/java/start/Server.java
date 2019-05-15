@@ -15,6 +15,7 @@ public class Server implements Runnable {
     private BufferedWriter out;
     private ServerSocket serverSocket;
     private GamePanel gp;
+    private int hp;
     Point myCoords;
     ArrayList<Block> bl;
     ArrayList<Bullet> bu;
@@ -67,6 +68,11 @@ public class Server implements Runnable {
 
                         myCoords = new Point(GamePanel.player.getPosition());
                         oos.writeObject(myCoords);
+                        oos.flush();
+                        oos.reset();
+
+                        hp = GamePanel.player2.getHealth();
+                        oos.writeObject(hp);
                         oos.flush();
                         oos.reset();
 

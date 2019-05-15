@@ -15,6 +15,7 @@ public class Client implements Runnable {
     private BufferedReader in;
     private BufferedReader reader;
     private Socket clientSocket;
+    private int hp;
     public static ArrayList<Block> b;
 
     private GamePanel gp;
@@ -56,6 +57,8 @@ public class Client implements Runnable {
                     coor.setLocation((Point) ois.readObject());
 
                     GamePanel.player2.setPosition(coor);
+                    hp = (int) ois.readObject();
+                    GamePanel.player.setHealth(hp);
 
 
                 }
