@@ -96,7 +96,8 @@ public class Server implements Runnable {
 
             }
         } catch (IOException e) {
-            System.err.println("OSHIBKA");
+            gp.ChangeStage(0);
+//            System.err.println("OSHIBKA");
         }
     }
 }
