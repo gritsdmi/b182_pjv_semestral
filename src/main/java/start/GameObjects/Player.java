@@ -89,6 +89,10 @@ public class Player implements Constants {
     private int fireLevel;
     private boolean isFireUpBuffed;
 
+    public Point getDir() {
+        return dir;
+    }
+
     public void setDir(Point dir) {
         this.dir = dir;
     }
