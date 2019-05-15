@@ -107,11 +107,9 @@ public class Bullet implements Constants, Serializable {
                         }
                     }
                 } else if (autor == 0) {//если эту пульку выпустил сервер
-
                     if (GamePanel.player2.getRectangle().getX() <= this.xPosition && (GamePanel.player2.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
                         if (GamePanel.player2.getRectangle().getY() <= this.yPosition && (GamePanel.player2.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
                             GamePanel.player2.hit(this.getDamage());
-                            System.out.println("hit" + GamePanel.player2.getHealth());
                             return true;
                         }
                     }

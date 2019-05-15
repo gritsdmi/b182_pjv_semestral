@@ -30,6 +30,7 @@ public interface Constants {
 
     String LEVEL_1 = "src/main/resources/Maps/Level_1.txt";
     String LEVEL_2 = "src/main/resources/Maps/Level_2.txt";
+    String LEVEL_3 = "src/main/resources/Maps/Level_3.txt";
 
     int ENEMY_MOVING_SPEED = 2;
     int ENEMY_FIRE_DISTANCE = 300;
