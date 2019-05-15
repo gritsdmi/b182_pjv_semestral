@@ -68,7 +68,6 @@ public class Client implements Runnable {
             } finally { // в любом случае необходимо закрыть сокет и потоки
                 System.out.println("Клиент был закрыт...");
                 clientSocket.close();
-                in.close();
                 out.close();
             }
         } catch (IOException | ClassNotFoundException e) {

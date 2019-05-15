@@ -214,8 +214,10 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
 
         mp.buildMap(level);
+        if (!isServer) {
+            enemySpawns = mp.getSpawnPoints();
+        }
         freeSpacesMap = mp.getFreeSpaces();
-        enemySpawns = mp.getSpawnPoints();
     }
 
     public void ChangeStage(int newStage) {
