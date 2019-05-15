@@ -318,7 +318,9 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     public void GameUpdateClient() {
         background.update();
         player.update();
+        System.out.println(player.getHealth());
         if (player.getHealth() <= 0) {
+            System.out.println("dasdasd");
             ChangeStage(4);
         }
     }
