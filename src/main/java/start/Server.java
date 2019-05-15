@@ -1,9 +1,13 @@
 package start;
 
+import start.GameObjects.Block;
+import start.GameObjects.Bullet;
+
 import java.awt.*;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server implements Runnable {
     private int id;
@@ -12,6 +16,8 @@ public class Server implements Runnable {
     private ServerSocket serverSocket;
     private GamePanel gp;
     Point myCoords;
+    ArrayList<Block> bl;
+    ArrayList<Bullet> bu;
 
     public Server(GamePanel gp) {
         this.gp = gp;
@@ -49,12 +55,13 @@ public class Server implements Runnable {
                         }
 
                         // не долго думая отвечает клиенту
-
-                        oos.writeObject(GamePanel.blocks);
+                        bl = GamePanel.blocks;
+                        oos.writeObject(bl);
                         oos.flush();
                         oos.reset();
 
-                        oos.writeObject(GamePanel.bullets);
+                        bu = GamePanel.bullets
+                        oos.writeObject(bu);
                         oos.flush();
                         oos.reset();
 
