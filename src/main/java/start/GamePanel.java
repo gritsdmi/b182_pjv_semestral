@@ -185,17 +185,24 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         blocks = new ArrayList<Block>();
         buttons = new ArrayList<GameButton>();
         drops = new ArrayList<Drop>();
-        if (isClient) {
-            player2 = new Player(this, 600, 600);
-            player = new Player(this, 250, 600);
-            player2.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
-            player.setTankPictures("src/main/resources/Entity/RedPixelTank.png", "src/main/resources/Entity/RedPixelTankTower.png");
-        } else {
+        if (!isServer && !isClient) {
             player = new Player(this, 600, 600);
-            player2 = new Player(this, 250, 600);
             player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
-            player2.setTankPictures("src/main/resources/Entity/RedPixelTank.png", "src/main/resources/Entity/RedPixelTankTower.png");
+        } else {
+            if (isClient) {
+                player2 = new Player(this, 600, 600);
+                player = new Player(this, 250, 600);
+                player2.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
+                player.setTankPictures("src/main/resources/Entity/RedPixelTank.png", "src/main/resources/Entity/RedPixelTankTower.png");
+            } else {
+                player = new Player(this, 600, 600);
+                player2 = new Player(this, 250, 600);
+                player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
+                player2.setTankPictures("src/main/resources/Entity/RedPixelTank.png", "src/main/resources/Entity/RedPixelTankTower.png");
+            }
         }
+
+
 
         startButton = new GameButton('s', this);
         menuButton = new GameButton('m', this);
@@ -321,7 +328,10 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         //Player update
         player.update();
-        player2.update();
+        if (isServer || isClient) {
+            player2.update();
+        }
+
 
         //Bullet update
         for (int i = 0; i < bullets.size(); i++) {
@@ -435,7 +445,11 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         menuBackground.draw(g2d);
         // Player draw
         player.draw(g2d);
-        player2.draw(g2d);
+
+        if (isServer || isClient) {
+            player2.draw(g2d);
+        }
+
         //Bullet draw
         for (int i = 0; i < bullets.size(); i++) {
             bullets.get(i).draw(g2d);

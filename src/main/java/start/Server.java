@@ -43,9 +43,9 @@ public class Server implements Runnable {
                         String[] coords = word.split(" ");
                         GamePanel.player2.setPosition(new Point(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])));
                         GamePanel.player2.setDir(new Point(Integer.parseInt(coords[3]), Integer.parseInt(coords[4])));
+                        GamePanel.player2.turelSetDirection(new Point(Integer.parseInt(coords[3]), Integer.parseInt(coords[4])));
                         if (coords[2].equals("true")) {
                             GamePanel.player2.shoot(2);
-                            System.out.println("sadsdas");
                         }
 
                         // не долго думая отвечает клиенту
