@@ -34,8 +34,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     public static MenuBackground menuBackground;
     public static Player player;
     public static Player player2;
-    public static ArrayList<Bullet> bullets;
-    public static ArrayList<Block> blocks;
+    public static volatile ArrayList<Bullet> bullets;
+    public static volatile ArrayList<Block> blocks;
     private ArrayList<Drop> drops;
     private static ArrayList<SpawnPoint> enemySpawns;
     private GameButton menuButton;
