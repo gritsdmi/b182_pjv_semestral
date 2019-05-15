@@ -42,6 +42,7 @@ public class Server implements Runnable {
                         String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
                         String[] coords = word.split(" ");
                         GamePanel.player2.setPosition(new Point(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])));
+                        System.out.println(coords[2]);
 
                         // не долго думая отвечает клиенту
 

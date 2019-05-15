@@ -76,7 +76,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private long timerFPS;
     private double millisToFPS;
     private int sleepTime;
-    private double nanotime = System.nanoTime();
+    private double delayPlayerShot = System.nanoTime();
+    private double delayPlayerShot2 = System.nanoTime();
     private double dropDelayTime = System.nanoTime();
 
 
@@ -380,8 +381,17 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     }
 
     public boolean delay(double del) {
-        if ((System.nanoTime() - nanotime) / 1000000 > del) {
-            nanotime = System.nanoTime();
+        if ((System.nanoTime() - delayPlayerShot) / 1000000 > del) {
+            delayPlayerShot = System.nanoTime();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean delay2(double del) {
+        if ((System.nanoTime() - delayPlayerShot2) / 1000000 > del) {
+            delayPlayerShot2 = System.nanoTime();
             return true;
         } else {
             return false;

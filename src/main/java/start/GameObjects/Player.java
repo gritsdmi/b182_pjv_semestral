@@ -290,10 +290,7 @@ public class Player implements Constants {
         if (!GamePanel.isClient) {
             if (M1pressed) {
 
-                if (gp.delay(reload)) {
-                    GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir, 0));
-
-                }
+                shoot(1);
 
 
             }
@@ -304,6 +301,21 @@ public class Player implements Constants {
 
         healthBarLength = health;
 
+
+    }
+
+    public void shoot(int num) {
+        if (num == 1) {
+            if (gp.delay(reload)) {
+                GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir, 0));
+
+            }
+        } else {
+            if (gp.delay2(reload)) {
+                GamePanel.bullets.add(new Bullet(x + 25, y + 25, dir, 0));
+
+            }
+        }
 
     }
 
