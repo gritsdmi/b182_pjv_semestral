@@ -105,6 +105,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         graphics = (Graphics2D) image.getGraphics();
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         enemySpawns = new ArrayList<>();
+        drops = new ArrayList<>();
 
     }
 
@@ -386,7 +387,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             }
         }
 
-        SpawnDrop();
+        if (!isServer) SpawnDrop();
 
         if (player.getHealth() <= 0) {
             ChangeStage(4);
