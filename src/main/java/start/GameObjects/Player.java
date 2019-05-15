@@ -88,6 +88,7 @@ public class Player implements Constants {
     private int healthBarLength;
     private int fireLevel;
     private boolean isFireUpBuffed;
+    private int type;
 
     public Point getDir() {
         return dir;
@@ -123,10 +124,11 @@ public class Player implements Constants {
 
 
     //Constructor
-    public Player(GamePanel gp, int x, int y) {
+    public Player(GamePanel gp, int x, int y, int type) {
 
         this.x = x;
         this.y = y;
+        this.type = type;
         dx = 0;
         dx = 0;
         healthBarLength = 100;
@@ -343,13 +345,15 @@ public class Player implements Constants {
             checkShield();
         }
 
+        if (type == 1) {
+            g.setColor(Color.red);
+            g.fillRect(825, 100, healthBarLength, 30);
+            g.setColor(Color.BLACK);
+            g.setStroke(new BasicStroke(3));
+            g.drawRect(825, 100, 100, 30);
+            g.drawString("hp", 805, 110);
+        }
 
-        g.setColor(Color.red);
-        g.fillRect(825, 100, healthBarLength, 30);
-        g.setColor(Color.BLACK);
-        g.setStroke(new BasicStroke(3));
-        g.drawRect(825, 100, 100, 30);
-        g.drawString("hp", 805, 110);
 
 
         //TUREL

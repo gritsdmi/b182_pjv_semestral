@@ -60,7 +60,7 @@ public class Server implements Runnable {
                         oos.flush();
                         oos.reset();
 
-                        bu = GamePanel.bullets
+                        bu = GamePanel.bullets;
                         oos.writeObject(bu);
                         oos.flush();
                         oos.reset();

@@ -186,17 +186,17 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         buttons = new ArrayList<GameButton>();
         drops = new ArrayList<Drop>();
         if (!isServer && !isClient) {
-            player = new Player(this, 600, 600);
+            player = new Player(this, 600, 600, 1);
             player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
         } else {
             if (isClient) {
-                player2 = new Player(this, 600, 600);
-                player = new Player(this, 250, 600);
+                player2 = new Player(this, 600, 600, 2);
+                player = new Player(this, 250, 600, 1);
                 player2.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
                 player.setTankPictures("src/main/resources/Entity/RedPixelTank.png", "src/main/resources/Entity/RedPixelTankTower.png");
             } else {
-                player = new Player(this, 600, 600);
-                player2 = new Player(this, 250, 600);
+                player = new Player(this, 600, 600, 1);
+                player2 = new Player(this, 250, 600, 2);
                 player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
                 player2.setTankPictures("src/main/resources/Entity/RedPixelTank.png", "src/main/resources/Entity/RedPixelTankTower.png");
             }
