@@ -56,12 +56,13 @@ public class Server implements Runnable {
                         }
 
                         // не долго думая отвечает клиенту
-                        bl = GamePanel.blocks;
+                        bl = (ArrayList<Block>) GamePanel.blocks.clone();
                         oos.writeObject(bl);
                         oos.flush();
                         oos.reset();
 
-                        bu = GamePanel.bullets;
+
+                        bu = (ArrayList<Bullet>) GamePanel.bullets.clone();
                         oos.writeObject(bu);
                         oos.flush();
                         oos.reset();

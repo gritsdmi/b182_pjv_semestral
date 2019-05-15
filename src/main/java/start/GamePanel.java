@@ -90,7 +90,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         addKeyListener(new Listeners());
         addMouseListener(new MouseListener());
         addMouseMotionListener(new MouseListener());
-        levels = new String[]{LEVEL_1, LEVEL_2};
+        levels = new String[]{LEVEL_1, LEVEL_2, LEVEL_3};
         level = levels[0];
         mp = new MapGenerator(this);
         menu = true;

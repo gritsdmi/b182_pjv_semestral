@@ -147,6 +147,9 @@ public class GameButton implements Constants {
                         case 2:
                             gp.setLevel(LEVEL_2);
                             break;
+                        case 3:
+                            gp.setLevel(LEVEL_3);
+                            break;
                     }
                     gp.ChangeStage(1);
                     break;
