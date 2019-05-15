@@ -50,7 +50,7 @@ public class Player implements Constants {
 
     private double locationX;
     private double locationY;
-    private double reload = 100;
+    private double reload = 400;
     private GamePanel gp;
 
     private boolean nextMove = true;

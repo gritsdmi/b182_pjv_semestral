@@ -11,9 +11,11 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
 
 
     public void mouseDragged(MouseEvent e) {
+        if (!GamePanel.menu) {
+            GamePanel.player.setDir(e.getPoint());
+            GamePanel.player.turelSetDirection(e.getPoint());
 
-        GamePanel.player.setDir(e.getPoint());
-        GamePanel.player.turelSetDirection(e.getPoint());
+        }
 
     }
 
