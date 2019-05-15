@@ -46,7 +46,7 @@ public class Client implements Runnable {
                 while (true) {
 
 
-                    out.write(GamePanel.player.getX() + " " + GamePanel.player.getY() + " " + GamePanel.player.isM1pressed() + " " + GamePanel.player.getDir().x + " " + GamePanel.player.getDir().y + "\n");
+                    out.write(GamePanel.player.getX() + " " + GamePanel.player.getY() + " " + GamePanel.player.isM1pressed() + " " + GamePanel.player.getTurelDirection().x + " " + GamePanel.player.getTurelDirection().y + "\n");
                     out.flush();
 
 

@@ -105,6 +105,10 @@ public class Player implements Constants {
 
     private Point turelDirection = new Point(0, 0);
 
+    public Point getTurelDirection() {
+        return turelDirection;
+    }
+
     public void turelSetDirection(Point direction) {
         turelDirection = direction;
     }
