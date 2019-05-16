@@ -7,11 +7,9 @@ import start.Logic.Constants;
 import start.Logic.MapGenerator;
 import start.Logic.SpawnPoint;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.UnknownHostException;
@@ -37,6 +35,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     public static Player player2;
     public static volatile ArrayList<Bullet> bullets;
     public static volatile ArrayList<Block> blocks;
+    public static ArrayList<Block> busyBlocks;
     private ArrayList<Drop> drops;
     private static ArrayList<SpawnPoint> enemySpawns;
     private GameButton menuButton;
@@ -50,7 +49,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
 
     public static ArrayList<GameButton> buttons;
-    public static BufferedImage BulletPicture;
     private MapGenerator mp;
     private volatile boolean exit = false;
     private GameButton test;
@@ -111,6 +109,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         enemySpawns = new ArrayList<>();
         drops = new ArrayList<>();
+        busyBlocks = new ArrayList<>();
         isServer = false;
         isClient = false;
 
@@ -217,17 +216,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         continueButton = new GameButton('c', this);
         playButton = new GameButton('p', this);
 
-        String pathToPNG = "src/main/resources/Entity/Bullet.png";
-
-
-        try {
-            BulletPicture = ImageIO.read(new File(pathToPNG));
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
 
         mp.buildMap(level);
         if (!isServer) {
@@ -308,6 +296,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 buttons.add(new GameButton('x', this));
                 break;
             case 4:
+                System.out.println("DIED");
                 System.out.println("UMER");
                 stage = 2;
                 while (buttons.size() > 0) {
@@ -426,6 +415,10 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             }
         }
 
+        for (Block bB : busyBlocks) {
+//            bB.update();
+        }
+
         if (!isServer) SpawnDrop();
 
         if (player.getHealth() <= 0) {
@@ -526,6 +519,10 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             }
         }
 
+        for (Block bB : busyBlocks) {
+            bB.draw(g2d);
+        }
+
 
         Graphics2D g2 = (Graphics2D) this.getGraphics();
         g2.drawImage(image, 0, 0, this);
@@ -537,8 +534,13 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         return enemySpawns;
     }
 
-    private void getByffImage() {
-
+    public ArrayList<Drop> getDrops() {
+        return drops;
     }
 
+    public ArrayList<Player> getPlayerAsArrayList() {
+        ArrayList<Player> ret = new ArrayList<>();
+        ret.add(player);
+        return ret;
+    }
 }

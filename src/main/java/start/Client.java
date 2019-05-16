@@ -34,10 +34,17 @@ public class Client implements Runnable {
     @Override
     public void run() {
         try {
+//            fe80:0:0:0:f29f:fddd:6904:8557
+//            2001:718:7:9:343b:12d6:9870:114f
+//            2001:718:7:9:56bf:7358:4a6d:3ac0
             try {
                 // адрес - локальный хост, порт - 4004, такой же как у сервера
-                clientSocket = new Socket("10.4.11.56", 8080);
-                System.out.println("asdasd");
+//                clientSocket = new Socket("172.16.176.140", 8080); // этой строкой мы запрашиваем
+//                clientSocket = new Socket("147.32.31.197", 8080); // этой строкой мы запрашиваем
+//                clientSocket = new Socket("172.68.214.176", 8080); // этой строкой мы запрашиваем
+//                clientSocket = new Socket("10.1.5.223", 8080); // этой строкой мы запрашиваем
+                clientSocket = new Socket("2001:718:7:9:343b:12d6:9870:114f", 8080); // pasha server v NTK
+                //  у сервера доступ на соединение
                 reader = new BufferedReader(new InputStreamReader(System.in));
                 // читать соообщения с сервера
 //                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
