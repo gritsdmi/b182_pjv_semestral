@@ -117,7 +117,7 @@ public class Server implements Runnable {
                 serverSocket.close();
 
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.err.println("OSHIBKA");
 
             gp.ChangeStage(0);

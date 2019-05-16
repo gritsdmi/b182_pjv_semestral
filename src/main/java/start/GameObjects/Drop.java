@@ -1,8 +1,12 @@
 package start.GameObjects;
 
+import start.GamePanel;
 import start.Logic.Constants;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 public class Drop implements Constants {
     private int x;
@@ -12,6 +16,7 @@ public class Drop implements Constants {
     private boolean dead;
     private Color color;
     private double lifeTimer;
+    private BufferedImage image;
 
     public boolean isDead() {
         return dead;
@@ -24,22 +29,31 @@ public class Drop implements Constants {
         this.type = type;
         this.player = player;
         dead = false;
-        switch (type) {
-            case 0: {
-                color = Color.GRAY;
-                break;
-            }
-            case 1:
-                color = Color.YELLOW;
-                break;
-            case 2:
-                color = Color.PINK;
-                break;
-            case 3:
-                color = Color.CYAN;
-                break;
+        try {
+            switch (type) {
+                case 0: {
+                    image = ImageIO.read(new File("src/main/resources/Entity/BadBonus.png"));
 
+                    break;
+                }
+                case 1:
+                    image = ImageIO.read(new File("src/main/resources/Entity/ModeBonus.png"));
+                    break;
+                case 2:
+                    image = ImageIO.read(new File("src/main/resources/Entity/HealthRestoreBonus.png"));
+                    color = Color.PINK;
+                    break;
+                case 3:
+                    image = ImageIO.read(new File("src/main/resources/Entity/ShieldBonus.png"));
+
+                    break;
+
+            }
+        } catch (Exception e) {
         }
+
+
+
     }
 
     public boolean checkTimer() {
@@ -59,6 +73,7 @@ public class Drop implements Constants {
                     break;
                 case 1:
                     player.fireRateChange();
+                    GamePanel.background.startMode();
                     break;
                 case 2:
                     System.out.println("restore health");
@@ -76,7 +91,6 @@ public class Drop implements Constants {
     }
 
     public void draw(Graphics2D g) {
-        g.setColor(color);
-        g.fillRect(x + 7, y + 7, 36, 36);
+        g.drawImage(image, x, y, null);
     }
 }
