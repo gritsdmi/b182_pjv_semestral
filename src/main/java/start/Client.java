@@ -62,6 +62,7 @@ public class Client implements Runnable {
                     GamePanel.player2.setPosition(coor);
                     hp = (int) ois.readObject();
                     GamePanel.player.setHealth(hp);
+                    GamePanel.player2.turelSetDirection((Point) ois.readObject());
                     if (hp <= 0 || !GamePanel.isClient) {
                         GamePanel.isClient = false;
                         break;

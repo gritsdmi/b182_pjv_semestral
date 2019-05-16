@@ -16,6 +16,7 @@ public class Server implements Runnable {
     private ServerSocket serverSocket;
     private GamePanel gp;
     private int hp;
+    private Point angle;
     private Socket socket;
     Point myCoords;
     private ObjectOutputStream oos;
@@ -77,6 +78,11 @@ public class Server implements Runnable {
 
                         hp = GamePanel.player2.getHealth();
                         oos.writeObject(hp);
+                        oos.flush();
+                        oos.reset();
+
+                        angle = GamePanel.player.getTurelDirection();
+                        oos.writeObject(angle);
                         oos.flush();
                         oos.reset();
 
