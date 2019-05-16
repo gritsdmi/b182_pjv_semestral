@@ -50,11 +50,13 @@ public class Drop implements Constants {
 
             }
         } catch (Exception e) {
+
         }
 
 
 
     }
+
 
     public boolean checkTimer() {
         if (((System.nanoTime() - lifeTimer) / 1000000) > 10000) {

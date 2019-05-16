@@ -37,7 +37,7 @@ public class GameBackground implements Constants {
                 color = Color.RED;
                 i = 0;
             }
-            if ((System.nanoTime() - modeTime) / 1000000 > 4000) {
+            if ((System.nanoTime() - modeTime) / 1000000 > 6000) {
 
                 epilepticmode = false;
                 color = Color.WHITE;

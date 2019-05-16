@@ -79,7 +79,7 @@ public class MapGenerator implements Constants {
         for (char[] line : actualMap) {
             for (char blockType : line) {
                 if (blockType == 'x') {
-                    spawnPoints.add(new SpawnPoint(this, 10, new Point(xPos, yPos)));
+                    spawnPoints.add(new SpawnPoint(this, 1, new Point(xPos, yPos)));
                 } else if (blockType != '_') {
                     gp.blocks.add(new Block((Character.getNumericValue(blockType)), xPos, yPos));
                 } else {

@@ -32,6 +32,8 @@ public class Enemy implements Constants {
     private int eyesOffset = 20;
     private int wight = 46;
     private int height = 46;
+    private double helthBarLenght;
+    private double pomuckaProVypocetDelkyBaru;
 
     private BufferedImage tankImg;
     private AffineTransform at;
@@ -136,6 +138,9 @@ public class Enemy implements Constants {
 
     public void update() {
         if (isAlive) {
+            pomuckaProVypocetDelkyBaru = ENEMY_HEALTH;
+            helthBarLenght = 50 / (pomuckaProVypocetDelkyBaru / health);
+
             if (mood == 1 && control50()) {//fury mode && control 50 == true
                 smer = 0;
                 boolean temp = false;
@@ -314,6 +319,8 @@ public class Enemy implements Constants {
             g.drawImage(op.filter(tankImg, null), xPosition, yPosition,null);
 //            for (Eye eye : eyes) eye.draw(g);
 //            for (Eye eye : movingEyes) eye.draw(g);
+            g.setColor(Color.RED);
+            g.fillRect(xPosition, yPosition - 5, (int) helthBarLenght, 6);
         }
     }
 
@@ -520,6 +527,7 @@ class Eye implements Constants {
         if (controlPlayerCollider() && computeShootingDelay(ENEMY_SHOOTING_DELAY)) {
             GamePanel.bullets.add(new Bullet(position.getX(), position.getY(), GamePanel.player.getCenterPosition(), 1));
         }
+
     }
 
     //don't used

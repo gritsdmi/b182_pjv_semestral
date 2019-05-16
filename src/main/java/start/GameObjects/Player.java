@@ -152,6 +152,7 @@ public class Player implements Constants {
         if (!isFireUpBuffed) {
             fireUpTime = System.nanoTime();
             reload -= 200;
+            speed = speed * 2;
             isFireUpBuffed = true;
 
         }
@@ -173,6 +174,7 @@ public class Player implements Constants {
         if ((System.nanoTime() - fireUpTime) / 1000000 > 7500) {
 
             reload += 200;
+            speed = (int) speed / 2;
             isFireUpBuffed = false;
 
         }
@@ -344,7 +346,8 @@ public class Player implements Constants {
         g.drawImage(op.filter(tankPicture, null), (int) x, (int) y, null);
         g.drawString(score + "", PANEL_WIDTH + 10, 140);
         if (shield) {
-            g.setColor(Color.LIGHT_GRAY);
+            g.setColor(Color.CYAN);
+            g.setStroke(new BasicStroke(3));
             g.drawOval((int) x - 5, (int) y - 5, 60, 60);
             checkShield();
         }

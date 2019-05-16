@@ -43,7 +43,8 @@ public class Client implements Runnable {
 //                clientSocket = new Socket("147.32.31.197", 8080); // этой строкой мы запрашиваем
 //                clientSocket = new Socket("172.68.214.176", 8080); // этой строкой мы запрашиваем
 //                clientSocket = new Socket("10.1.5.223", 8080); // этой строкой мы запрашиваем
-                clientSocket = new Socket("2001:718:7:9:56bf:7358:4a6d:3ac0", 8080); // pasha server v NTK
+//                clientSocket = new Socket("2001:718:7:9:56bf:7358:4a6d:3ac0", 8080); // pasha server v NTK
+                clientSocket = new Socket("2001:718:7:204:15fe:49a5:204b:9ff1", 8080); // Dimaaaaaa server v NTK
                 //  у сервера доступ на соединение
                 reader = new BufferedReader(new InputStreamReader(System.in));
                 // читать соообщения с сервера
