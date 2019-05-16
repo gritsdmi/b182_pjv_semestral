@@ -88,6 +88,12 @@ public class Bullet implements Constants, Serializable {
                 }
             }
         } else if (autor == 1) {//enemy autor
+            if (GamePanel.base.getRectangle().getX() <= this.xPosition && (GamePanel.base.getRectangle().getX() + BASE_SIZE_WIDTH) >= this.xPosition) {
+                if (GamePanel.base.getRectangle().getY() <= this.yPosition && (GamePanel.base.getRectangle().getY() + BASE_SIZE_HEIGHT) >= this.yPosition) {
+                    GamePanel.base.hit(this.getDamage());
+                    return true;
+                }
+            }
             if (GamePanel.player.getRectangle().getX() <= this.xPosition && (GamePanel.player.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
                 if (GamePanel.player.getRectangle().getY() <= this.yPosition && (GamePanel.player.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
                     GamePanel.player.hit(this.getDamage());
@@ -141,6 +147,8 @@ public class Bullet implements Constants, Serializable {
 //            g.drawImage(op.filter(scaled, null),
 //                    (int) (xPosition - scaled.getWidth() / 2), (int) (yPosition - scaled.getHeight() / 2), null);\
             g.setColor(Color.BLACK);
+            g.setStroke(new BasicStroke(3));
+            g.fillOval((int) xPosition, (int) yPosition, 3, 3);
             g.drawOval((int) xPosition, (int) yPosition, 3, 3);
         }
 

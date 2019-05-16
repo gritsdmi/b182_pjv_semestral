@@ -53,9 +53,13 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private MapGenerator mp;
     private volatile boolean exit = false;
     private GameButton test;
+    private Server server;
+    private Client client;
 
     public static boolean isServer;
     public static boolean isClient;
+
+    public static Base base;
 
 
     public static boolean menu;
@@ -106,6 +110,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         enemySpawns = new ArrayList<>();
         drops = new ArrayList<>();
+        isServer = false;
+        isClient = false;
 
     }
 
@@ -131,7 +137,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         while (true) {
 //            System.out.println(player.getHealth());
-
             timerFPS = System.nanoTime();
             switch (stage) {
                 case 1:
@@ -189,6 +194,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         if (!isServer && !isClient) {
             player = new Player(this, 600, 600, 1);
             player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
+            base = new Base(new Point(400, 500));
         } else {
             if (isClient) {
                 player2 = new Player(this, 600, 600, 2);
@@ -242,6 +248,19 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 buttons.add(playButton);
                 buttons.add(new GameButton('i', this));
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
+                if (isServer) {
+                    try {
+                        server.end();
+                        isServer = false;
+                    } catch (IOException e) {
+
+                    }
+
+                }
+                isClient = false;
+                isServer = false;
+
+
                 break;
 
             case 1:
@@ -262,6 +281,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 buttons.add(startButton);
 
                 buttons.add(continueButton);
+                buttons.add(new GameButton('z', this));
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
                 break;
             case 3:
@@ -275,6 +295,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 for (int i = 0; i < newButtons.length; i++) {
                     buttons.add(newButtons[i]);
                 }
+                buttons.add(new GameButton('x', this));
                 break;
             case 4:
                 stage = 2;
@@ -300,12 +321,12 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     }
 
     public void StartServer() {
-        Server server = new Server(this);
+        server = new Server(this);
         server.start();
     }
 
     public void StartClient() {
-        Client client = new Client(this);
+        client = new Client(this);
         client.start();
     }
 
@@ -455,6 +476,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         if (isServer || isClient) {
             player2.draw(g2d);
+        } else {
+            base.draw(g2d);
         }
 
         //Bullet draw

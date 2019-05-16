@@ -9,6 +9,8 @@ public interface Constants {
 
     int PLAYER_SIZE_HEIGHT = 50;
     int PLAYER_SIZE_WIDTH = 50;
+    int BASE_SIZE_HEIGHT = 100;
+    int BASE_SIZE_WIDTH = 100;
     int PLAYER_SHOT_DELAY = 1;
     int PLAYER_AVOID_DISTANCE = 5;
     int PLAYER_HEALTH = 100;

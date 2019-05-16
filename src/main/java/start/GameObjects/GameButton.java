@@ -57,7 +57,7 @@ public class GameButton implements Constants {
                 break;
             case 'l':
                 color = Color.GRAY;
-                x = PANEL_WIDTH / 2;
+                x = PANEL_WIDTH / 2 + 150;
                 width = 150;
                 height = 70;
                 break;
@@ -92,6 +92,22 @@ public class GameButton implements Constants {
                 width = 150;
                 height = 70;
                 str = "Play as server";
+                break;
+            case 'z':
+                color = Color.GRAY;
+                x = PANEL_WIDTH / 2;
+                y = 400;
+                width = 150;
+                height = 70;
+                str = "Save game";
+                break;
+            case 'x':
+                color = Color.GRAY;
+                x = PANEL_WIDTH / 2 + 350;
+                y = 200;
+                width = 150;
+                height = 70;
+                str = "Load game";
                 break;
         }
     }
@@ -169,6 +185,12 @@ public class GameButton implements Constants {
                     gp.StartServer();
                     GamePanel.isServer = true;
                     gp.ChangeStage(3);
+                    break;
+                case 'z':
+
+                    break;
+                case 'x':
+
                     break;
 
             }

@@ -16,15 +16,18 @@ public class Client implements Runnable {
     private BufferedReader reader;
     private Socket clientSocket;
     private int hp;
+    private ObjectInputStream ois;
     public static ArrayList<Block> b;
 
     private GamePanel gp;
 
     public Client(GamePanel gp) {
+
         this.gp = gp;
     }
 
     public void start() {
+        System.out.println("client start");
         new Thread(this).start();
     }
 
@@ -41,7 +44,7 @@ public class Client implements Runnable {
 //                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 // писать туда же
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
-                ObjectInputStream ois = new ObjectInputStream(clientSocket.getInputStream());
+                ois = new ObjectInputStream(clientSocket.getInputStream());
 
                 Point coor = new Point(0, 0);
                 while (true) {
@@ -59,7 +62,8 @@ public class Client implements Runnable {
                     GamePanel.player2.setPosition(coor);
                     hp = (int) ois.readObject();
                     GamePanel.player.setHealth(hp);
-                    if (hp <= 0) {
+                    if (hp <= 0 || !GamePanel.isClient) {
+                        GamePanel.isClient = false;
                         break;
                     }
 
@@ -75,6 +79,7 @@ public class Client implements Runnable {
                 System.out.println("Клиент был закрыт...");
                 clientSocket.close();
                 out.close();
+                ois.close();
             }
         } catch (IOException | ClassNotFoundException e) {
             System.err.println(e);

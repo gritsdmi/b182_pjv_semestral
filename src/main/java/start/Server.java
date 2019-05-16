@@ -16,7 +16,9 @@ public class Server implements Runnable {
     private ServerSocket serverSocket;
     private GamePanel gp;
     private int hp;
+    private Socket socket;
     Point myCoords;
+    private ObjectOutputStream oos;
     ArrayList<Block> bl;
     ArrayList<Bullet> bu;
 
@@ -25,6 +27,7 @@ public class Server implements Runnable {
     }
 
     public void start() {
+        System.out.println("server start");
         new Thread(this).start();
     }
 
@@ -34,7 +37,7 @@ public class Server implements Runnable {
             try {
                 serverSocket = new ServerSocket(8080);
 
-                Socket socket = serverSocket.accept();
+                socket = serverSocket.accept();
                 System.out.println("prinal");
                 try {
 
@@ -43,7 +46,7 @@ public class Server implements Runnable {
 //                    out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
 //                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
-                    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                    oos = new ObjectOutputStream(socket.getOutputStream());
 //                    oos.flush();
                     while (true) {
                         String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
@@ -77,7 +80,8 @@ public class Server implements Runnable {
                         oos.flush();
                         oos.reset();
 
-                        if (GamePanel.player.getHealth() <= 0) {
+                        if (GamePanel.player.getHealth() <= 0 || !GamePanel.isServer) {
+                            System.out.println("break server");
                             break;
                         }
 
@@ -87,6 +91,8 @@ public class Server implements Runnable {
                     socket.close();
                     // потоки тоже хорошо бы закрыть
                     in.close();
+                    oos.close();
+
 //                    out.close();
                 }
 
@@ -100,5 +106,10 @@ public class Server implements Runnable {
             gp.ChangeStage(0);
 //            System.err.println("OSHIBKA");
         }
+    }
+
+    public void end() throws IOException {
+//
+        serverSocket.close();
     }
 }
