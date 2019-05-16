@@ -5,7 +5,7 @@ import start.Logic.Constants;
 import java.awt.*;
 import java.io.Serializable;
 
-public class Block extends GameObject implements Constants, Serializable {
+public class Block implements Constants, Serializable {
     //Fielsds
     private int xPosition;
     private int yPosition;
@@ -15,6 +15,7 @@ public class Block extends GameObject implements Constants, Serializable {
     private int health;
     private boolean isAlive;
     private int type = -1;
+    private int autor = -1;
 
     private Player player;
 
@@ -32,6 +33,18 @@ public class Block extends GameObject implements Constants, Serializable {
         this.health = WALL_HEALTH;
     }
 
+    //testing new blocks for enemy's moving
+    public Block(int type, int x, int y, int autor) {
+        this.type = type;
+        this.xPosition = x;
+        this.yPosition = y;
+        this.isAlive = true;
+        this.color = associateColor();
+        this.health = WALL_HEALTH;
+        this.autor = autor;
+
+    }
+
     private Color associateColor() {
         Color c;
         switch (this.type) {
@@ -45,7 +58,7 @@ public class Block extends GameObject implements Constants, Serializable {
                 c = Color.GREEN;
                 break;
             default:
-                c = new Color(1f, 0f, 0f, .5f);
+                c = new Color(0f, 0f, 0f, .5f);
                 break;
         }
 
@@ -65,7 +78,10 @@ public class Block extends GameObject implements Constants, Serializable {
     }
 
     /**
-     * в зависимости от типа пули будет отнимать разной количество hр
+     * Depend on type, bullet does different damage.
+     *
+     * @param bul Bullet that intersects with this block
+     * @see Bullet
      */
     public void hit(Bullet bul) {
         if (type != WALL_TYPE_BORDER && type != WALL_TYPE_INVIS) {
@@ -76,7 +92,8 @@ public class Block extends GameObject implements Constants, Serializable {
     }
 
     public void draw(Graphics2D g) {
-        if (isAlive && type != WALL_TYPE_INVIS) {
+//        if (isAlive && (type != WALL_TYPE_INVIS) ){
+        if (isAlive && (type != WALL_TYPE_INVIS || autor == -1)) {
             g.setColor(color);
             g.fillRect(xPosition, yPosition, width, height);
 
@@ -85,6 +102,14 @@ public class Block extends GameObject implements Constants, Serializable {
             g.drawRect(this.xPosition, this.yPosition, this.width, this.height);
             g.setStroke(new BasicStroke(1));
 
+        }
+
+        //testing new blocks for enemy's moving
+        if (autor != -1) {
+            g.setStroke(new BasicStroke(3));
+            g.setColor(Color.black);
+            g.drawRect(xPosition, yPosition, width, height);
+            g.setStroke(new BasicStroke(1));
         }
     }
 
@@ -95,6 +120,7 @@ public class Block extends GameObject implements Constants, Serializable {
     public int getyPosition() {
         return yPosition;
     }
+
     public int getWidth() {
         return width;
     }
@@ -106,15 +132,33 @@ public class Block extends GameObject implements Constants, Serializable {
     public int getType() {
         return type;
     }
+
     public boolean isAlive() {
         return isAlive;
     }
 
     public Rectangle getRectangle() {
-        return new Rectangle(this.xPosition, this.yPosition, width, height);
+        return new Rectangle(xPosition, yPosition, width, height);
     }
 
     public Point getCenterPosition() {
-        return new Point((int) xPosition + 25, (int) yPosition + 25);
+        return new Point(xPosition + 25, yPosition + 25);
+    }
+
+    public void setxPosition(int xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    public void setyPosition(int yPosition) {
+        this.yPosition = yPosition;
+    }
+
+    public int getAutor() {
+        return autor;
+    }
+
+    public void setPosition(Point position) {
+        this.xPosition = (int) position.getX();
+        this.yPosition = (int) position.getY();
     }
 }

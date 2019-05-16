@@ -37,6 +37,9 @@ public class Enemy implements Constants {
     private AffineTransform at;
     private AffineTransformOp op;
     private int rotation;
+    private static int uniqId = 0;
+    private int id;
+    private Block tempBlock;
 
 
     public Enemy(Point startPosition) {
@@ -72,8 +75,11 @@ public class Enemy implements Constants {
 
         //image fields
         this.rotation = 0;
-        directionToRotation();
-        rotateTankImage();
+        rotateTankImage(smer);
+        this.id = uniqId++;
+        tempBlock = new Block(3, xPosition, yPosition, id);
+//        GamePanel.busyBlocks.add(tempBlock);
+        GamePanel.blocks.add(tempBlock);
     }
 
     /**
@@ -82,7 +88,8 @@ public class Enemy implements Constants {
      * @see AffineTransform
      * @see AffineTransformOp
      */
-    private void rotateTankImage() {
+    protected void rotateTankImage(int ssmer) {
+        directionToRotation(ssmer);
         at = AffineTransform.getRotateInstance(Math.toRadians(rotation), 25, 25);
         op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
 
@@ -92,8 +99,8 @@ public class Enemy implements Constants {
     /**
      * Method compute direction to rotation according to actual direction
      */
-    private void directionToRotation() {
-        switch (smer) {
+    private void directionToRotation(int ssmer) {
+        switch (ssmer) {
             case 1:
                 rotation = 0;
                 break;
@@ -122,7 +129,7 @@ public class Enemy implements Constants {
                 return true;
             }
         } catch (NullPointerException e) {
-//            System.err.println("Null pointer equal");
+            System.err.println("Null pointer equal");
         }
         return false;
     }
@@ -137,12 +144,17 @@ public class Enemy implements Constants {
                 }
                 if (!temp) newRandomMovingDirection(); //
             } else if (mood == 2) {//go to last point
-                if (control50()) smer = lastSeenSmer;/////////////////////////////////
+                boolean temp = false;
+                for (Eye eye : eyes) {
+                    temp = temp || eye.isSeeAnother();
+                }
+                if (temp) {
+                    mood = 0;
+                } else if (control50()) smer = lastSeenSmer;/////////////////////////////////
                 //если позиции примерно равно roughly equal
                 if (roughlyEqual(getPosition(), lastSeen)) {
                     align();
-                    if (control50())
-                        mood = 0;
+                    if (control50()) mood = 0;
                 }
             }
 
@@ -245,17 +257,46 @@ public class Enemy implements Constants {
             align();
 
             if (control50()) {//every 50th pixel
+                int newdir = 0;
                 if (mood == 0) {// normal mode
-                    newRandomMovingDirection();
-                }
+                    newdir = newRandomMovingDirection();
+                    //next point of moving add to busyArray
+                    addBusyBlock(newdir);
+                } else
+                    addBusyBlock(smer);
             }
-            directionToRotation();
-            rotateTankImage();
+            rotateTankImage(smer);
         }
 
 
     }
 
+    private void addBusyBlock(int newDir) {
+
+        switch (newDir) {
+            case 1: //up
+                tempBlock.setxPosition(xPosition);
+                tempBlock.setyPosition(yPosition - 50);
+                break;
+            case 2://right
+                tempBlock.setxPosition(xPosition + 50);
+                tempBlock.setyPosition(yPosition);
+                break;
+            case 3://left
+                tempBlock.setxPosition(xPosition - 50);
+                tempBlock.setyPosition(yPosition);
+                break;
+            case 4://down
+                tempBlock.setxPosition(xPosition);
+                tempBlock.setyPosition(yPosition + 50);
+                break;
+            case 0:
+                tempBlock.setPosition(this.getPosition());
+        }
+//        GamePanel.busyBlocks.add(tempBlock);
+    }
+
+    //don't use
     /**
      * Function compute player's position according to 50
      *
@@ -277,7 +318,7 @@ public class Enemy implements Constants {
     }
 
     /**
-     * Depend on Bullet's type entity get different damage.
+     * Depend on Bullet's type enemy get different damage.
      *
      * @param bul is bullet, which do damage.
      * @see Bullet
@@ -294,6 +335,8 @@ public class Enemy implements Constants {
     private void controlHP() {
         if (health < 1) {
             this.isAlive = false;
+            this.tempBlock.setyPosition(0);
+            this.tempBlock.setxPosition(0);
         }
     }
 
@@ -435,6 +478,10 @@ public class Enemy implements Constants {
     public int getHeight() {
         return height;
     }
+
+    public int getId() {
+        return id;
+    }
 }
 
 class Eye implements Constants {
@@ -442,7 +489,7 @@ class Eye implements Constants {
     private Enemy enemy;
     private boolean see; // use for blocks
     private boolean seeHim; //use for player
-    private boolean seeAnother;
+    private boolean seeAnother; // use for enemies
     private Point position; //start position
     private Point endPosition; //end position
     private String name;
@@ -533,7 +580,7 @@ class Eye implements Constants {
 
         //loop controls if enemy see blocks
         for (Block block : GamePanel.blocks) {
-            if (eye.intersects(block.getRectangle())) {
+            if ((eye.intersects(block.getRectangle()) && block.getAutor() != enemy.getId())) {
                 if (type == 0) {
                     if (name.equals("Up") | name.equals("Down")) {
                         eye.setLine(this.position.getX(), this.position.getY(), endPosition.getX(), block.getCenterPosition().getY());
@@ -544,6 +591,13 @@ class Eye implements Constants {
                     setSee(true);
                     return false;
                 }
+            }
+        }
+
+        if (type == 1) {
+            if (eye.intersects(GamePanel.player.getRectangle())) {
+                setSee(true);
+                return true;
             }
         }
 
@@ -560,6 +614,7 @@ class Eye implements Constants {
                         seeAnother = true;
                     } else if (type == 1) {//moving
                         setSee(true);
+                        seeAnother = true;
                         return false;
                     }
                 } else {
@@ -573,6 +628,7 @@ class Eye implements Constants {
         if (type == 0) {// player seeing eyes
             if (this.eye.intersects(GamePanel.player.getSmallRectangle())) {//игрока видно
                 enemy.setMood(1);//set fury mode
+                enemy.rotateTankImage(nameToSmer());
                 if (!GamePanel.player.isMoving()) {
                     enemy.setLastSeenPoint(GamePanel.player.getPosition());//set point where enemy seen player(zarovnany na 50pixel)
                     enemy.setLastSeenSmer(this.nameToSmer());
@@ -603,7 +659,7 @@ class Eye implements Constants {
     void draw(Graphics2D g) {
         if (type == 0) {
             if (isSeeHim()) g.setColor(Color.RED);
-            else g.setColor(Color.WHITE);
+            else g.setColor(Color.blue);
             g.draw(this.eye);
         }
 
@@ -660,5 +716,9 @@ class Eye implements Constants {
 
     public void setSeeHim(boolean seeHim) {
         this.seeHim = seeHim;
+    }
+
+    public boolean isSeeAnother() {
+        return seeAnother;
     }
 }
