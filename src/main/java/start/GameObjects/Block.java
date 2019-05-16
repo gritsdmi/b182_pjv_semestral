@@ -15,6 +15,7 @@ public class Block extends GameObject implements Constants, Serializable {
     private int health;
     private boolean isAlive;
     private int type = -1;
+
     private Player player;
 
 
@@ -67,7 +68,7 @@ public class Block extends GameObject implements Constants, Serializable {
      * в зависимости от типа пули будет отнимать разной количество hр
      */
     public void hit(Bullet bul) {
-        if (type != WALL_TYPE_BORDER) {
+        if (type != WALL_TYPE_BORDER && type != WALL_TYPE_INVIS) {
             this.health -= bul.getDamage();
             color = color.darker();
         }
@@ -75,7 +76,7 @@ public class Block extends GameObject implements Constants, Serializable {
     }
 
     public void draw(Graphics2D g) {
-        if (isAlive) {
+        if (isAlive && type != WALL_TYPE_INVIS) {
             g.setColor(color);
             g.fillRect(xPosition, yPosition, width, height);
 

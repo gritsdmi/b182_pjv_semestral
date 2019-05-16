@@ -26,6 +26,7 @@ public interface Constants {
     int WALL_TYPE_BORDER = 0;
     int WALL_TYPE_BRICK = 1;
     int WALL_TYPE_TEST = 2;
+    int WALL_TYPE_INVIS = 3;
     int WALL_HEALTH = 50;
 
     int FPS = 30;

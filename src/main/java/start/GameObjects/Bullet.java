@@ -61,7 +61,7 @@ public class Bullet implements Constants, Serializable {
 
     private boolean controlCollider() {//четвертый пиксель пули
         for (Block bl : GamePanel.blocks) {
-            if (bl.isAlive()) {
+            if (bl.isAlive() && bl.getType() != Constants.WALL_TYPE_INVIS) {
                 if (bl.getxPosition() <= this.xPosition && (bl.getxPosition() + bl.getWidth()) >= this.xPosition) {
                     if ((bl.getyPosition() <= this.yPosition) && ((bl.getyPosition() + bl.getHeight()) >= this.yPosition)) {
                         bl.hit(this);
