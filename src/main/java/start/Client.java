@@ -89,6 +89,7 @@ public class Client implements Runnable {
                 ois.close();
             }
         } catch (IOException | ClassNotFoundException e) {
+            gp.ChangeStage(0);
             System.err.println(e);
         }
     }
