@@ -63,6 +63,15 @@ public class Bullet implements Constants, Serializable {
         this.autor = autor;
     }
 
+    /**
+     * Method computes and controls if bullet intersects with
+     * blocks enemies, players and base.
+     * If bullet intersects with something, described above,
+     * <p>
+     * Returned value uses for deleting bullet.
+     *
+     * @return true is bullet intersects with something, described above.
+     */
     private boolean controlCollider() {//четвертый пиксель пули
         for (Block bl : GamePanel.blocks) {
             if (bl.isAlive() && bl.getType() != Constants.WALL_TYPE_INVIS) {
@@ -109,7 +118,7 @@ public class Bullet implements Constants, Serializable {
         //if multiplayer mode on
         if (GamePanel.isServer || GamePanel.isClient) {
             if (GamePanel.isServer) {
-                if (autor == 2) {//eсли это пулька выпущена клиентом
+                if (autor == 2) {//если это пулька выпущена клиентом
                     if (GamePanel.player.getRectangle().getX() <= this.xPosition && (GamePanel.player.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
                         if (GamePanel.player.getRectangle().getY() <= this.yPosition && (GamePanel.player.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
                             GamePanel.player.hit(this.getDamage());
@@ -154,6 +163,8 @@ public class Bullet implements Constants, Serializable {
             g.setStroke(new BasicStroke(3));
             g.fillOval((int) xPosition, (int) yPosition, 3, 3);
             g.drawOval((int) xPosition, (int) yPosition, 3, 3);
+            g.setStroke(new BasicStroke(1));
+
         }
 
     }
