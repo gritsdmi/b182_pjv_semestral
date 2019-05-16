@@ -33,8 +33,12 @@ public class Bullet implements Constants, Serializable {
         this.xPosition = x;
         this.yPosition = y;
         this.dir = direction;
+        try {
+            this.angle = Math.toRadians(Math.toDegrees(Math.atan2(dir.y - yPosition, dir.x - xPosition)));
+        } catch (NullPointerException e) {
 
-        this.angle = Math.toRadians(Math.toDegrees(Math.atan2(dir.y - yPosition, dir.x - xPosition)));
+        }
+
         this.dy = Math.sin(angle);
         this.dx = Math.cos(angle);
         this.isAlive = true;
