@@ -520,7 +520,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         }
 
         for (Block bB : busyBlocks) {
-            bB.draw(g2d);
+//            bB.draw(g2d);
         }
 
 
