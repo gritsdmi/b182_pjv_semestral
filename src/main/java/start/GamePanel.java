@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -257,6 +258,15 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                     }
 
                 }
+                if (isClient) {
+                    try {
+                        client.end();
+                        isServer = false;
+                    } catch (IOException e) {
+
+                    }
+
+                }
                 isClient = false;
                 isServer = false;
 
@@ -298,6 +308,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 buttons.add(new GameButton('x', this));
                 break;
             case 4:
+                System.out.println("UMER");
                 stage = 2;
                 while (buttons.size() > 0) {
                     buttons.remove(0);
@@ -322,7 +333,12 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     public void StartServer() {
         server = new Server(this);
-        server.start();
+
+        try {
+            server.start();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
     }
 
     public void StartClient() {

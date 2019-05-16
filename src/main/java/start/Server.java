@@ -5,9 +5,9 @@ import start.GameObjects.Bullet;
 
 import java.awt.*;
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 public class Server implements Runnable {
     private int id;
@@ -27,7 +27,7 @@ public class Server implements Runnable {
         this.gp = gp;
     }
 
-    public void start() {
+    public void start() throws UnknownHostException {
         System.out.println("server start");
         new Thread(this).start();
     }
@@ -36,8 +36,17 @@ public class Server implements Runnable {
     public void run() {
         try {
             try {
-                serverSocket = new ServerSocket(8080);
 
+                serverSocket = new ServerSocket(8080);
+                Enumeration e = NetworkInterface.getNetworkInterfaces();
+                while (e.hasMoreElements()) {
+                    NetworkInterface n = (NetworkInterface) e.nextElement();
+                    Enumeration ee = n.getInetAddresses();
+                    while (ee.hasMoreElements()) {
+                        InetAddress i = (InetAddress) ee.nextElement();
+                        System.out.println(i.getHostAddress());
+                    }
+                }
                 socket = serverSocket.accept();
                 System.out.println("prinal");
                 try {
@@ -109,8 +118,9 @@ public class Server implements Runnable {
 
             }
         } catch (IOException e) {
+            System.err.println("OSHIBKA");
+
             gp.ChangeStage(0);
-//            System.err.println("OSHIBKA");
         }
     }
 

@@ -36,9 +36,8 @@ public class Client implements Runnable {
         try {
             try {
                 // адрес - локальный хост, порт - 4004, такой же как у сервера
-                clientSocket = new Socket("172.16.176.140", 8080); // этой строкой мы запрашиваем
-//                clientSocket = new Socket("172.68.214.176", 8080); // этой строкой мы запрашиваем
-                //  у сервера доступ на соединение
+                clientSocket = new Socket("10.4.11.56", 8080);
+                System.out.println("asdasd");
                 reader = new BufferedReader(new InputStreamReader(System.in));
                 // читать соообщения с сервера
 //                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -63,8 +62,8 @@ public class Client implements Runnable {
                     hp = (int) ois.readObject();
                     GamePanel.player.setHealth(hp);
                     GamePanel.player2.turelSetDirection((Point) ois.readObject());
-                    if (hp <= 0 || !GamePanel.isClient) {
-                        GamePanel.isClient = false;
+                    if (GamePanel.player.getHealth() <= 0) {
+                        System.out.println("break server");
                         break;
                     }
 
@@ -85,5 +84,12 @@ public class Client implements Runnable {
         } catch (IOException | ClassNotFoundException e) {
             System.err.println(e);
         }
+    }
+
+    public void end() throws IOException {
+        System.out.println("Клиент был закрыт...");
+        clientSocket.close();
+        out.close();
+        ois.close();
     }
 }
