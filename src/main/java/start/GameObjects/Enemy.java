@@ -80,7 +80,6 @@ public class Enemy implements Constants {
         rotateTankImage(smer);
         this.id = uniqId++;
         tempBlock = new Block(3, xPosition, yPosition, id);
-//        GamePanel.busyBlocks.add(tempBlock);
         GamePanel.blocks.add(tempBlock);
     }
 
@@ -156,7 +155,7 @@ public class Enemy implements Constants {
                 if (temp) {
                     mood = 0;
                 } else if (control50()) smer = lastSeenSmer;/////////////////////////////////
-                //если позиции примерно равно roughly equal
+                //roughly equal // TODO override here
                 if (roughlyEqual(getPosition(), lastSeen)) {
                     align();
                     if (control50()) mood = 0;
@@ -298,7 +297,6 @@ public class Enemy implements Constants {
             case 0:
                 tempBlock.setPosition(this.getPosition());
         }
-//        GamePanel.busyBlocks.add(tempBlock);
     }
 
     //don't use
@@ -315,12 +313,11 @@ public class Enemy implements Constants {
     public void draw(Graphics2D g) {
         if (isAlive) {
             g.setColor(color);
-//            g.fillOval(this.xPosition + 3, this.yPosition + 3, r, r);
             g.drawImage(op.filter(tankImg, null), xPosition, yPosition,null);
 //            for (Eye eye : eyes) eye.draw(g);
 //            for (Eye eye : movingEyes) eye.draw(g);
             g.setColor(Color.RED);
-            g.fillRect(xPosition, yPosition - 5, (int) helthBarLenght, 6);
+            g.fillRect(xPosition + 2, yPosition - 5, (int) helthBarLenght, 6);
         }
     }
 
@@ -360,7 +357,6 @@ public class Enemy implements Constants {
 
     }
 
-    //todo брать в расчет позицию других enemies при генерировании нового направления
     /**
      * Function randomly choose new moving direction
      * New direction depend on free space around
@@ -369,7 +365,6 @@ public class Enemy implements Constants {
      * @return int newDirection
      */
     private int newRandomMovingDirection() {
-//        System.out.println("new Random dir");
         int newDirection;
         ArrayList<Integer> possibleDirections = new ArrayList<>();
         for (Eye eye : movingEyes) {
@@ -403,7 +398,7 @@ public class Enemy implements Constants {
     }
 
     private boolean control50() {
-        return xPosition % 50 == 0 && yPosition % 50 == 0;//тут былр написано "&"
+        return xPosition % 50 == 0 && yPosition % 50 == 0;
     }
 
     /**
@@ -520,7 +515,6 @@ class Eye implements Constants {
     void update(Point pos, Point endPos) {
         this.position.setLocation(pos);
         this.endPosition.setLocation(endPos);
-//        if(type == 0) changeOffsetAccordingSmer();
         this.eye.setLine(this.position, this.endPosition);
 
         if (controlPlayerCollider() && computeShootingDelay(ENEMY_SHOOTING_DELAY)) {
@@ -633,11 +627,11 @@ class Eye implements Constants {
         setSee(false);
 
         if (type == 0) {// player seeing eyes
-            if (this.eye.intersects(GamePanel.player.getSmallRectangle())) {//игрока видно
+            if (this.eye.intersects(GamePanel.player.getSmallRectangle())) {//player under seeing
                 enemy.setMood(1);//set fury mode
                 enemy.rotateTankImage(nameToSmer());
                 if (!GamePanel.player.isMoving()) {
-                    enemy.setLastSeenPoint(GamePanel.player.getPosition());//set point where enemy seen player(zarovnany na 50pixel)
+                    enemy.setLastSeenPoint(GamePanel.player.getPosition());//set point where enemy seen player(equaled on 50pixel)
                     enemy.setLastSeenSmer(this.nameToSmer());
                 }
 
@@ -645,14 +639,13 @@ class Eye implements Constants {
                 setSeeHim(true);
                 return true;
 
-            } else {//игрока не видно этим глазом &&
-                if (this.isSeeHim()) {//если он только что видел
-                    if (enemy.getMood() == 1) {//если только что был fury//потерял игрока из виду
+            } else {
+                //player invisible to this eye
+                if (this.isSeeHim()) { //if eye saw player right now
+                    if (enemy.getMood() == 1) { //if player was fury on me right now
                         enemy.setMood(2);// last seen mode on
-//                        enemy.setLastSeenPoint(GamePanel.player.getPosition());
-//                        enemy.setLastSeenSmer(this.nameToSmer());
-                    } else if (enemy.getMood() == 2) {//если enemy ищет меня
-                        //todo переключение на normal mood (0)
+                    } else if (enemy.getMood() == 2) {//if enemy searching player
+                        //todo turn on normal mood
                     }
 
                 }
@@ -677,26 +670,6 @@ class Eye implements Constants {
         }
     }
 
-    public boolean isSee() {
-        return see;
-    }
-
-    public void setSee(boolean see) {
-        this.see = see;
-    }
-
-    public boolean getSee() {
-        return see;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public int getType() {
-        return type;
-    }
-
     /**
      * Method convert eye's name to int variable
      * which represents direction of eye.
@@ -715,6 +688,26 @@ class Eye implements Constants {
                 return 4;
         }
         return 0;
+    }
+
+    public boolean isSee() {
+        return see;
+    }
+
+    public void setSee(boolean see) {
+        this.see = see;
+    }
+
+    public boolean getSee() {
+        return see;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public int getType() {
+        return type;
     }
 
     public boolean isSeeHim() {

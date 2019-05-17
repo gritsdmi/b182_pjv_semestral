@@ -54,7 +54,6 @@ public class SpawnPoint implements Constants {
             isActive = false;
             time = System.nanoTime();
             gp.startNewWave(time);
-//            System.out.println("koncilsa");
 
         } else isActive = true;
         return isActive;

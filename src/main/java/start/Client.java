@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 
 public class Client implements Runnable {
-    private int id;
     private BufferedWriter out;
     private BufferedReader in;
     private BufferedReader reader;
@@ -34,23 +33,15 @@ public class Client implements Runnable {
     @Override
     public void run() {
         try {
-//            fe80:0:0:0:f29f:fddd:6904:8557
-//            2001:718:7:9:343b:12d6:9870:114f
-//            2001:718:7:9:56bf:7358:4a6d:3ac0
             try {
-                // адрес - локальный хост, порт - 4004, такой же как у сервера
-//                clientSocket = new Socket("172.16.176.140", 8080); // этой строкой мы запрашиваем
-//                clientSocket = new Socket("147.32.31.197", 8080); // этой строкой мы запрашиваем
-//                clientSocket = new Socket("172.68.214.176", 8080); // этой строкой мы запрашиваем
-//                clientSocket = new Socket("10.1.5.223", 8080); // этой строкой мы запрашиваем
+//                clientSocket = new Socket("172.16.176.140", 8080);
+//                clientSocket = new Socket("147.32.31.197", 8080);
+//                clientSocket = new Socket("172.68.214.176", 8080);
+//                clientSocket = new Socket("10.1.5.223", 8080);
 //                clientSocket = new Socket("2001:718:7:9:56bf:7358:4a6d:3ac0", 8080); // pasha server v NTK
 //                clientSocket = new Socket("2001:718:7:204:15fe:49a5:204b:9ff1", 8080); // Dimaaaaaa server v NTK
                 clientSocket = new Socket("2001:718:2:cf:343b:12d6:9870:114f", 8080); // pasha server na strahove
-                //  у сервера доступ на соединение
                 reader = new BufferedReader(new InputStreamReader(System.in));
-                // читать соообщения с сервера
-//                in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-                // писать туда же
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 ois = new ObjectInputStream(clientSocket.getInputStream());
 
@@ -78,14 +69,9 @@ public class Client implements Runnable {
 
 
                 }
-//                String word = reader.readLine(); // ждём пока клиент что-нибудь
-                // не напишет в консоль
-//                out.write(word + "\n"); // отправляем сообщение на сервер
-//                out.flush();
-//                String serverWord = in.readLine(); // ждём, что скажет сервер
-//                System.out.println(serverWord); // получив - выводим на экран
-            } finally { // в любом случае необходимо закрыть сокет и потоки
-                System.out.println("Клиент был закрыт...");
+//
+            } finally {
+                System.out.println("Client closedт...");
                 clientSocket.close();
                 out.close();
                 ois.close();
@@ -97,7 +83,8 @@ public class Client implements Runnable {
     }
 
     public void end() throws IOException {
-        System.out.println("Клиент был закрыт...");
+        System.out.println("Client closedт...");
+
         clientSocket.close();
         out.close();
         ois.close();

@@ -4,15 +4,16 @@ import start.GameObjects.Block;
 import start.GameObjects.Bullet;
 
 import java.awt.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
 public class Server implements Runnable {
-    private int id;
     private BufferedReader in;
-    private BufferedWriter out;
     private ServerSocket serverSocket;
     private GamePanel gp;
     private int hp;
@@ -48,18 +49,14 @@ public class Server implements Runnable {
                     }
                 }
                 socket = serverSocket.accept();
-                System.out.println("prinal");
+                System.out.println("Accepted");
                 try {
 
                     in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    // и отправлять
-//                    out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-//                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
 
                     oos = new ObjectOutputStream(socket.getOutputStream());
-//                    oos.flush();
                     while (true) {
-                        String word = in.readLine(); // ждём пока клиент что-нибудь нам напишет
+                        String word = in.readLine();
                         String[] coords = word.split(" ");
                         GamePanel.player2.setPosition(new Point(Integer.parseInt(coords[0]), Integer.parseInt(coords[1])));
                         GamePanel.player2.setDir(new Point(Integer.parseInt(coords[3]), Integer.parseInt(coords[4])));
@@ -68,7 +65,6 @@ public class Server implements Runnable {
                             GamePanel.player2.shoot(2);
                         }
 
-                        // не долго думая отвечает клиенту
                         bl = (ArrayList<Block>) GamePanel.blocks.clone();
                         oos.writeObject(bl);
                         oos.flush();
@@ -101,24 +97,20 @@ public class Server implements Runnable {
                         }
 
                     }
-                } finally { // в любом случае сокет будет закрыт
-                    System.out.println("dfjkhgkdf");
+                } finally {
                     socket.close();
-                    // потоки тоже хорошо бы закрыть
                     in.close();
                     oos.close();
-
-//                    out.close();
                 }
 
 
             } finally {
-                System.out.println("Сервер закрыт!");
+                System.out.println("Server closed!");
                 serverSocket.close();
 
             }
         } catch (Exception e) {
-            System.err.println("OSHIBKA");
+            System.err.println("Error");
 
             gp.ChangeStage(0);
         }
