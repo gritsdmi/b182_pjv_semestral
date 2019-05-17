@@ -131,7 +131,7 @@ public class Enemy implements Constants {
                 return true;
             }
         } catch (NullPointerException e) {
-            System.err.println("Null pointer equal");
+//            System.err.println("Null pointer equal");
         }
         return false;
     }
@@ -335,7 +335,6 @@ public class Enemy implements Constants {
             this.health -= bul.getDamage();
             color = color.darker();
             controlHP();
-            System.out.println("enemy hit " + health);
         }
     }
 

@@ -1,6 +1,7 @@
 package start.Logic;
 
 import start.GameObjects.Enemy;
+import start.GamePanel;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -18,17 +19,20 @@ public class SpawnPoint implements Constants {
     private double nanotime;
     private int capacity;
     private boolean isActive;
+    private double time;
+    private GamePanel gp;
 
 //    private int actualEnemiesCount;
 
 
-    public SpawnPoint(MapGenerator mp, int capacity, Point spawnPoint) {
+    public SpawnPoint(MapGenerator mp, int capacity, Point spawnPoint, GamePanel gp) {
         this.mp = mp;
         this.capacity = capacity;
         this.spawnPoint.setLocation(spawnPoint);
         this.enemies = new ArrayList<>();
 //        actualEnemiesCount = enemies.size();
         this.nanotime = System.nanoTime();
+        this.gp = gp;
 //        System.out.println("Spawn created" + spawnPoint.toString());
         isActive = true;
     }
@@ -37,6 +41,7 @@ public class SpawnPoint implements Constants {
         if (isActive) {
             if (computeSpawningDelay(ENEMY_SPAWN_DELAY) && enemies.size() < ENEMY_MAX_COUNT_ON_MAP) {
                 enemies.add(new Enemy(new Point(spawnPoint)));
+                System.out.println(enemies.size());
 //                System.out.println("new enemy spawned" + spawnPoint.toString());
                 capacity--;
                 controlCapacity();
@@ -45,8 +50,13 @@ public class SpawnPoint implements Constants {
     }
 
     private boolean controlCapacity() {
-        if (capacity < 1) isActive = false;
-        else isActive = true;
+        if (capacity < 1) {
+            isActive = false;
+            time = System.nanoTime();
+            gp.startNewWave(time);
+            System.out.println("koncilsa");
+
+        } else isActive = true;
         return isActive;
     }
 
@@ -57,6 +67,11 @@ public class SpawnPoint implements Constants {
         } else {
             return false;
         }
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+        isActive = true;
     }
 
     public Point getSpawnPoint() {

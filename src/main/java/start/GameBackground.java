@@ -2,7 +2,10 @@ package start;
 
 import start.Logic.Constants;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 
 
 public class GameBackground implements Constants {
@@ -13,6 +16,7 @@ public class GameBackground implements Constants {
     private boolean epilepticmode;
     private int i;
     double modeTime;
+    private BufferedImage image;
 
     public GameBackground() {
         width = PANEL_WIDTH;
@@ -20,6 +24,12 @@ public class GameBackground implements Constants {
         color = Color.WHITE;
         epilepticmode = false;
         i = 0;
+        try {
+            image = ImageIO.read(new File("src/main/resources/Entity/map.png"));
+        } catch (Exception e) {
+
+        }
+
     }
 
     public void startMode() {
@@ -48,8 +58,13 @@ public class GameBackground implements Constants {
 
 
     public void draw(Graphics2D g) {
-        g.setColor(color);
-        g.fillRect(0, 0, width, height);
+        if (!GamePanel.menu) {
+            g.drawImage(image, 0, 0, null);
+        } else {
+            g.setColor(color);
+            g.fillRect(0, 0, width, height);
+        }
+
 
     }
 

@@ -105,12 +105,12 @@ public class Block implements Constants, Serializable {
         }
 
         //testing new blocks for enemy's moving
-        if (autor != -1) {
-            g.setStroke(new BasicStroke(3));
-            g.setColor(Color.black);
-            g.drawRect(xPosition, yPosition, width, height);
-            g.setStroke(new BasicStroke(1));
-        }
+//        if (autor != -1) {
+//            g.setStroke(new BasicStroke(3));
+//            g.setColor(Color.black);
+//            g.drawRect(xPosition, yPosition, width, height);
+//            g.setStroke(new BasicStroke(1));
+//        }
     }
 
     public int getxPosition() {

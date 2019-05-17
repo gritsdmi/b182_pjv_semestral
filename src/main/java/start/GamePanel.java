@@ -46,7 +46,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private String level;
     private String[] levels;
     private ArrayList<Point> freeSpacesMap;
-
+    private boolean startWave;
+    private double startWaveTimer;
 
     public static ArrayList<GameButton> buttons;
     private MapGenerator mp;
@@ -427,7 +428,25 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         if (isServer) {
 
         }
+        if (startWave) {
+            checkWaveStarter();
+        }
 
+    }
+
+    public void startNewWave(double time) {
+        startWaveTimer = time;
+        startWave = true;
+    }
+
+    public void checkWaveStarter() {
+        if ((System.nanoTime() - startWaveTimer) / 1000000 > 10000) {
+            for (SpawnPoint sp : enemySpawns) {
+                sp.setCapacity(5);
+                System.out.println("NEW WAVEww");
+                startWave = false;
+            }
+        }
     }
 
     public boolean delay(double del) {
