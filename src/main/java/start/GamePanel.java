@@ -48,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private ArrayList<Point> freeSpacesMap;
     private boolean startWave;
     private double startWaveTimer;
+    private int wave = 1;
 
     public static ArrayList<GameButton> buttons;
     private MapGenerator mp;
@@ -193,6 +194,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         buttons = new ArrayList<GameButton>();
         drops = new ArrayList<Drop>();
         if (!isServer && !isClient) {
+            wave = 1;
             player = new Player(this, 600, 600, 1);
             player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
             base = new Base(new Point(400, 500));
@@ -436,13 +438,15 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     public void startNewWave(double time) {
         startWaveTimer = time;
+
         startWave = true;
     }
 
     public void checkWaveStarter() {
         if ((System.nanoTime() - startWaveTimer) / 1000000 > 10000) {
+            wave++;
             for (SpawnPoint sp : enemySpawns) {
-                sp.setCapacity(5);
+                sp.setCapacity(wave);
                 System.out.println("NEW WAVEww");
                 startWave = false;
             }
@@ -541,9 +545,11 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         for (Block bB : busyBlocks) {
 //            bB.draw(g2d);
         }
-
-
+        g2d.setColor(Color.BLACK);
+        g2d.setStroke(new BasicStroke(5));
+        g2d.drawString("WAVE  " + wave, 810, 300);
         Graphics2D g2 = (Graphics2D) this.getGraphics();
+
         g2.drawImage(image, 0, 0, this);
 
         g2.dispose();

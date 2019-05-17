@@ -21,7 +21,7 @@ public class GameBackground implements Constants {
     public GameBackground() {
         width = PANEL_WIDTH;
         height = PANEL_HEIGHT;
-        color = Color.WHITE;
+        color = Color.ORANGE;
         epilepticmode = false;
         i = 0;
         try {

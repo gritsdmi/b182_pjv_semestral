@@ -28,7 +28,7 @@ public class Main {
 //        lb.setVisible(true);
         gamePanel.start();
 
-        test();
+//        test();
 
     }
 
