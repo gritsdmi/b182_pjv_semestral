@@ -34,7 +34,6 @@ public class MapGenerator implements Constants {
     /**
      * Method parse txt file
      * and generate lvl
-     * еще сюда можно притулить тестов, соответствует ли файл нужному формату
      *
      * @return 2 dimensional array of char, represents actual map
      */
