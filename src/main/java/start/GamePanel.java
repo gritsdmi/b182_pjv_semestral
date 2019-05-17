@@ -197,7 +197,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             wave = 1;
             player = new Player(this, 600, 600, 1);
             player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
-            base = new Base(new Point(400, 500));
+//            base = new Base(new Point(400, 500));
         } else {
             if (isClient) {
                 player2 = new Player(this, 600, 600, 2);
@@ -447,7 +447,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             wave++;
             for (SpawnPoint sp : enemySpawns) {
                 sp.setCapacity(wave);
-                System.out.println("NEW WAVEww");
+//                System.out.println("NEW WAVEww");
                 startWave = false;
             }
         }
@@ -521,7 +521,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
 
         for (int i = 0; i < blocks.size(); i++) {
-            blocks.get(i).draw(g2d);
+            if (blocks.get(i).getAutor() == -1) blocks.get(i).draw(g2d);
         }
 
         //Buttons draw

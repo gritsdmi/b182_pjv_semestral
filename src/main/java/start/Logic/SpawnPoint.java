@@ -41,7 +41,7 @@ public class SpawnPoint implements Constants {
         if (isActive) {
             if (computeSpawningDelay(ENEMY_SPAWN_DELAY) && enemies.size() < ENEMY_MAX_COUNT_ON_MAP) {
                 enemies.add(new Enemy(new Point(spawnPoint)));
-                System.out.println(enemies.size());
+//                System.out.println(enemies.size());
 //                System.out.println("new enemy spawned" + spawnPoint.toString());
                 capacity--;
                 controlCapacity();
@@ -54,7 +54,7 @@ public class SpawnPoint implements Constants {
             isActive = false;
             time = System.nanoTime();
             gp.startNewWave(time);
-            System.out.println("koncilsa");
+//            System.out.println("koncilsa");
 
         } else isActive = true;
         return isActive;

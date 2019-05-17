@@ -92,8 +92,8 @@ public class Block implements Constants, Serializable {
     }
 
     public void draw(Graphics2D g) {
-//        if (isAlive && (type != WALL_TYPE_INVIS) ){
-        if (isAlive && (type != WALL_TYPE_INVIS || autor == -1)) {
+        if (isAlive && (type != WALL_TYPE_INVIS)) {
+//        if (isAlive && (type != WALL_TYPE_INVIS || autor == -1)) {
             g.setColor(color);
             g.fillRect(xPosition, yPosition, width, height);
 

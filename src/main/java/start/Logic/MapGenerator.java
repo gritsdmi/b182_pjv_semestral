@@ -1,5 +1,6 @@
 package start.Logic;
 
+import start.Base;
 import start.GameObjects.Block;
 import start.GamePanel;
 
@@ -68,6 +69,7 @@ public class MapGenerator implements Constants {
     public void buildMap(String map) {
         freeSpaces.clear();
         spawnPoints.clear();
+        boolean baseCreated = false;
 
         int xPos = 0;
         int yPos = 0;
@@ -80,8 +82,12 @@ public class MapGenerator implements Constants {
             for (char blockType : line) {
                 if (blockType == 'x') {
                     spawnPoints.add(new SpawnPoint(this, 1, new Point(xPos, yPos), gp));
-                } else if (blockType != '_') {
+                } else if (blockType != '_' && blockType != 'b') {
                     gp.blocks.add(new Block((Character.getNumericValue(blockType)), xPos, yPos));
+                } else if (blockType == 'b' && !baseCreated) {
+                    baseCreated = true;
+                    GamePanel.base = new Base(new Point(xPos, yPos));
+
                 } else {
                     freeSpaces.add(new Point(xPos, yPos));
                 }
