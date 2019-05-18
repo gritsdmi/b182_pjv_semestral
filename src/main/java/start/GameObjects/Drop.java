@@ -6,8 +6,9 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.Serializable;
 
-public class Drop implements Constants {
+public class Drop implements Constants, Serializable {
     private int x;
     private int y;
     private Player player;
@@ -15,7 +16,7 @@ public class Drop implements Constants {
     private boolean dead;
     private Color color;
     private double lifeTimer;
-    private BufferedImage image;
+    private transient BufferedImage image;
 
     public boolean isDead() {
         return dead;

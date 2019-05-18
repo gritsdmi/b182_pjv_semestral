@@ -12,10 +12,11 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Enemy implements Constants {
+public class Enemy implements Constants, Serializable {
     //Fields
     private int xPosition;
     private int yPosition;
@@ -29,15 +30,14 @@ public class Enemy implements Constants {
     private ArrayList<Eye> eyes;
     private ArrayList<Eye> movingEyes;
     private int mood;//0 - normal; 1 - fury; 2 - go to the last seen point
-    private int eyesOffset = 20;
     private int wight = 46;
     private int height = 46;
     private double helthBarLenght;
     private double pomuckaProVypocetDelkyBaru;
 
-    private BufferedImage tankImg;
+    private transient BufferedImage tankImg;
     private AffineTransform at;
-    private AffineTransformOp op;
+    private transient AffineTransformOp op;
     private int rotation;
     private static int uniqId = 0;
     private int id;
@@ -89,7 +89,7 @@ public class Enemy implements Constants {
      * @see AffineTransform
      * @see AffineTransformOp
      */
-    protected void rotateTankImage(int ssmer) {
+    void rotateTankImage(int ssmer) {
         directionToRotation(ssmer);
         at = AffineTransform.getRotateInstance(Math.toRadians(rotation), 25, 25);
         op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
@@ -485,7 +485,7 @@ public class Enemy implements Constants {
     }
 }
 
-class Eye implements Constants {
+class Eye implements Constants, Serializable {
 
     private Enemy enemy;
     private boolean see; // use for blocks

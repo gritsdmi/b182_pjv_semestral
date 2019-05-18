@@ -1,6 +1,6 @@
 package start.Logic;
 
-import start.Base;
+import start.GameObjects.Base;
 import start.GameObjects.Block;
 import start.GamePanel;
 
@@ -8,13 +8,14 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
  * class represents level's map
  */
-public class MapGenerator implements Constants {
+public class MapGenerator implements Constants, Serializable {
 
     private final GamePanel gp;
     private char[][] actualMap;

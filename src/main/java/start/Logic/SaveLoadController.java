@@ -2,11 +2,20 @@ package start.Logic;
 
 import start.GamePanel;
 
+import java.io.*;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static start.Logic.Constants.pathToSavedGame;
 
 public class SaveLoadController {
 
@@ -21,24 +30,77 @@ public class SaveLoadController {
 
     private String generateNewFilename() {
         Date date = Calendar.getInstance().getTime();
-        DateFormat df = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         return df.format(date);
     }
 
-    public void SaveGame() {
+    public boolean saveGame() {
         System.out.println("Try to save game");
-        savedData.add(gp.getPlayerAsArrayList());
+        savedData.add(gp.getPlayerAsArrayList());//worked
         savedData.add(GamePanel.blocks);
         savedData.add(GamePanel.bullets);
         savedData.add(GamePanel.getEnemySpawns());
         savedData.add(gp.getDrops());//may generate some problems with delays
 
-        String filename = generateNewFilename() + ".dat";
+        filename = "Saved game " + generateNewFilename() + ".dat";
+
+
+        try {
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(pathToSavedGame + filename));
+            out.writeObject(savedData);
+
+//            System.out.println("Saving player " + GamePanel.player.getPosition() +" "+ GamePanel.player.getHealth());
+//            out.writeObject(GamePanel.player.prepareDataToSerialize());//this works
+
+            out.close();
+        } catch (IOException ex) {
+            Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "Error writing saved game to file", ex);
+
+            //del file
+            try {
+                Files.deleteIfExists(Paths.get("src/main/resources/SavedGames/" + filename));
+            } catch (NoSuchFileException e) {
+                System.out.println("No such file/directory exists");
+            } catch (DirectoryNotEmptyException e) {
+                System.out.println("Directory is not empty.");
+            } catch (IOException e) {
+                System.out.println("Invalid permissions.");
+            }
+
+            System.out.println("Deletion successful.");
+
+            return false;
+        }
+
+        return true;
 
     }
 
-    public void LoadGameFromFile(String filename) {
+    public void loadGameFromFile(String file) {
+        savedData.clear();
+        System.out.println("trying to deserialize");
+//        file = pathToSavedGame + "Saved game 2019-05-18 09:33:46.dat";//(1)
+//        file = pathToSavedGame + "Saved game 2019-05-18 09:57:04.dat";//another worked
+//        file = pathToSavedGame + "Saved game 2019-05-18 10:25:21.dat";
+        file = pathToSavedGame + "Saved game 2019-05-18 10:31:06.dat";
 
+        try {
+            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+            try {
+                savedData = (ArrayList<ArrayList>) ois.readObject();
+
+            } catch (ClassNotFoundException e) {
+                Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "Class not found", e);
+            }
+        } catch (IOException e) {
+            Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "File not found", e);
+        }
+//        System.out.println("Loaded pos " + savedData.get(0).get(0));//if works too(1)
+        System.out.println(savedData);
+    }
+
+    public ArrayList<ArrayList> getLoadedData() {
+        return savedData;
     }
 
 }

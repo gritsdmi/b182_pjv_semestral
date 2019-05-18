@@ -6,9 +6,10 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.Serializable;
 
 
-public class GameBackground implements Constants {
+public class GameBackground implements Constants, Serializable {
     //Fields
     private Color color;
     private int width;

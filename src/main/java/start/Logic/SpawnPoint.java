@@ -4,6 +4,7 @@ import start.GameObjects.Enemy;
 import start.GamePanel;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  *
  * @see MapGenerator
  */
-public class SpawnPoint implements Constants {
+public class SpawnPoint implements Constants, Serializable {
 
     private final MapGenerator mp;
     private Point spawnPoint = new Point(0, 0);

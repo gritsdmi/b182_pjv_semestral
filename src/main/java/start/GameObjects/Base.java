@@ -1,11 +1,12 @@
-package start;
+package start.GameObjects;
 
-import start.GameObjects.Block;
+import start.GamePanel;
 import start.Logic.Constants;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class Base implements Constants {
+public class Base implements Constants, Serializable {
     private int Health;
     private int x;
     private int y;

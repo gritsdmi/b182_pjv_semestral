@@ -10,34 +10,14 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
 
 
-public class Player implements Constants {
+public class Player implements Constants, Serializable {
     //Fields
     private int x;
     private int y;
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setPosition(Point newPosition) {
-        this.x = (int) newPosition.getX();
-        this.y = (int) newPosition.getY();
-    }
-
     private int speed = PLAYER_MOVING_SPEED;
     private double dx;
     private double dy;
@@ -47,7 +27,6 @@ public class Player implements Constants {
 
     public static int score = 0;
 
-
     private double locationX;
     private double locationY;
     private double reload = 400;
@@ -55,12 +34,6 @@ public class Player implements Constants {
 
     private boolean nextMove = true;
     private int direction;
-
-
-    public void setDirection(int direction) {
-        this.direction = direction;
-    }
-
 
     private int rotation;
     private boolean banTop = false;
@@ -73,30 +46,15 @@ public class Player implements Constants {
     private boolean prevbanLeft = false;
     private boolean M1pressed = false;
 
-    public boolean isM1pressed() {
-        return M1pressed;
-    }
-
-    public void setM1pressed(boolean m1pressed) {
-        M1pressed = m1pressed;
-    }
-
     private Point dir;
-    private BufferedImage tankPicture;
-    private BufferedImage tankTowerPicture;
+    private transient BufferedImage tankPicture;
+    private transient BufferedImage tankTowerPicture;
     private int health = PLAYER_HEALTH;
     private int healthBarLength;
     private int fireLevel;
     private boolean isFireUpBuffed;
     private int type;
 
-    public Point getDir() {
-        return dir;
-    }
-
-    public void setDir(Point dir) {
-        this.dir = dir;
-    }
 
     //TUREL
     //TUREL
@@ -348,7 +306,7 @@ public class Player implements Constants {
         if (shield) {
             g.setColor(Color.CYAN);
             g.setStroke(new BasicStroke(3));
-            g.drawOval((int) x - 5, (int) y - 5, 60, 60);
+            g.drawOval(x - 5, y - 5, 60, 60);
             checkShield();
         }
 
@@ -371,29 +329,86 @@ public class Player implements Constants {
         AffineTransformOp turelOp = new AffineTransformOp(turelAt, AffineTransformOp.TYPE_BILINEAR);
 
 // Drawing the rotated image at the required drawing locations
-        g.drawImage(turelOp.filter(tankTowerPicture, null), (int) x, (int) y - 25, null);
+        g.drawImage(turelOp.filter(tankTowerPicture, null), x, y - 25, null);
 
     }
 
     public Rectangle getRectangle() {
-        return new Rectangle((int) x, (int) y, PLAYER_SIZE_WIDTH, PLAYER_SIZE_HEIGHT);
+        return new Rectangle(x, y, PLAYER_SIZE_WIDTH, PLAYER_SIZE_HEIGHT);
     }
 
     public Rectangle getSmallRectangle() {
-//        return new Rectangle((int) (x + 22), (int) (y+22), 5, 5);
-        return new Rectangle((int) (x + 10), (int) (y + 10), 30, 30); // 30x30
+        return new Rectangle(x + 10, y, 30, 30); // 30x30
     }
 
     public Point getCenterPosition() {
-        return new Point((int) x + 25, (int) y + 25);
+        return new Point(x + 25, y + 25);
     }
 
     public Point getPosition() {
-        return new Point((int) x, (int) y);
+        return new Point(x, y);
     }
 
     public boolean isMoving() {
         if (x % 50 == 0 && y % 50 == 0) return false;
         else return true;
     }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setPosition(Point newPosition) {
+        this.x = (int) newPosition.getX();
+        this.y = (int) newPosition.getY();
+    }
+
+    public void setDirection(int direction) {
+        this.direction = direction;
+    }
+
+    public boolean isM1pressed() {
+        return M1pressed;
+    }
+
+    public void setM1pressed(boolean m1pressed) {
+        M1pressed = m1pressed;
+    }
+
+    public Point getDir() {
+        return dir;
+    }
+
+    public void setDir(Point dir) {
+        this.dir = dir;
+    }
+
+    public ArrayList<ArrayList> prepareDataToSerialize() {
+        ArrayList<Point> points = new ArrayList<>();
+        points.add(this.getPosition());
+        points.add(this.getDir());
+
+        ArrayList<Integer> intData = new ArrayList<>();
+        intData.add(health);
+        intData.add(score);
+
+        ArrayList<ArrayList> ret = new ArrayList<>();
+        ret.add(points);
+        ret.add(intData);
+
+        return ret;
+    }
+
 }

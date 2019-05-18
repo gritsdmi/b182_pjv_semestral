@@ -43,7 +43,9 @@ public class Client implements Runnable {
 //                clientSocket = new Socket("2001:718:2:cf:343b:12d6:9870:114f", 8080); // pasha server na strahove
 
 //                clientSocket = new Socket("fe80:0:0:0:d118:3c8b:f53e:aeb2", 8080); // pasha server na strahove
-                clientSocket = new Socket("fe80:0:0:0:d118:3c8b:f53e:aeb2", 8080); // pasha server
+//                clientSocket = new Socket("fe80:0:0:0:d118:3c8b:f53e:aeb2", 8080); // pasha server
+//                clientSocket = new Socket("2001:718:2:1663:0:", 8080); //
+                clientSocket = new Socket("147.32.219.38", 8080);
 
                 reader = new BufferedReader(new InputStreamReader(System.in));
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));

@@ -1,11 +1,11 @@
-package start.GameObjects;
+package start.Logic;
 
 import start.GamePanel;
-import start.Logic.Constants;
 
 import java.awt.*;
+import java.io.Serializable;
 
-public class GameButton implements Constants {
+public class GameButton implements Constants, Serializable {
 
     private char type;
     private Color color;
@@ -137,6 +137,7 @@ public class GameButton implements Constants {
 
     public void checkMouseClick(int mouseX, int mouseY) {
         if ((mouseX >= x) && (mouseX <= x + width) && (mouseY >= y) && (mouseY <= y + height)) {
+            SaveLoadController slc = new SaveLoadController(gp);
             switch (type) {
                 case 'm':
                     gp.ChangeStage(2);
@@ -186,10 +187,12 @@ public class GameButton implements Constants {
                     GamePanel.isServer = true;
                     gp.ChangeStage(3);
                     break;
-                case 'z':
-
+                case 'z'://used for saving game button
+                    if (slc.saveGame()) System.out.println("Game saved ok");
                     break;
-                case 'x':
+                case 'x'://used for loading game button
+                    slc.loadGameFromFile("qq");
+//                    System.out.println(slc.getLoadedData());
 
                     break;
 

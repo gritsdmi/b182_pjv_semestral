@@ -4,6 +4,7 @@ import start.GameObjects.*;
 import start.Listeners.Listeners;
 import start.Listeners.MouseListener;
 import start.Logic.Constants;
+import start.Logic.GameButton;
 import start.Logic.MapGenerator;
 import start.Logic.SpawnPoint;
 
@@ -19,15 +20,12 @@ import java.util.Random;
 public class GamePanel extends JPanel implements Runnable, Constants, Serializable {
 
 
-    private Thread thread = new Thread(this);
+    private transient Thread thread = new Thread(this);
 
-    private BufferedImage image;
+    private transient BufferedImage image;
 
-    public BufferedImage getImage() {
-        return image;
-    }
 
-    private Graphics2D graphics;
+    private transient Graphics2D graphics;
 
     public static GameBackground background;
     public static MenuBackground menuBackground;
@@ -418,10 +416,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             }
         }
 
-        for (Block bB : busyBlocks) {
-//            bB.update();
-        }
-
         if (!isServer) SpawnDrop();
 
         if (player.getHealth() <= 0) {
@@ -542,9 +536,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             }
         }
 
-        for (Block bB : busyBlocks) {
-//            bB.draw(g2d);
-        }
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(5));
         g2d.drawString("WAVE  " + wave, 810, 300);
@@ -568,4 +559,9 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         ret.add(player);
         return ret;
     }
+
+    public BufferedImage getImage() {
+        return image;
+    }
+
 }
