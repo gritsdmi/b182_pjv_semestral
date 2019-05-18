@@ -483,6 +483,15 @@ public class Enemy implements Constants, Serializable {
     public int getId() {
         return id;
     }
+
+    public void setEnemyTankPic(String pathname) {
+        try {
+            tankImg = ImageIO.read(new File("src/main/resources/Entity/GrayPixelTank.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 class Eye implements Constants, Serializable {

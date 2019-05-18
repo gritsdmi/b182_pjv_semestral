@@ -227,6 +227,41 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         freeSpacesMap = mp.getFreeSpaces();
     }
 
+    public void generateSavedGame(ArrayList<ArrayList> loadedData) {
+        millisToFPS = 1000 / FPS;
+        image = new BufferedImage(PANEL_WIDTH + 150, PANEL_HEIGHT, BufferedImage.TYPE_INT_RGB);
+        graphics = (Graphics2D) image.getGraphics();
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        background = new GameBackground();
+        menuBackground = new MenuBackground();
+
+        //parsing loaded data
+        player = (Player) loadedData.get(0).get(0);
+        blocks = (ArrayList<Block>) loadedData.get(1);
+        base = (Base) loadedData.get(2).get(0);
+        bullets = (ArrayList<Bullet>) loadedData.get(3);
+        enemySpawns = (ArrayList<SpawnPoint>) loadedData.get(4);
+        freeSpacesMap = (ArrayList<Point>) loadedData.get(5);
+        drops = (ArrayList<Drop>) loadedData.get(6);//may generate some problems with delays
+        wave = (Integer) loadedData.get(7).get(0);
+
+        player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
+        for (SpawnPoint sp : enemySpawns) {
+            for (Enemy enemy : sp.getEnemies()) {
+                enemy.setEnemyTankPic("src/main/resources/Entity/GrayPixelTank.png");
+            }
+        }
+
+
+        startButton = new GameButton('s', this);
+        menuButton = new GameButton('m', this);
+        continueButton = new GameButton('c', this);
+        playButton = new GameButton('p', this);
+
+        menu = false;
+
+    }
+
     public void ChangeStage(int newStage) {
         switch (newStage) {
             case 0:
@@ -340,9 +375,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         level = lvl;
         generateGame(level);
         menu = false;
-//        revalidate();
-
-
     }
 
     public void GameUpdateClient() {
@@ -562,6 +594,22 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     public BufferedImage getImage() {
         return image;
+    }
+
+    public ArrayList<Point> getFreeSpacesMap() {
+        return freeSpacesMap;
+    }
+
+    public ArrayList<Base> getBaseAsArrayList() {
+        ArrayList<Base> ret = new ArrayList<>();
+        ret.add(base);
+        return ret;
+    }
+
+    public ArrayList<Integer> getWaveAsArrayList() {
+        ArrayList<Integer> ret = new ArrayList<>();
+        ret.add(wave);
+        return ret;
     }
 
 }

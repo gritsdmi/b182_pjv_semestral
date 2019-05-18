@@ -301,7 +301,7 @@ public class Player implements Constants, Serializable {
         AffineTransformOp op = new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
         g.setColor(Color.BLACK);
 // Drawing the rotated image at the required drawing locations
-        g.drawImage(op.filter(tankPicture, null), (int) x, (int) y, null);
+        g.drawImage(op.filter(tankPicture, null), x, y, null);
         g.drawString(score + "", PANEL_WIDTH + 10, 140);
         if (shield) {
             g.setColor(Color.CYAN);

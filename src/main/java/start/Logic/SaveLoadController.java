@@ -30,7 +30,7 @@ public class SaveLoadController {
 
     private String generateNewFilename() {
         Date date = Calendar.getInstance().getTime();
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(date);
     }
 
@@ -38,9 +38,12 @@ public class SaveLoadController {
         System.out.println("Try to save game");
         savedData.add(gp.getPlayerAsArrayList());//worked
         savedData.add(GamePanel.blocks);
+        savedData.add(gp.getBaseAsArrayList());
         savedData.add(GamePanel.bullets);
         savedData.add(GamePanel.getEnemySpawns());
+        savedData.add(gp.getFreeSpacesMap());
         savedData.add(gp.getDrops());//may generate some problems with delays
+        savedData.add(gp.getWaveAsArrayList());
 
         filename = "Saved game " + generateNewFilename() + ".dat";
 
@@ -82,7 +85,8 @@ public class SaveLoadController {
 //        file = pathToSavedGame + "Saved game 2019-05-18 09:33:46.dat";//(1)
 //        file = pathToSavedGame + "Saved game 2019-05-18 09:57:04.dat";//another worked
 //        file = pathToSavedGame + "Saved game 2019-05-18 10:25:21.dat";
-        file = pathToSavedGame + "Saved game 2019-05-18 10:31:06.dat";
+//        file = pathToSavedGame + "Saved game 2019-05-18 10:31:06.dat";
+        file = pathToSavedGame + "Saved game 2019-05-18 15:35:54.dat";
 
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));

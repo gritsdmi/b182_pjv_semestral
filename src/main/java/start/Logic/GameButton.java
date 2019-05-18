@@ -192,7 +192,8 @@ public class GameButton implements Constants, Serializable {
                     break;
                 case 'x'://used for loading game button
                     slc.loadGameFromFile("qq");
-//                    System.out.println(slc.getLoadedData());
+                    gp.generateSavedGame(slc.getLoadedData());
+                    gp.ChangeStage(1);
 
                     break;
 
