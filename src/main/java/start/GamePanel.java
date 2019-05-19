@@ -21,7 +21,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
 
     private transient Thread thread = new Thread(this);
-
+    private transient JFrame mainFrame;
     private transient BufferedImage image;
 
 
@@ -85,7 +85,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
 
     //Constructor
-    public GamePanel() {
+    public GamePanel(JFrame jFrame) {
+        mainFrame = jFrame;
 
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(PANEL_WIDTH + 150, PANEL_HEIGHT));
@@ -136,7 +137,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         // WHILE TRUE
 
         while (true) {
-//            System.out.println(player.getHealth());
             timerFPS = System.nanoTime();
             switch (stage) {
                 case 1:
@@ -145,11 +145,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                         paint(graphics);
                     } else {
                         GameUpdate();
-//                        System.out.println(blocks.size());
-
                         paint(graphics);
                     }
-
 
                     break;
                 case 2:
@@ -429,7 +426,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                     i--;
                 }
             } catch (IndexOutOfBoundsException e) {
-                System.err.println("drop/time exception fixed");
+//                System.err.println("drop/time exception fixed");
             }
         }
 
@@ -610,6 +607,10 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         ArrayList<Integer> ret = new ArrayList<>();
         ret.add(wave);
         return ret;
+    }
+
+    public JFrame getMainFrame() {
+        return mainFrame;
     }
 
 }

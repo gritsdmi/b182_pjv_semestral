@@ -14,7 +14,7 @@ public class Main {
 
         JFrame frame = new JFrame("NES Tanks");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        GamePanel gamePanel = new GamePanel();
+        GamePanel gamePanel = new GamePanel(frame);
 
 //        frame.add(mainPanel, BorderLayout.EAST);
         frame.add(gamePanel, BorderLayout.WEST);
@@ -22,6 +22,7 @@ public class Main {
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
+        frame.setResizable(false);
 
 //        JLabel lb = new JLabel("asadasdasdas", JLabel.CENTER);
 //        frame.add(lb);

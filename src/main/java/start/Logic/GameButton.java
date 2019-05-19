@@ -191,9 +191,12 @@ public class GameButton implements Constants, Serializable {
                     if (slc.saveGame()) System.out.println("Game saved ok");
                     break;
                 case 'x'://used for loading game button
-                    slc.loadGameFromFile("qq");
-                    gp.generateSavedGame(slc.getLoadedData());
-                    gp.ChangeStage(1);
+                    SavedGamesController sgc = new SavedGamesController(gp, slc);
+                    if (sgc.isLevelSelect()) {
+                        slc.loadGameFromFile(sgc.getSelectedSave());
+                        gp.generateSavedGame(slc.getLoadedData());
+                        gp.ChangeStage(1);
+                    }
 
                     break;
 

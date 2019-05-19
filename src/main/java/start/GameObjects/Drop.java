@@ -15,7 +15,6 @@ public class Drop implements Constants, Serializable {
     private Player player;
     private int type;
     private boolean dead;
-    private Color color;
     private double lifeTimer;
     private transient BufferedImage image;
 
@@ -42,7 +41,6 @@ public class Drop implements Constants, Serializable {
                     break;
                 case 2:
                     image = ImageIO.read(new File("src/main/resources/Entity/HealthRestoreBonus.png"));
-                    color = Color.PINK;
                     break;
                 case 3:
                     image = ImageIO.read(new File("src/main/resources/Entity/ShieldBonus.png"));

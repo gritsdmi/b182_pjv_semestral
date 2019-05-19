@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,11 +83,7 @@ public class SaveLoadController {
     public void loadGameFromFile(String file) {
         savedData.clear();
         System.out.println("trying to deserialize");
-//        file = pathToSavedGame + "Saved game 2019-05-18 09:33:46.dat";//(1)
-//        file = pathToSavedGame + "Saved game 2019-05-18 09:57:04.dat";//another worked
-//        file = pathToSavedGame + "Saved game 2019-05-18 10:25:21.dat";
-//        file = pathToSavedGame + "Saved game 2019-05-18 10:31:06.dat";
-        file = pathToSavedGame + "Saved game 2019-05-18 15:35:54.dat";
+        file = pathToSavedGame + file;
 
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
@@ -98,13 +95,37 @@ public class SaveLoadController {
             }
         } catch (IOException e) {
             Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "File not found", e);
+        } catch (NullPointerException e) {
+            Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "File null pointer exception", e);
+
         }
-//        System.out.println("Loaded pos " + savedData.get(0).get(0));//if works too(1)
-        System.out.println(savedData);
+//        System.out.println(savedData);
     }
 
     public ArrayList<ArrayList> getLoadedData() {
         return savedData;
+    }
+
+    public String[] getExistingSavedGames() {
+
+        File dir = new File(pathToSavedGame);
+        ArrayList<String> ret = new ArrayList<>();
+        File[] files = dir.listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.endsWith(".dat");
+            }
+        });
+
+        if (files != null) {
+            for (File file : files) {
+                ret.add(file.getName());
+            }
+        }
+        Collections.sort(ret);
+
+        return ret.toArray(new String[ret.size()]);
+
     }
 
 }
