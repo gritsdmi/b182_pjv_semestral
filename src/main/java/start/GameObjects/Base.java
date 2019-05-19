@@ -19,7 +19,7 @@ public class Base implements Constants, Serializable {
     private Block bl2;
     private Block bl3;
     private Block bl4;
-    private BufferedImage baseimage;
+    private transient BufferedImage baseimage;
 
 
     public Base(Point loc) {
@@ -68,15 +68,7 @@ public class Base implements Constants, Serializable {
 
     public void draw(Graphics2D g) {
         if (Alive) {
-//            g.setColor(Color.GREEN);
-//            g.fillRect(x, y, BASE_SIZE_WIDTH, BASE_SIZE_HEIGHT);
-//
-//            g.setStroke(new BasicStroke(3));
-//            g.setColor(Color.GRAY);
-//            g.drawRect(x, y, BASE_SIZE_WIDTH, BASE_SIZE_HEIGHT);
-//            g.setStroke(new BasicStroke(1));
             g.drawImage(baseimage, x, y, null);
-
         }
 
     }
