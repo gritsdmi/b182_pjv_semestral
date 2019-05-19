@@ -52,8 +52,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private MapGenerator mp;
     private volatile boolean exit = false;
     private GameButton test;
-    private Server server;
-    private Client client;
+    private transient Server server;
+    private transient Client client;
 
     public static boolean isServer;
     public static boolean isClient;
