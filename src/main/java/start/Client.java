@@ -40,7 +40,11 @@ public class Client implements Runnable {
 //                clientSocket = new Socket("10.1.5.223", 8080);
 //                clientSocket = new Socket("2001:718:7:9:56bf:7358:4a6d:3ac0", 8080); // pasha server v NTK
 //                clientSocket = new Socket("2001:718:7:204:15fe:49a5:204b:9ff1", 8080); // Dimaaaaaa server v NTK
-                clientSocket = new Socket("2001:718:2:cf:343b:12d6:9870:114f", 8080); // pasha server na strahove
+//                clientSocket = new Socket("2001:718:2:cf:343b:12d6:9870:114f", 8080); // pasha server na strahove
+
+//                clientSocket = new Socket("fe80:0:0:0:d118:3c8b:f53e:aeb2", 8080); // pasha server na strahove
+                clientSocket = new Socket("fe80:0:0:0:d118:3c8b:f53e:aeb2", 8080); // pasha server
+
                 reader = new BufferedReader(new InputStreamReader(System.in));
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
                 ois = new ObjectInputStream(clientSocket.getInputStream());

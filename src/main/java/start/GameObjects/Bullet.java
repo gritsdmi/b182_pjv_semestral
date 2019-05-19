@@ -72,7 +72,7 @@ public class Bullet implements Constants, Serializable {
      *
      * @return true is bullet intersects with something, described above.
      */
-    private boolean controlCollider() {//четвертый пиксель пули
+    private boolean controlCollider() {
         for (Block bl : GamePanel.blocks) {
             if (bl.isAlive() && bl.getType() != Constants.WALL_TYPE_INVIS) {
                 if (bl.getxPosition() <= this.xPosition && (bl.getxPosition() + bl.getWidth()) >= this.xPosition) {
@@ -118,14 +118,14 @@ public class Bullet implements Constants, Serializable {
         //if multiplayer mode on
         if (GamePanel.isServer || GamePanel.isClient) {
             if (GamePanel.isServer) {
-                if (autor == 2) {//если это пулька выпущена клиентом
+                if (autor == 2) {
                     if (GamePanel.player.getRectangle().getX() <= this.xPosition && (GamePanel.player.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
                         if (GamePanel.player.getRectangle().getY() <= this.yPosition && (GamePanel.player.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
                             GamePanel.player.hit(this.getDamage());
                             return true;
                         }
                     }
-                } else if (autor == 0) {//если эту пульку выпустил сервер
+                } else if (autor == 0) {
                     if (GamePanel.player2.getRectangle().getX() <= this.xPosition && (GamePanel.player2.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
                         if (GamePanel.player2.getRectangle().getY() <= this.yPosition && (GamePanel.player2.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
                             GamePanel.player2.hit(this.getDamage());
