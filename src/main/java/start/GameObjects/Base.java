@@ -3,7 +3,11 @@ package start.GameObjects;
 import start.GamePanel;
 import start.Logic.Constants;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 
 public class Base implements Constants, Serializable {
@@ -15,6 +19,7 @@ public class Base implements Constants, Serializable {
     private Block bl2;
     private Block bl3;
     private Block bl4;
+    private BufferedImage baseimage;
 
 
     public Base(Point loc) {
@@ -30,6 +35,11 @@ public class Base implements Constants, Serializable {
         GamePanel.blocks.add(bl3);
         GamePanel.blocks.add(bl4);
         Alive = true;
+        try {
+            baseimage = ImageIO.read(new File("src/main/resources/Entity/Base.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Rectangle getRectangle() {
@@ -58,13 +68,15 @@ public class Base implements Constants, Serializable {
 
     public void draw(Graphics2D g) {
         if (Alive) {
-            g.setColor(Color.GREEN);
-            g.fillRect(x, y, BASE_SIZE_WIDTH, BASE_SIZE_HEIGHT);
+//            g.setColor(Color.GREEN);
+//            g.fillRect(x, y, BASE_SIZE_WIDTH, BASE_SIZE_HEIGHT);
+//
+//            g.setStroke(new BasicStroke(3));
+//            g.setColor(Color.GRAY);
+//            g.drawRect(x, y, BASE_SIZE_WIDTH, BASE_SIZE_HEIGHT);
+//            g.setStroke(new BasicStroke(1));
+            g.drawImage(baseimage, x, y, null);
 
-            g.setStroke(new BasicStroke(3));
-            g.setColor(Color.GRAY);
-            g.drawRect(x, y, BASE_SIZE_WIDTH, BASE_SIZE_HEIGHT);
-            g.setStroke(new BasicStroke(1));
         }
 
     }
@@ -73,6 +85,5 @@ public class Base implements Constants, Serializable {
     public int getHealth() {
         return Health;
     }
-
 
 }

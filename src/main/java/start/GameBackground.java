@@ -60,7 +60,13 @@ public class GameBackground implements Constants, Serializable {
 
     public void draw(Graphics2D g) {
         if (!GamePanel.menu) {
-            g.drawImage(image, 0, 0, null);
+            if (!epilepticmode) {
+                g.drawImage(image, 0, 0, null);
+            } else {
+                g.setColor(color);
+                g.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
+            }
+
         } else {
             g.setColor(color);
             g.fillRect(0, 0, width, height);
