@@ -1,5 +1,6 @@
 package start.GameObjects;
 
+import start.GamePanel;
 import start.Logic.Constants;
 
 import javax.imageio.ImageIO;
@@ -74,7 +75,7 @@ public class Drop implements Constants {
                     break;
                 case 1:
                     player.fireRateChange();
-//                    GamePanel.background.startMode();
+                    GamePanel.background.startMode();
                     break;
                 case 2:
                     System.out.println("restore health");
