@@ -149,15 +149,16 @@ public class SaveLoadController implements Constants {
         ArrayList<String> temp = new ArrayList<>();
 
         assert parser != null;
+        int count = 0;
         while (parser.hasNext()) {
             line = parser.nextLine();
             temp.add(line);
+            count++;
+            if (count >= 3) break;
         }
-        System.out.println(temp);
-        System.out.println(temp.size());
 
 
-        return temp.toArray(new String[temp.size()]);
+        return temp.toArray(new String[3]);
 
     }
 
