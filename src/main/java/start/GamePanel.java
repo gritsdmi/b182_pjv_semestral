@@ -261,6 +261,9 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     public void ChangeStage(int newStage) {
         switch (newStage) {
+            case -1:
+
+                break;
             case 0:
                 menu = true;
                 stage = 2;

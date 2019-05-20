@@ -3,6 +3,9 @@ package start.Logic;
 import start.GamePanel;
 
 import java.awt.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.Serializable;
 
 public class GameButton implements Constants, Serializable {
@@ -16,6 +19,7 @@ public class GameButton implements Constants, Serializable {
     private int height;
     private String str;
     private int number;
+    private BufferedReader in;
 
 
     public GameButton(char type, GamePanel gp) {
@@ -109,6 +113,13 @@ public class GameButton implements Constants, Serializable {
                 height = 70;
                 str = "Load game";
                 break;
+            case 'j':
+                color = Color.GRAY;
+                y = 300;
+                width = 200;
+                height = 150;
+
+                break;
         }
     }
 
@@ -117,6 +128,28 @@ public class GameButton implements Constants, Serializable {
         int heightN = 150;
         int lvl = 1;
         for (int i = 0; i < levelButtons.length; i++) {
+            levelButtons[i] = new GameButton('l', gp);
+            levelButtons[i].y = heightN;
+            heightN += 100;
+            levelButtons[i].str = "level " + lvl;
+            levelButtons[i].number = lvl;
+            lvl++;
+        }
+        return levelButtons;
+    }
+
+    public GameButton[] createPlayersButtons() {
+        GameButton[] levelButtons = new GameButton[3];
+        int heightN = 150;
+        int lvl = 1;
+        try {
+            in = new BufferedReader(new FileReader(pathToSavedPlayers));
+        } catch (IOException e) {
+
+        }
+
+        for (int i = 0; i < levelButtons.length; i++) {
+
             levelButtons[i] = new GameButton('l', gp);
             levelButtons[i].y = heightN;
             heightN += 100;
@@ -217,4 +250,11 @@ public class GameButton implements Constants, Serializable {
         g.drawString(str, x + 20, y + 30);
     }
 
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 }
