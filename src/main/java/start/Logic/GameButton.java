@@ -119,6 +119,14 @@ public class GameButton implements Constants, Serializable {
                 height = 150;
 
                 break;
+            case 'g':
+                color = Color.GRAY;
+                x = 0;
+                y = 730;
+                width = 150;
+                height = 70;
+                str = "Change player";
+                break;
         }
     }
 
@@ -235,6 +243,9 @@ public class GameButton implements Constants, Serializable {
                         gp.ChangeStage(1);
                     }
 
+                    break;
+                case 'g':
+                    gp.ChangeStage(-1);
                     break;
 
             }

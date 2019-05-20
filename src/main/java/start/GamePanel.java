@@ -287,6 +287,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 }
                 buttons.add(playButton);
                 buttons.add(new GameButton('i', this));
+                buttons.add(new GameButton('g', this));
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
                 if (isServer) {
                     try {
@@ -527,7 +528,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     public void MenuPaint(Graphics2D g) {
         Graphics2D g2d = g;
         background.draw(g2d);
-        g2d.drawString(name, 100, 100);
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(name, 50, 50);
         //Buttons draw
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).draw(g2d);
@@ -547,7 +549,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         menuBackground.draw(g2d);
         // Player draw
         player.draw(g2d);
-        g2d.drawString(name, 100, 100);
+        g2d.drawString(name, 810, 600);
 
         if (isServer || isClient) {
             player2.draw(g2d);
