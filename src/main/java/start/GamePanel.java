@@ -3,10 +3,7 @@ package start;
 import start.GameObjects.*;
 import start.Listeners.Listeners;
 import start.Listeners.MouseListener;
-import start.Logic.Constants;
-import start.Logic.GameButton;
-import start.Logic.MapGenerator;
-import start.Logic.SpawnPoint;
+import start.Logic.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -62,6 +59,9 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
 
     public static boolean menu;
+    public static String name = "";
+
+    public static String[] savedPlayers;
 
 
 
@@ -82,6 +82,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private double delayPlayerShot = System.nanoTime();
     private double delayPlayerShot2 = System.nanoTime();
     private double dropDelayTime = System.nanoTime();
+    private GameButton[] newButtons;
 
 
     //Constructor
@@ -114,6 +115,9 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         isServer = false;
         isClient = false;
 
+        SaveLoadController slc = new SaveLoadController(this);
+        savedPlayers = slc.parseSavedPlayers();
+
     }
 
 
@@ -126,7 +130,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
 
     public void run() {
-        ChangeStage(0);
+        ChangeStage(-1);
 
         // WHILE TRUE
         // WHILE TRUE
@@ -262,6 +266,17 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     public void ChangeStage(int newStage) {
         switch (newStage) {
             case -1:
+                background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
+                menu = true;
+                stage = 2;
+                while (buttons.size() > 0) {
+                    buttons.remove(0);
+                }
+                test = new GameButton('s', this);
+                newButtons = test.createPlayersButtons();
+                for (int i = 0; i < newButtons.length; i++) {
+                    buttons.add(newButtons[i]);
+                }
 
                 break;
             case 0:
@@ -325,7 +340,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                     buttons.remove(0);
                 }
                 test = new GameButton('s', this);
-                GameButton[] newButtons = test.createLevelButtons(levels.length);
+                newButtons = test.createLevelButtons(levels.length);
                 for (int i = 0; i < newButtons.length; i++) {
                     buttons.add(newButtons[i]);
                 }
@@ -512,6 +527,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     public void MenuPaint(Graphics2D g) {
         Graphics2D g2d = g;
         background.draw(g2d);
+        g2d.drawString(name, 100, 100);
         //Buttons draw
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).draw(g2d);
@@ -531,6 +547,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         menuBackground.draw(g2d);
         // Player draw
         player.draw(g2d);
+        g2d.drawString(name, 100, 100);
 
         if (isServer || isClient) {
             player2.draw(g2d);

@@ -1,8 +1,6 @@
 package start;
 
 
-import start.Logic.SaveLoadController;
-
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -30,8 +28,7 @@ public class Main {
 //        frame.add(lb);
 //        lb.setVisible(true);
         gamePanel.start();
-        SaveLoadController slc = new SaveLoadController(gamePanel);
-        slc.parseSavedPlayers();
+
 
 //        test();
 
