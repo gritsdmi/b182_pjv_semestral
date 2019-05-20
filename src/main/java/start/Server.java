@@ -23,9 +23,11 @@ public class Server implements Runnable {
     private ObjectOutputStream oos;
     ArrayList<Block> bl;
     ArrayList<Bullet> bu;
+    private ArrayList<String> adress;
 
     public Server(GamePanel gp) {
         this.gp = gp;
+        adress = new ArrayList<>();
     }
 
     public void start() throws UnknownHostException {
@@ -45,9 +47,11 @@ public class Server implements Runnable {
                     Enumeration ee = n.getInetAddresses();
                     while (ee.hasMoreElements()) {
                         InetAddress i = (InetAddress) ee.nextElement();
+                        adress.add(i.getHostAddress());
                         System.out.println(i.getHostAddress());
                     }
                 }
+                gp.setIpAdress(adress.get(3));
                 socket = serverSocket.accept();
                 System.out.println("Accepted");
                 try {
