@@ -168,18 +168,20 @@ public class GameButton implements Constants, Serializable {
                 playersButtons[i].str = "EMPTY";
             }
             playersButtons[i].x = 75 + i * 300;
-            playersButtons[3] = new GameButton('d', gp);
-            playersButtons[3].number = 1;
-            playersButtons[3].x = 125;
-            playersButtons[4] = new GameButton('d', gp);
-            playersButtons[4].number = 2;
-            playersButtons[4].x = 125 + 1 * 300;
-            playersButtons[5] = new GameButton('d', gp);
-            playersButtons[5].number = 3;
-            playersButtons[5].x = 125 + 2 * 300;
+            playersButtons[i].number = i + 1;
+
+
         }
 
-
+        playersButtons[3] = new GameButton('d', gp);
+        playersButtons[3].number = 1;
+        playersButtons[3].x = 125;
+        playersButtons[4] = new GameButton('d', gp);
+        playersButtons[4].number = 2;
+        playersButtons[4].x = 125 + 1 * 300;
+        playersButtons[5] = new GameButton('d', gp);
+        playersButtons[5].number = 3;
+        playersButtons[5].x = 125 + 2 * 300;
         return playersButtons;
     }
     public void checkMouse(int mouseX, int mouseY) {
@@ -231,7 +233,7 @@ public class GameButton implements Constants, Serializable {
                         gp.ChangeStage(0);
                         GamePanel.name = str;
                     } else {
-                        InputNewPlayer inp = new InputNewPlayer(gp);
+                        InputNewPlayer inp = new InputNewPlayer(gp, number);
                         gp.ChangeStage(0);
                         GamePanel.name = inp.getEnteredName();
                         slc.writeNewPlayer(inp.getEnteredName());
@@ -270,7 +272,7 @@ public class GameButton implements Constants, Serializable {
                     gp.ChangeStage(-1);
                     break;
                 case 'd':
-//                    slc.deletePlayer(number);
+                    slc.deletePlayer(number);
 
                     break;
 
