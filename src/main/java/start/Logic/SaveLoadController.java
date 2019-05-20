@@ -1,11 +1,11 @@
 package start.Logic;
 
+import org.apache.commons.io.FileUtils;
 import start.GamePanel;
 
 import java.io.*;
-import java.nio.file.DirectoryNotEmptyException;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -52,9 +52,21 @@ public class SaveLoadController implements Constants {
 
         filename = "Saved game " + generateNewFilename() + ".dat";
 
+        Path path = Paths.get(pathToSavedGame + GamePanel.name + '/');
+        //if directory exists?
+        if (!Files.exists(path)) {
+            try {
+                Files.createDirectories(path);
+//                System.out.println("dir created");
+            } catch (IOException e) {
+                //fail to create directory
+                e.printStackTrace();
+            }
+        }
+
 
         try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(pathToSavedGame + filename));
+            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(pathToSavedGame + GamePanel.name + "/" + filename));
             out.writeObject(savedData);
 
 //            System.out.println("Saving player " + GamePanel.player.getPosition() +" "+ GamePanel.player.getHealth());
@@ -64,7 +76,7 @@ public class SaveLoadController implements Constants {
         } catch (IOException ex) {
             Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "Error writing saved game to file", ex);
 
-            deleteFile(pathToSavedGame + filename);
+            deleteFile(pathToSavedGame + GamePanel.name + "/" + filename);
 
             return false;
         }
@@ -76,7 +88,7 @@ public class SaveLoadController implements Constants {
     public void loadGameFromFile(String file) {
         savedData.clear();
         System.out.println("trying to deserialize");
-        file = pathToSavedGame + file;
+        file = pathToSavedGame + GamePanel.name + "/" + file;
 
         try {
             ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
@@ -101,7 +113,7 @@ public class SaveLoadController implements Constants {
 
     public String[] getExistingSavedGames() {
 
-        File dir = new File(pathToSavedGame);
+        File dir = new File(pathToSavedGame + GamePanel.name + "/");
         ArrayList<String> ret = new ArrayList<>();
 
         File[] files = dir.listFiles(new FilenameFilter() {
@@ -153,22 +165,19 @@ public class SaveLoadController implements Constants {
 
     }
 
-    public boolean deleteFile(String file) {
+    public boolean deleteFile(String file) {//filename
+
+
+        Path path = Paths.get(pathToSavedGame + GamePanel.name + "/" + file);
+        System.out.println("exists? " + Files.exists(path));
 
         try {
-            Files.deleteIfExists(Paths.get(pathToSavedGame + file));
-            System.out.println("Deletion successful.");
-            return true;
-        } catch (NoSuchFileException e) {
-            System.out.println("No such file/directory exists");
-        } catch (DirectoryNotEmptyException e) {
-            System.out.println("Directory is not empty.");
+            Files.delete(path);
         } catch (IOException e) {
-            System.out.println("Invalid permissions.");
+            e.printStackTrace();
         }
 
-
-        return false;
+        return true;
     }
 
     public void writeNewPlayer(String name) {
@@ -177,7 +186,7 @@ public class SaveLoadController implements Constants {
 
         for (int i = 0; i < 3; i++) {
             if (oldData[i] == null) {
-                System.out.println("here");
+//                System.out.println("here");
                 oldData[i] = name;
                 break;
             }
@@ -199,6 +208,49 @@ public class SaveLoadController implements Constants {
             e.printStackTrace();
         }
 
+    }
+
+    public void deletePlayer(int placing) {
+        int index = placing - 1;
+
+        String[] playersInFile = parseSavedPlayers();
+        String playersName = playersInFile[placing];
+
+        if (playersInFile[index].equals(GamePanel.name)) {
+            GamePanel.name = "";
+            System.out.println("equals names");
+        } else {
+            System.out.println("noy equals names");
+        }
+
+        try {
+            FileUtils.deleteDirectory(new File(pathToSavedGame + playersName + "/"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        delRowInFile(playersInFile, index);
+    }
+
+    private void delRowInFile(String[] playersInFile, int index) {
+        File file = new File(pathToSavedPlayers);
+        try {
+            FileWriter fW = new FileWriter(file);
+
+            for (int i = 0; i < 3; i++) {
+                if (i == index) {
+                    fW.write("");
+                } else {
+                    fW.write(playersInFile[i]);
+                }
+                fW.write('\n');
+            }
+            fW.flush();
+
+            fW.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

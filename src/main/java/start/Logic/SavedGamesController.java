@@ -32,7 +32,7 @@ public class SavedGamesController extends JDialog {
         JPanel jP1 = new JPanel();
         jP1.setLayout(null);
         final JLabel label = new JLabel("Choose saved game: ");
-        final JLabel errorLabel = new JLabel("There are no saved games yet.\nPlease go back and start new game.");
+        final JLabel errorLabel = new JLabel("There are no saved games yet. \nPlease go back and start new game.");
 
         JButton goButton = new JButton("Go!");
         goButton.setEnabled(false);
@@ -51,14 +51,27 @@ public class SavedGamesController extends JDialog {
             dispose();
         });
 
+        JButton delButton = new JButton("Delete save");
+        delButton.setEnabled(false);
+        delButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("lvl to del true");
+                //TODO not working
+                if (Item[0] != null) slc.deleteFile(Item[0]);
+            }
+        });
+
+
         JList<String> jList = new JList<>(slc.getExistingSavedGames());
         jList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        jList.setPrototypeCellValue("1111111111111111111111111111111111111111111111111111");
         jList.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 int selected = ((JList<?>) e.getSource()).getSelectedIndex();
                 goButton.setEnabled(true);
+                delButton.setEnabled(true);
+                //TODO update on delete
                 Item[0] = slc.getExistingSavedGames()[selected];
             }
         });
@@ -77,6 +90,8 @@ public class SavedGamesController extends JDialog {
         jP1.add(jList);
         jP1.add(goButton);
         jP1.add(backButton);
+        jP1.add(delButton);
+//        jP1.add(jScrollPane);
 
         size = errorLabel.getPreferredSize();
         errorLabel.setBounds(insets.left + 50, insets.top + 70, size.width, size.height);
@@ -84,11 +99,18 @@ public class SavedGamesController extends JDialog {
         size = jList.getPreferredSize();
         jList.setBounds(insets.left + 50, insets.top + 100, size.width, size.height);
 
+//        size = jScrollPane.getPreferredSize();
+//        jScrollPane.setBounds(insets.left + 50, insets.top + 100, size.width, size.height);
+
         size = goButton.getPreferredSize();
         goButton.setBounds(insets.left + 300, insets.top + 200, size.width, size.height);
 
         size = backButton.getPreferredSize();
         backButton.setBounds(insets.left + 100, insets.top + 200, size.width, size.height);
+
+        size = delButton.getPreferredSize();
+        delButton.setBounds(insets.left + 200, insets.top + 200, size.width, size.height);
+
 
 
         setContentPane(jP1);
