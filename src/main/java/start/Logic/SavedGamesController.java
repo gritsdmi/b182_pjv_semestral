@@ -52,15 +52,7 @@ public class SavedGamesController extends JDialog {
         });
 
         JButton delButton = new JButton("Delete save");
-        delButton.setEnabled(false);
-        delButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("lvl to del true");
-                //TODO not working
-                if (Item[0] != null) slc.deleteFile(Item[0]);
-            }
-        });
+
 
 
         JList<String> jList = new JList<>(slc.getExistingSavedGames());
@@ -72,7 +64,23 @@ public class SavedGamesController extends JDialog {
                 goButton.setEnabled(true);
                 delButton.setEnabled(true);
                 //TODO update on delete
-                Item[0] = slc.getExistingSavedGames()[selected];
+                Item[0] = selected != -1 ? slc.getExistingSavedGames()[selected] : null;
+            }
+        });
+
+        delButton.setEnabled(false);
+        delButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("lvl to del true");
+                if (Item[0] != null) slc.deleteFile(Item[0]);
+//                jList = new JList<>(slc.getExistingSavedGames());
+                jList.setListData(slc.getExistingSavedGames());
+                jList.updateUI();
+                delButton.setEnabled(false);
+                goButton.setEnabled(false);
+
+                levelSelect = false;
             }
         });
 
@@ -103,7 +111,7 @@ public class SavedGamesController extends JDialog {
 //        jScrollPane.setBounds(insets.left + 50, insets.top + 100, size.width, size.height);
 
         size = goButton.getPreferredSize();
-        goButton.setBounds(insets.left + 300, insets.top + 200, size.width, size.height);
+        goButton.setBounds(insets.left + 350, insets.top + 200, size.width, size.height);
 
         size = backButton.getPreferredSize();
         backButton.setBounds(insets.left + 100, insets.top + 200, size.width, size.height);

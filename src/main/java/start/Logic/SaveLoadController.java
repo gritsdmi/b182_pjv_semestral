@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SaveLoadController implements Constants {
+public class SaveLoadController implements Constants, Serializable {
 
     private GamePanel gp;
     private String filename;
