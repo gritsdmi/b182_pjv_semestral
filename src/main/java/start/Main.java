@@ -1,9 +1,12 @@
 package start;
 
 
+import start.Logic.SaveLoadController;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.URL;
@@ -28,6 +31,12 @@ public class Main {
 //        frame.add(lb);
 //        lb.setVisible(true);
         gamePanel.start();
+        SaveLoadController slc = new SaveLoadController(gamePanel);
+        try {
+            slc.parseSavedPlayers();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
 //        test();
 

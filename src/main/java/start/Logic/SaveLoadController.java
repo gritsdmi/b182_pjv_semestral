@@ -9,10 +9,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -117,6 +114,7 @@ public class SaveLoadController implements Constants {
 
         File dir = new File(pathToSavedGame);
         ArrayList<String> ret = new ArrayList<>();
+
         File[] files = dir.listFiles(new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -132,6 +130,25 @@ public class SaveLoadController implements Constants {
         Collections.sort(ret);
 
         return ret.toArray(new String[ret.size()]);
+
+    }
+
+    public String[] parseSavedPlayers() throws FileNotFoundException {
+        File file = new File(pathToSavedPlayers + "" + "SavedPlayers");
+        Scanner parser = new Scanner(file);
+
+        String line;
+        ArrayList<String> temp = new ArrayList<>();
+
+        while (parser.hasNext()) {
+            line = parser.nextLine();
+            temp.add(line);
+        }
+        System.out.println(temp);
+
+        String[] ret = new String[temp.size()];
+
+        return ret;
 
     }
 
