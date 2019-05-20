@@ -63,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     public static String name = "";
 
     public static String[] savedPlayers;
+    private String IpAdress = "";
 
 
 
@@ -552,6 +553,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         // Player draw
         player.draw(g2d);
         g2d.drawString(name, 810, 600);
+        if (isServer) g2d.drawString(IpAdress, 100, 100);
 
         if (isServer || isClient) {
             player2.draw(g2d);
@@ -635,6 +637,10 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     public JFrame getMainFrame() {
         return mainFrame;
+    }
+
+    public void setIpAdress(String ip) {
+        this.IpAdress = ip;
     }
 
 }
