@@ -64,18 +64,7 @@ public class SaveLoadController implements Constants {
         } catch (IOException ex) {
             Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "Error writing saved game to file", ex);
 
-            //del file
-            try {
-                Files.deleteIfExists(Paths.get("src/main/resources/SavedGames/" + filename));
-            } catch (NoSuchFileException e) {
-                System.out.println("No such file/directory exists");
-            } catch (DirectoryNotEmptyException e) {
-                System.out.println("Directory is not empty.");
-            } catch (IOException e) {
-                System.out.println("Invalid permissions.");
-            }
-
-            System.out.println("Deletion successful.");
+            deleteFile(pathToSavedGame + filename);
 
             return false;
         }
@@ -161,6 +150,55 @@ public class SaveLoadController implements Constants {
 
 
         return temp.toArray(new String[3]);
+
+    }
+
+    public boolean deleteFile(String file) {
+
+        try {
+            Files.deleteIfExists(Paths.get(pathToSavedGame + file));
+            System.out.println("Deletion successful.");
+            return true;
+        } catch (NoSuchFileException e) {
+            System.out.println("No such file/directory exists");
+        } catch (DirectoryNotEmptyException e) {
+            System.out.println("Directory is not empty.");
+        } catch (IOException e) {
+            System.out.println("Invalid permissions.");
+        }
+
+
+        return false;
+    }
+
+    public void writeNewPlayer(String name) {
+        File file = new File(pathToSavedPlayers);
+        String[] oldData = parseSavedPlayers();
+
+        for (int i = 0; i < 3; i++) {
+            if (oldData[i] == null) {
+                System.out.println("here");
+                oldData[i] = name;
+                break;
+            }
+        }
+
+        try {
+            FileWriter fW = new FileWriter(file);
+
+            fW.write(oldData[0]);
+            fW.write('\n');
+            fW.write(oldData[1]);
+            fW.write('\n');
+            fW.write(oldData[2]);
+            fW.write('\n');
+            fW.flush();
+
+            fW.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
