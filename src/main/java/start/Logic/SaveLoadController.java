@@ -16,9 +16,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static start.Logic.Constants.pathToSavedGame;
-
-public class SaveLoadController {
+public class SaveLoadController implements Constants {
 
     private GamePanel gp;
     private String filename;
@@ -35,6 +33,15 @@ public class SaveLoadController {
         return df.format(date);
     }
 
+    public void savePlayer(String nickName) {
+        try {
+            BufferedWriter out = new BufferedWriter(new FileWriter(pathToSavedPlayers));
+            out.write(nickName + "\n");
+        } catch (IOException e) {
+
+        }
+
+    }
     public boolean saveGame() {
         System.out.println("Try to save game");
         savedData.add(gp.getPlayerAsArrayList());//worked
