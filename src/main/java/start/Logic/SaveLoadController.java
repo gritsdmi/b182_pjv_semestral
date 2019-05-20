@@ -133,22 +133,31 @@ public class SaveLoadController implements Constants {
 
     }
 
-    public String[] parseSavedPlayers() throws FileNotFoundException {
-        File file = new File(pathToSavedPlayers + "" + "SavedPlayers");
-        Scanner parser = new Scanner(file);
+    public String[] parseSavedPlayers() {
+
+        File file = new File(pathToSavedPlayers);
+
+        Scanner parser = null;
+        try {
+            parser = new Scanner(file);
+        } catch (FileNotFoundException e) {
+            Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "File not found", e);
+
+        }
 
         String line;
         ArrayList<String> temp = new ArrayList<>();
 
+        assert parser != null;
         while (parser.hasNext()) {
             line = parser.nextLine();
             temp.add(line);
         }
         System.out.println(temp);
+        System.out.println(temp.size());
 
-        String[] ret = new String[temp.size()];
 
-        return ret;
+        return temp.toArray(new String[temp.size()]);
 
     }
 

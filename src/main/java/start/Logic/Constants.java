@@ -36,7 +36,7 @@ public interface Constants {
     String LEVEL_3 = "src/main/resources/Maps/Level_3.txt";
 
     String pathToSavedGame = "src/main/resources/SavedGames/";
-    String pathToSavedPlayers = "src/main/resources/Players/SavedPlayers/";
+    String pathToSavedPlayers = "src/main/resources/Players/SavedPlayers";
     int ENEMY_MOVING_SPEED = 2;
     int ENEMY_FIRE_DISTANCE = 300;
     int ENEMY_HEALTH = 80;
