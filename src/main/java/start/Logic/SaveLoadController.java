@@ -186,12 +186,12 @@ public class SaveLoadController implements Constants {
         try {
             FileWriter fW = new FileWriter(file);
 
-            fW.write(oldData[0]);
-            fW.write('\n');
-            fW.write(oldData[1]);
-            fW.write('\n');
-            fW.write(oldData[2]);
-            fW.write('\n');
+            for (int i = 0; i < 3; i++) {
+                if (oldData[i] != null) {
+                    fW.write(oldData[i]);
+                }
+                fW.write('\n');
+            }
             fW.flush();
 
             fW.close();
