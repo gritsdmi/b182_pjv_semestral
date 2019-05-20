@@ -152,7 +152,9 @@ public class SaveLoadController implements Constants {
         int count = 0;
         while (parser.hasNext()) {
             line = parser.nextLine();
-            temp.add(line);
+            if (line.equals(""))
+                temp.add(null);//fix
+            else temp.add(line);
             count++;
             if (count >= 3) break;
         }
