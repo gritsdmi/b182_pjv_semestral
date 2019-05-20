@@ -42,18 +42,25 @@ public class Server implements Runnable {
 
                 serverSocket = new ServerSocket(8080);
                 Enumeration e = NetworkInterface.getNetworkInterfaces();
+
+
                 while (e.hasMoreElements()) {
                     NetworkInterface n = (NetworkInterface) e.nextElement();
                     Enumeration ee = n.getInetAddresses();
                     while (ee.hasMoreElements()) {
                         InetAddress i = (InetAddress) ee.nextElement();
                         adress.add(i.getHostAddress());
+
                         System.out.println(i.getHostAddress());
                     }
                 }
+                GamePanel.nets = adress;
+                GamePanel.showNets = true;
                 gp.setIpAdress(adress.get(3));
                 socket = serverSocket.accept();
                 System.out.println("Accepted");
+                gp.setLevel(GamePanel.curLevel);
+                gp.ChangeStage(1);
                 try {
 
                     in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

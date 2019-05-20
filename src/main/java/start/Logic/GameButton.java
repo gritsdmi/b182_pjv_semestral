@@ -215,18 +215,35 @@ public class GameButton implements Constants, Serializable {
 
                     break;
                 case 'l':
-                    switch (number) {
-                        case 1:
-                            gp.setLevel(LEVEL_1);
-                            break;
-                        case 2:
-                            gp.setLevel(LEVEL_2);
-                            break;
-                        case 3:
-                            gp.setLevel(LEVEL_3);
-                            break;
+                    if (GamePanel.isServer) {
+                        switch (number) {
+                            case 1:
+                                GamePanel.curLevel = LEVEL_1;
+                                break;
+                            case 2:
+                                GamePanel.curLevel = LEVEL_2;
+                                ;
+                                break;
+                            case 3:
+                                GamePanel.curLevel = LEVEL_3;
+                                break;
+                        }
+                    } else {
+                        switch (number) {
+                            case 1:
+                                gp.setLevel(LEVEL_1);
+                                break;
+                            case 2:
+                                gp.setLevel(LEVEL_2);
+                                break;
+                            case 3:
+                                gp.setLevel(LEVEL_3);
+                                break;
+                        }
+                        gp.ChangeStage(1);
                     }
-                    gp.ChangeStage(1);
+
+
                     break;
                 case 'j':
                     if (isEmpty == false) {

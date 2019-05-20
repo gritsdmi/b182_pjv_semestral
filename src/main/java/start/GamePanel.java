@@ -64,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     public static String[] savedPlayers;
     private String IpAdress = "";
+    public static boolean showNets = false;
 
 
 
@@ -72,8 +73,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     //1 - action(game) stage
     //2 - pause stage
     public static int stage;
-
-
+    public static String curLevel;
+    public static ArrayList<String> nets;
 
 
 
@@ -537,6 +538,14 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).draw(g2d);
 
+        }
+
+        if (showNets) {
+            int i = 200;
+            for (String str : nets) {
+                g2d.drawString(str, 200, i);
+                i += 50;
+            }
         }
         Graphics2D g2 = (Graphics2D) this.getGraphics();
         g2.drawImage(image, 0, 0, this);
