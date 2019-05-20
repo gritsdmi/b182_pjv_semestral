@@ -4,8 +4,6 @@ import start.GamePanel;
 
 import java.awt.*;
 import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.Serializable;
 
 public class GameButton implements Constants, Serializable {
@@ -19,6 +17,7 @@ public class GameButton implements Constants, Serializable {
     private int height;
     private String str;
     private int number;
+    private boolean isEmpty;
     private BufferedReader in;
 
 
@@ -139,25 +138,22 @@ public class GameButton implements Constants, Serializable {
     }
 
     public GameButton[] createPlayersButtons() {
-        GameButton[] levelButtons = new GameButton[3];
-        int heightN = 150;
-        int lvl = 1;
-        try {
-            in = new BufferedReader(new FileReader(pathToSavedPlayers));
-        } catch (IOException e) {
+        GameButton[] playersButtons = new GameButton[3];
+        for (int i = 0; i < GamePanel.savedPlayers.length; i++) {
+            if (GamePanel.savedPlayers[i] != null) {
+                playersButtons[i] = new GameButton('j', gp);
+                playersButtons[i].isEmpty = false;
+                playersButtons[i].str = GamePanel.savedPlayers[i];
 
+            } else {
+                playersButtons[i] = new GameButton('j', gp);
+                playersButtons[i].isEmpty = true;
+                playersButtons[i].str = "EMPTY";
+            }
+            playersButtons[i].x = 75 + i * 300;
         }
 
-        for (int i = 0; i < levelButtons.length; i++) {
-
-            levelButtons[i] = new GameButton('l', gp);
-            levelButtons[i].y = heightN;
-            heightN += 100;
-            levelButtons[i].str = "level " + lvl;
-            levelButtons[i].number = lvl;
-            lvl++;
-        }
-        return levelButtons;
+        return playersButtons;
     }
     public void checkMouse(int mouseX, int mouseY) {
         if ((mouseX >= x) && (mouseX <= x + width) && (mouseY >= y) && (mouseY <= y + height)) {
@@ -202,6 +198,14 @@ public class GameButton implements Constants, Serializable {
                             break;
                     }
                     gp.ChangeStage(1);
+                    break;
+                case 'j':
+                    if (isEmpty == false) {
+                        gp.ChangeStage(0);
+                        GamePanel.name = str;
+                    } else {
+//                        todo inputfield
+                    }
                     break;
                 case 'i':
 
