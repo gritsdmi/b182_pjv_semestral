@@ -180,12 +180,12 @@ public class SaveLoadController implements Constants {
         return true;
     }
 
-    public void writeNewPlayer(String name) {
+    public void writeNewPlayer(String name, int pos) {
         File file = new File(pathToSavedPlayers);
         String[] oldData = parseSavedPlayers();
 
         for (int i = 0; i < 3; i++) {
-            if (oldData[i] == null) {
+            if (oldData[i] == null && i + 1 == pos) {
 //                System.out.println("here");
                 oldData[i] = name;
                 break;
@@ -214,13 +214,14 @@ public class SaveLoadController implements Constants {
         int index = placing - 1;
 
         String[] playersInFile = parseSavedPlayers();
-        String playersName = playersInFile[placing];
+        String playersName = playersInFile[index];
+        if (playersName == null) return;
 
         if (playersInFile[index].equals(GamePanel.name)) {
             GamePanel.name = "";
             System.out.println("equals names");
         } else {
-            System.out.println("noy equals names");
+            System.out.println("not equals names");
         }
 
         try {
@@ -241,7 +242,11 @@ public class SaveLoadController implements Constants {
                 if (i == index) {
                     fW.write("");
                 } else {
-                    fW.write(playersInFile[i]);
+                    if (playersInFile[i] == null) {
+                        fW.write("");
+                    } else {
+                        fW.write(playersInFile[i]);
+                    }
                 }
                 fW.write('\n');
             }

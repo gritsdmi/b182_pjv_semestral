@@ -10,18 +10,19 @@ import java.awt.event.ActionListener;
 public class InputNewPlayer extends JDialog {
 
     private String enteredName;
+//    private int position;
 
     public InputNewPlayer(GamePanel gp) {
         super(gp.getMainFrame(), "New Player", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         enteredName = "";
         displayContent();
+//        this.position = position;
     }
 
     private boolean checkInput(String input) {
         if (input.length() > 3 && input.length() < 10) return true;
-
-        return true;
+        return false;
     }
 
     private void displayContent() {

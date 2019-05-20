@@ -233,10 +233,10 @@ public class GameButton implements Constants, Serializable {
                         gp.ChangeStage(0);
                         GamePanel.name = str;
                     } else {
-                        InputNewPlayer inp = new InputNewPlayer(gp, number);
+                        InputNewPlayer inp = new InputNewPlayer(gp);
                         gp.ChangeStage(0);
                         GamePanel.name = inp.getEnteredName();
-                        slc.writeNewPlayer(inp.getEnteredName());
+                        slc.writeNewPlayer(inp.getEnteredName(), number);
                     }
                     break;
                 case 'i':
@@ -273,7 +273,7 @@ public class GameButton implements Constants, Serializable {
                     break;
                 case 'd':
                     slc.deletePlayer(number);
-
+                    gp.ChangeStage(-1);
                     break;
 
             }

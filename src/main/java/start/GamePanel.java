@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 public class GamePanel extends JPanel implements Runnable, Constants, Serializable {
@@ -143,7 +142,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         // WHILE TRUE
 
         while (true) {
-            System.out.println(Arrays.toString(savedPlayers));
             timerFPS = System.nanoTime();
             switch (stage) {
                 case 1:
