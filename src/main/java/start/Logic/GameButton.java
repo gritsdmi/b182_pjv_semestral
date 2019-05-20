@@ -127,6 +127,14 @@ public class GameButton implements Constants, Serializable {
                 height = 70;
                 str = "Change player";
                 break;
+            case 'd':
+                color = Color.darkGray;
+                x = 0;
+                y = 450;
+                width = 100;
+                height = 50;
+                str = "Delete";
+                break;
         }
     }
 
@@ -142,11 +150,12 @@ public class GameButton implements Constants, Serializable {
             levelButtons[i].number = lvl;
             lvl++;
         }
+
         return levelButtons;
     }
 
     public GameButton[] createPlayersButtons() {
-        GameButton[] playersButtons = new GameButton[3];
+        GameButton[] playersButtons = new GameButton[6];
         for (int i = 0; i < GamePanel.savedPlayers.length; i++) {
             if (GamePanel.savedPlayers[i] != null) {
                 playersButtons[i] = new GameButton('j', gp);
@@ -159,7 +168,17 @@ public class GameButton implements Constants, Serializable {
                 playersButtons[i].str = "EMPTY";
             }
             playersButtons[i].x = 75 + i * 300;
+            playersButtons[3] = new GameButton('d', gp);
+            playersButtons[3].number = 1;
+            playersButtons[3].x = 125;
+            playersButtons[4] = new GameButton('d', gp);
+            playersButtons[4].number = 2;
+            playersButtons[4].x = 125 + 1 * 300;
+            playersButtons[5] = new GameButton('d', gp);
+            playersButtons[5].number = 3;
+            playersButtons[5].x = 125 + 2 * 300;
         }
+
 
         return playersButtons;
     }
@@ -214,7 +233,7 @@ public class GameButton implements Constants, Serializable {
                     } else {
                         InputNewPlayer inp = new InputNewPlayer(gp);
                         gp.ChangeStage(0);
-//                        GamePanel.name = ;
+                        GamePanel.name = inp.getEnteredName();
                         slc.writeNewPlayer(inp.getEnteredName());
                     }
                     break;
@@ -249,6 +268,10 @@ public class GameButton implements Constants, Serializable {
                     break;
                 case 'g':
                     gp.ChangeStage(-1);
+                    break;
+                case 'd':
+//                    slc.deletePlayer(number);
+
                     break;
 
             }

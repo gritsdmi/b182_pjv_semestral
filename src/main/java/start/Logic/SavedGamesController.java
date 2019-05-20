@@ -46,12 +46,9 @@ public class SavedGamesController extends JDialog {
         });
 
         JButton backButton = new JButton("Back");
-        backButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(false);
-                dispose();
-            }
+        backButton.addActionListener(e -> {
+            setVisible(false);
+            dispose();
         });
 
         JList<String> jList = new JList<>(slc.getExistingSavedGames());

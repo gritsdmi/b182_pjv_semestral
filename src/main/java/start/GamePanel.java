@@ -44,6 +44,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private boolean startWave;
     private double startWaveTimer;
     private int wave = 1;
+    private SaveLoadController slc;
 
     public static ArrayList<GameButton> buttons;
     private MapGenerator mp;
@@ -115,7 +116,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         isServer = false;
         isClient = false;
 
-        SaveLoadController slc = new SaveLoadController(this);
+        slc = new SaveLoadController(this);
         savedPlayers = slc.parseSavedPlayers();
 
     }
@@ -266,6 +267,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     public void ChangeStage(int newStage) {
         switch (newStage) {
             case -1:
+                savedPlayers = slc.parseSavedPlayers();
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
                 menu = true;
                 stage = 2;
