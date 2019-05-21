@@ -1,6 +1,6 @@
 package start.GameObjects;
 
-import start.Logic.Constants;
+import start.InputTesting.Constants;
 
 import java.awt.*;
 import java.io.Serializable;

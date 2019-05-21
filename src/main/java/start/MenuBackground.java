@@ -1,6 +1,6 @@
 package start;
 
-import start.Logic.Constants;
+import start.InputTesting.Constants;
 
 import java.awt.*;
 

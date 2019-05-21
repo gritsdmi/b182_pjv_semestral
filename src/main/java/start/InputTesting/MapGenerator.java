@@ -1,4 +1,4 @@
-package start.Logic;
+package start.InputTesting;
 
 import start.GameObjects.Base;
 import start.GameObjects.Block;

@@ -1,4 +1,4 @@
-package start.Logic;
+package start.InputTesting;
 
 import start.GamePanel;
 
@@ -227,7 +227,9 @@ public class GameButton implements Constants, Serializable {
                             case 3:
                                 GamePanel.curLevel = LEVEL_3;
                                 break;
+
                         }
+                        gp.deleteButtons();
                     } else {
                         switch (number) {
                             case 1:

@@ -1,8 +1,8 @@
 package start.GameObjects;
 
 import start.GamePanel;
-import start.Logic.Constants;
-import start.Logic.SpawnPoint;
+import start.InputTesting.Constants;
+import start.InputTesting.SpawnPoint;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

@@ -39,7 +39,7 @@ public class Client extends JDialog implements Runnable {
     }
 
     ///todo control ip
-    private boolean checkInput(String input) {
+    public boolean checkInput(String input) {
         if (input.length() > 3 && input.length() < 20) {
             return true;
         } else {
@@ -172,7 +172,7 @@ public class Client extends JDialog implements Runnable {
                 }
 //
             } finally {
-                System.out.println("Client closedт...");
+                System.out.println("Client closed...");
                 clientSocket.close();
                 out.close();
                 ois.close();
