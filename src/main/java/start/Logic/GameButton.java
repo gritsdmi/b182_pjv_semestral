@@ -78,7 +78,7 @@ public class GameButton implements Constants, Serializable {
                 y = 600;
                 width = 150;
                 height = 70;
-                str = "poshli v internet";
+                str = "Multiplayer";
                 break;
             case 'q':
                 color = Color.GRAY;

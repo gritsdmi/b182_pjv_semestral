@@ -70,7 +70,7 @@ public class Drop implements Constants, Serializable {
             switch (type) {
                 case 0:
                     player.hit(30);
-                    System.out.println("ti govno");
+                    System.out.println("BAM");
                     break;
                 case 1:
                     player.fireRateChange();
@@ -93,5 +93,13 @@ public class Drop implements Constants, Serializable {
 
     public void draw(Graphics2D g) {
         g.drawImage(image, x, y, null);
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

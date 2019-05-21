@@ -289,6 +289,27 @@ public class Player implements Constants, Serializable {
 
     }
 
+    public void takeBounus(Drop bonus) {
+        switch (bonus.getType()) {
+            case 0:
+                takeDamage(30);
+                System.out.println("ti govno");
+                break;
+            case 1:
+                fireRateChange();
+                GamePanel.background.startMode();
+                break;
+            case 2:
+                System.out.println("restore health");
+                restoreHealth(bonus);
+                break;
+            case 3:
+                System.out.println("Shield");
+                setShield(true);
+                break;
+        }
+    }
+
     public void setHealth(int health) {
         this.health = health;
     }
@@ -412,7 +433,10 @@ public class Player implements Constants, Serializable {
     }
 
     public void takeDamage(int damage) {
-        this.health = health - damage;
+        if (!shield) {
+            this.health = health - damage;
+        }
+
     }
 
     public boolean isAlive() {
