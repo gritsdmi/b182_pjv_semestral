@@ -41,6 +41,25 @@ public class Bullet implements Constants, Serializable {
         this.autor = autor;
     }
 
+    public Bullet(double x, double y, Point direction, int autor, GamePanel gp) {
+
+        this.xPosition = x;
+        this.yPosition = y;
+        this.dir = direction;
+        try {
+            this.angle = Math.toRadians(Math.toDegrees(Math.atan2(dir.y - yPosition, dir.x - xPosition)));
+        } catch (NullPointerException e) {
+
+        }
+
+        this.dy = Math.sin(angle);
+        this.dx = Math.cos(angle);
+        this.isAlive = true;
+        damage = 10;
+
+        this.autor = autor;
+    }
+
     /**
      * Method computes and controls if bullet intersects with
      * blocks enemies, players and base.
@@ -117,6 +136,23 @@ public class Bullet implements Constants, Serializable {
         return false;
     }
 
+
+    public boolean up() {
+        yPosition += dy * speed;
+        xPosition += dx * speed;
+
+        if (GamePanel.player.getRectangle().getX() <= this.xPosition && (GamePanel.player.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
+            if (GamePanel.player.getRectangle().getY() <= this.yPosition && (GamePanel.player.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
+                GamePanel.player.hit(this.getDamage());
+                this.isAlive = false;
+                return true;
+            }
+        }
+        controlAlive();
+        return false;
+
+    }
+
     private void controlAlive() {
         if (yPosition < 0 || xPosition < 0 || yPosition > PANEL_HEIGHT || xPosition > PANEL_WIDTH) this.isAlive = false;
     }
@@ -151,5 +187,33 @@ public class Bullet implements Constants, Serializable {
 
     public int getDamage() {
         return damage;
+    }
+
+    public double getxPosition() {
+        return xPosition;
+    }
+
+    public void setxPosition(double xPosition) {
+        this.xPosition = xPosition;
+    }
+
+    public double getyPosition() {
+        return yPosition;
+    }
+
+    public void setyPosition(double yPosition) {
+        this.yPosition = yPosition;
+    }
+
+    public Point getDir() {
+        return dir;
+    }
+
+    public void setDir(Point dir) {
+        this.dir = dir;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
     }
 }

@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class SpawnPoint implements Constants, Serializable {
 
-    private final MapGenerator mp;
+    private MapGenerator mp;
     private Point spawnPoint = new Point(0, 0);
     private ArrayList<Enemy> enemies;
     private double nanotime;
@@ -31,11 +31,13 @@ public class SpawnPoint implements Constants, Serializable {
         this.capacity = capacity;
         this.spawnPoint.setLocation(spawnPoint);
         this.enemies = new ArrayList<>();
-//        actualEnemiesCount = enemies.size();
         this.nanotime = System.nanoTime();
         this.gp = gp;
-//        System.out.println("Spawn created" + spawnPoint.toString());
         isActive = true;
+    }
+
+    public SpawnPoint(GamePanel gp) {
+        this.gp = gp;
     }
 
     public void update() {
@@ -85,6 +87,11 @@ public class SpawnPoint implements Constants, Serializable {
     public boolean isActive() {
         return isActive;
     }
+
+    public void setEnemies(ArrayList<Enemy> ar) {
+        this.enemies = ar;
+    }
+
 
 
 }

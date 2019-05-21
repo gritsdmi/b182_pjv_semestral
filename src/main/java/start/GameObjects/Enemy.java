@@ -22,7 +22,6 @@ public class Enemy implements Constants, Serializable {
     private int yPosition;
     private int health = ENEMY_HEALTH;
     private boolean isAlive;
-    private Color color;
     private Point lastSeen;
     private int lastSeenSmer;
     private int smer;//1-up 2-right 3-left 4-down
@@ -51,7 +50,6 @@ public class Enemy implements Constants, Serializable {
     public Enemy(Point startPosition) {
         this.xPosition = (int) startPosition.getX();
         this.yPosition = (int) startPosition.getY();
-        color = Color.PINK;
         this.isAlive = true;
         this.smer = 0;
 
@@ -141,6 +139,7 @@ public class Enemy implements Constants, Serializable {
 
     public void update() {
         if (isAlive) {
+            System.out.println(mood);
             pomuckaProVypocetDelkyBaru = ENEMY_HEALTH;
             helthBarLenght = 50 / (pomuckaProVypocetDelkyBaru / health);
 
@@ -316,7 +315,6 @@ public class Enemy implements Constants, Serializable {
 
     public void draw(Graphics2D g) {
         if (isAlive) {
-            g.setColor(color);
             g.drawImage(op.filter(tankImg, null), xPosition, yPosition,null);
 //            for (Eye eye : eyes) eye.draw(g);
 //            for (Eye eye : movingEyes) eye.draw(g);
@@ -334,7 +332,6 @@ public class Enemy implements Constants, Serializable {
     public void hit(Bullet bul) {
         if (isAlive) {
             this.health -= bul.getDamage();
-            color = color.darker();
             controlHP();
         }
     }
@@ -682,6 +679,16 @@ class Eye implements Constants, Serializable {
         }
 
         return false;
+    }
+
+    public void cc() {
+        if (type == 0) {// player seeing eyes
+            if (this.eye.intersects(GamePanel.player.getSmallRectangle())) {//player under seeing
+                enemy.setMood(1);//set fury mode
+                enemy.rotateTankImage(nameToSmer());
+                setSeeHim(true);
+            }
+        }
     }
 
     void draw(Graphics2D g) {

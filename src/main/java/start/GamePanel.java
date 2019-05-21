@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     public static volatile ArrayList<Block> blocks;
     public static ArrayList<Block> busyBlocks;
     private ArrayList<Drop> drops;
-    private static ArrayList<SpawnPoint> enemySpawns;
+    public static ArrayList<SpawnPoint> enemySpawns;
     private GameButton menuButton;
     private GameButton continueButton;
     private GameButton startButton;
@@ -114,6 +114,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         enemySpawns = new ArrayList<>();
         drops = new ArrayList<>();
+        blocks = new ArrayList<>();
         busyBlocks = new ArrayList<>();
         isServer = false;
         isClient = false;
