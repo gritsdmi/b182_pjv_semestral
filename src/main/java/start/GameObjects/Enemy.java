@@ -492,6 +492,19 @@ public class Enemy implements Constants, Serializable {
             e.printStackTrace();
         }
     }
+
+    public void takeDamage(int damage) {
+        this.health = health - damage;
+        controlHP();
+    }
+
+    public void setHealth(int hp) {
+        this.health = hp;
+    }
+
+    public int getHealth() {
+        return health;
+    }
 }
 
 class Eye implements Constants, Serializable {

@@ -17,7 +17,7 @@ public class InputNewPlayer extends JDialog {
         super(gp.getMainFrame(), "New Player", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         enteredName = "";
-        displayContent();
+//        displayContent();
     }
 
     public boolean checkInput(String input) {
@@ -35,7 +35,7 @@ public class InputNewPlayer extends JDialog {
         return false;
     }
 
-    private void displayContent() {
+    void displayContent() {
         JPanel jp = new JPanel(new FlowLayout());
 
         TextField tf = new TextField(20);
@@ -100,5 +100,9 @@ public class InputNewPlayer extends JDialog {
 
     public String getMessage() {
         return errorMessage;
+    }
+
+    public void setMessage(String mes) {
+        this.errorMessage = mes;
     }
 }

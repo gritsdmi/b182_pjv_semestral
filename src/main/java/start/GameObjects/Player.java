@@ -411,4 +411,14 @@ public class Player implements Constants, Serializable {
         return ret;
     }
 
+    public void takeDamage(int damage) {
+        this.health = health - damage;
+    }
+
+    public boolean isAlive() {
+        if (health < 1) return false;
+        else return true;
+    }
+
+
 }

@@ -68,13 +68,15 @@ public class Block implements Constants, Serializable {
 
     //Methods
 
-    private void controlHP() {
+    private boolean controlHP() {
         if (isAlive) {
             if (health < 1) {
                 Player.score++;
                 this.isAlive = false;
+                return false;
             }
         }
+        return true;
     }
 
     /**
@@ -93,7 +95,6 @@ public class Block implements Constants, Serializable {
 
     public void draw(Graphics2D g) {
         if (isAlive && (type != WALL_TYPE_INVIS)) {
-//        if (isAlive && (type != WALL_TYPE_INVIS || autor == -1)) {
             g.setColor(color);
             g.fillRect(xPosition, yPosition, width, height);
 
@@ -104,13 +105,6 @@ public class Block implements Constants, Serializable {
 
         }
 
-        //testing new blocks for enemy's moving
-//        if (autor != -1) {
-//            g.setStroke(new BasicStroke(3));
-//            g.setColor(Color.black);
-//            g.drawRect(xPosition, yPosition, width, height);
-//            g.setStroke(new BasicStroke(1));
-//        }
     }
 
     public int getxPosition() {
@@ -161,4 +155,18 @@ public class Block implements Constants, Serializable {
         this.xPosition = (int) position.getX();
         this.yPosition = (int) position.getY();
     }
+
+    public void takeDamage(int damage) {
+        this.health = health - damage;
+        controlHP();
+    }
+
+    public void setHealth(int hp) {
+        this.health = hp;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
 }
