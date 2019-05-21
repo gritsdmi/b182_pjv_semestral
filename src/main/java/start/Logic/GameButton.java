@@ -262,10 +262,13 @@ public class GameButton implements Constants, Serializable {
 
                     break;
                 case 'q':
-                    gp.StartClient();
-                    GamePanel.isClient = true;
-                    gp.setLevel(LEVEL_1);
-                    gp.ChangeStage(1);
+                    if (gp.StartClient()) {
+
+                        System.out.println("client started");
+                        GamePanel.isClient = true;
+                        gp.setLevel(LEVEL_1);
+                        gp.ChangeStage(1);
+                    }
                     break;
 
                 case 'f':

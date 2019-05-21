@@ -386,9 +386,19 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         }
     }
 
-    public void StartClient() {
+    public boolean StartClient() {
         client = new Client(this);
-        client.start();
+        client.displayContent();
+
+        if (client.isAllOk()) {
+            client.start();
+//            System.out.println("ok");
+        } else {
+            isClient = false;
+//            System.out.println("fail");
+            return false;
+        }
+        return true;
     }
 
     public void setLevel(String lvl) {
@@ -562,7 +572,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         // Player draw
         player.draw(g2d);
         g2d.drawString(name, 810, 600);
-        if (isServer) g2d.drawString(IpAdress, 100, 100);
+//        if (isServer) g2d.drawString(IpAdress, 100, 100);
 
         if (isServer || isClient) {
             player2.draw(g2d);

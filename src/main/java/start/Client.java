@@ -3,13 +3,16 @@ package start;
 import start.GameObjects.Block;
 import start.GameObjects.Bullet;
 
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 
 
-public class Client implements Runnable {
+public class Client extends JDialog implements Runnable {
     private BufferedWriter out;
     private BufferedReader in;
     private BufferedReader reader;
@@ -17,12 +20,101 @@ public class Client implements Runnable {
     private int hp;
     private ObjectInputStream ois;
     public static ArrayList<Block> b;
+    private String serversIp = "";
+    private boolean allOk = false;
+    private String errorMessage = "";
+
 
     private GamePanel gp;
 
     public Client(GamePanel gp) {
-
+        super(gp.getMainFrame(), "Entering ip", true);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.gp = gp;
+//        displayContent();
+    }
+
+    public void setServersIp(String ip) {
+        serversIp = ip;
+    }
+
+    ///todo control ip
+    private boolean checkInput(String input) {
+        if (input.length() > 3 && input.length() < 20) {
+            return true;
+        } else {
+            if (input.length() <= 3) errorMessage = "Not enough";
+            if (input.length() >= 20) errorMessage = "Too much";
+        }
+        return false;
+    }
+
+    public void displayContent() {
+        JPanel jp = new JPanel(new FlowLayout());
+
+        TextField tf = new TextField(20);
+        JLabel welkomeLabel = new JLabel("Enter server's ip");
+        JButton okButton = new JButton("Ok");
+        JLabel errorLabel = new JLabel("");
+
+
+        tf.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (checkInput(tf.getText())) {
+                    serversIp = tf.getText();
+                    System.out.println(serversIp);
+                    allOk = true;
+                    setVisible(false);
+                    dispose();
+                } else {
+                    //TODO error message
+                    errorLabel.setText(errorMessage);
+                }
+            }
+        });
+
+        okButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (checkInput(tf.getText())) {
+                    serversIp = tf.getText();
+                    System.out.println(serversIp);
+                    setVisible(false);
+                    dispose();
+                    allOk = true;
+
+                } else {
+                    //TODO error message
+                    errorLabel.setText(errorMessage);
+                }
+            }
+        });
+
+        //где блять кнопка??й
+        JButton backButton = new JButton("Back");
+        backButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                setVisible(false);
+                dispose();
+            }
+        });
+
+
+        jp.add(welkomeLabel);
+        jp.add(tf);
+        jp.add(okButton);
+        jp.add(backButton);
+        jp.add(errorLabel);
+
+
+        setContentPane(jp);
+        setSize(new Dimension(600, 300));
+        setLocationRelativeTo(null);
+        setResizable(true);
+        requestFocus();
+        setVisible(true);
     }
 
     public void start() {
@@ -35,8 +127,7 @@ public class Client implements Runnable {
         try {
             try {
 //                clientSocket = new Socket("172.16.176.140", 8080);
-//                clientSocket = new Socket("147.32.31.197", 8080);
-//                clientSocket = new Socket("172.68.214.176", 8080);
+                clientSocket = new Socket(serversIp, 8080);
 //                clientSocket = new Socket("10.1.5.223", 8080);
 //                clientSocket = new Socket("2001:718:7:9:56bf:7358:4a6d:3ac0", 8080); // pasha server v NTK
 //                clientSocket = new Socket("2001:718:7:204:15fe:49a5:204b:9ff1", 8080); // Dimaaaaaa server v NTK
@@ -45,7 +136,7 @@ public class Client implements Runnable {
 //                clientSocket = new Socket("fe80:0:0:0:d118:3c8b:f53e:aeb2", 8080); // pasha server na strahove
 //                clientSocket = new Socket("fe80:0:0:0:d118:3c8b:f53e:aeb2", 8080); // pasha server
 //                clientSocket = new Socket("2001:718:2:1663:0:", 8080); //
-                clientSocket = new Socket("147.32.219.38", 8080);
+//                clientSocket = new Socket("147.32.219.38", 8080);
 
                 reader = new BufferedReader(new InputStreamReader(System.in));
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
@@ -94,5 +185,13 @@ public class Client implements Runnable {
         clientSocket.close();
         out.close();
         ois.close();
+    }
+
+    public boolean isAllOk() {
+        return allOk;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
     }
 }
