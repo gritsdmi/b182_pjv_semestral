@@ -137,6 +137,39 @@ public class Enemy implements Constants, Serializable {
         return false;
     }
 
+    public void up() {
+
+        //central up line
+        Point upEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - ENEMY_FIRE_DISTANCE);
+        Point movUp = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - ENEMY_MOVING_OFFSET);
+
+        //right line
+        Point rightEnd = new Point((int) this.actualPosition.getX() + ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
+        Point movRight = new Point((int) this.actualPosition.getX() + ENEMY_MOVING_OFFSET, (int) this.actualPosition.getY());
+
+
+        //left line
+        Point leftEnd = new Point((int) this.actualPosition.getX() - ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
+        Point movLeft = new Point((int) this.actualPosition.getX() - ENEMY_MOVING_OFFSET, (int) this.actualPosition.getY());
+
+
+        //central down line
+        Point downEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + ENEMY_FIRE_DISTANCE);
+        Point movDown = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + ENEMY_MOVING_OFFSET);
+
+        ArrayList<Point> endPointsSearchingEyes = new ArrayList<>();
+        endPointsSearchingEyes.add(upEnd);
+        endPointsSearchingEyes.add(rightEnd);
+        endPointsSearchingEyes.add(leftEnd);
+        endPointsSearchingEyes.add(downEnd);
+
+        for (int i = 0; i < eyes.size(); i++) {
+//                eyes.get(i).update(startPointsSearchingEyes.get(i), endPointsSearchingEyes.get(i));
+            eyes.get(i).cc(this.actualPosition, endPointsSearchingEyes.get(i));
+//            movingEyes.get(i).update(this.actualPosition, movingEyesList.get(i));
+        }
+    }
+
     public void update() {
         if (isAlive) {
             System.out.println(mood);
@@ -681,7 +714,12 @@ class Eye implements Constants, Serializable {
         return false;
     }
 
-    public void cc() {
+    public void cc(Point pos, Point endPos) {
+
+        this.position.setLocation(pos);
+        this.endPosition.setLocation(endPos);
+        this.eye.setLine(this.position, this.endPosition);
+
         if (type == 0) {// player seeing eyes
             if (this.eye.intersects(GamePanel.player.getSmallRectangle())) {//player under seeing
                 enemy.setMood(1);//set fury mode
