@@ -8,7 +8,7 @@ import javax.swing.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class TestNickname {
+public class testingNickname {
     InputNewPlayer inputNewPlayer = new InputNewPlayer(new GamePanel(new JFrame()));
 
     @Test

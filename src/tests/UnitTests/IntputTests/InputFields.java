@@ -8,7 +8,7 @@ import org.junit.runners.Suite;
 
 @Suite.SuiteClasses({
         testingIP.class,
-        TestNickname.class
+        testingNickname.class
 
 })
 public class InputFields {
