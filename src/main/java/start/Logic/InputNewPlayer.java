@@ -24,6 +24,10 @@ public class InputNewPlayer extends JDialog {
         if (input.length() > 3 && input.length() < 20) {
             return true;
         } else {
+            if (input.length() == 0) {
+                errorMessage = "Field is empty";
+                return false;
+            }
             if (input.length() <= 3) errorMessage = "Too short";
             if (input.length() >= 20) errorMessage = "Too much";
         }
@@ -91,5 +95,9 @@ public class InputNewPlayer extends JDialog {
 
     public boolean isAllOk() {
         return allOk;
+    }
+
+    public String getMessage() {
+        return errorMessage;
     }
 }
