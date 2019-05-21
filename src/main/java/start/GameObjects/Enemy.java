@@ -46,6 +46,44 @@ public class Enemy implements Constants, Serializable {
         this.isAlive = true;
     }
 
+    public Enemy(Point startPosition, GamePanel gp) {
+        this.xPosition = (int) startPosition.getX();
+        this.yPosition = (int) startPosition.getY();
+        this.isAlive = true;
+        this.smer = 0;
+
+        this.eyes = new ArrayList<>();
+        this.movingEyes = new ArrayList<>();
+
+        this.actualPosition = startPosition;
+        this.actualPosition.setLocation(this.xPosition + 25, this.yPosition + 25);
+
+        eyes.add(new Eye(this, this.actualPosition, "Up", 0, gp));
+        eyes.add(new Eye(this, this.actualPosition, "Right", 0, gp));
+        eyes.add(new Eye(this, this.actualPosition, "Left", 0, gp));
+        eyes.add(new Eye(this, this.actualPosition, "Down", 0, gp));
+
+//        movingEyes.add(new Eye(this, this.actualPosition, "MoveUp", 1));
+//        movingEyes.add(new Eye(this, this.actualPosition, "MoveRight", 1));
+//        movingEyes.add(new Eye(this, this.actualPosition, "MoveLeft", 1));
+//        movingEyes.add(new Eye(this, this.actualPosition, "MoveDown", 1));
+//
+        mood = 0;
+
+        try {
+            tankImg = ImageIO.read(new File("src/main/resources/Entity/GrayPixelTank.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //image fields
+        this.rotation = 0;
+        rotateTankImage(smer);
+        this.id = uniqId++;
+        tempBlock = new Block(3, xPosition, yPosition, id);
+        GamePanel.blocks.add(tempBlock);
+    }
+
 
     public Enemy(Point startPosition) {
         this.xPosition = (int) startPosition.getX();
@@ -137,25 +175,21 @@ public class Enemy implements Constants, Serializable {
         return false;
     }
 
-    public void up() {
+    public void upC() {
 
         //central up line
         Point upEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - ENEMY_FIRE_DISTANCE);
-        Point movUp = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - ENEMY_MOVING_OFFSET);
 
         //right line
         Point rightEnd = new Point((int) this.actualPosition.getX() + ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
-        Point movRight = new Point((int) this.actualPosition.getX() + ENEMY_MOVING_OFFSET, (int) this.actualPosition.getY());
 
 
         //left line
         Point leftEnd = new Point((int) this.actualPosition.getX() - ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
-        Point movLeft = new Point((int) this.actualPosition.getX() - ENEMY_MOVING_OFFSET, (int) this.actualPosition.getY());
 
 
         //central down line
         Point downEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + ENEMY_FIRE_DISTANCE);
-        Point movDown = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + ENEMY_MOVING_OFFSET);
 
         ArrayList<Point> endPointsSearchingEyes = new ArrayList<>();
         endPointsSearchingEyes.add(upEnd);
@@ -166,6 +200,37 @@ public class Enemy implements Constants, Serializable {
         for (int i = 0; i < eyes.size(); i++) {
 //                eyes.get(i).update(startPointsSearchingEyes.get(i), endPointsSearchingEyes.get(i));
             eyes.get(i).cc(this.actualPosition, endPointsSearchingEyes.get(i));
+//            eyes.get(i).cB(this.actualPosition, endPointsSearchingEyes.get(i));
+//            movingEyes.get(i).update(this.actualPosition, movingEyesList.get(i));
+        }
+    }
+
+    public void upb() {
+
+        //central up line
+        Point upEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - ENEMY_FIRE_DISTANCE);
+
+        //right line
+        Point rightEnd = new Point((int) this.actualPosition.getX() + ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
+
+
+        //left line
+        Point leftEnd = new Point((int) this.actualPosition.getX() - ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
+
+
+        //central down line
+        Point downEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + ENEMY_FIRE_DISTANCE);
+
+        ArrayList<Point> endPointsSearchingEyes = new ArrayList<>();
+        endPointsSearchingEyes.add(upEnd);
+        endPointsSearchingEyes.add(rightEnd);
+        endPointsSearchingEyes.add(leftEnd);
+        endPointsSearchingEyes.add(downEnd);
+
+        for (int i = 0; i < eyes.size(); i++) {
+//                eyes.get(i).update(startPointsSearchingEyes.get(i), endPointsSearchingEyes.get(i));
+//            eyes.get(i).cc(this.actualPosition, endPointsSearchingEyes.get(i));
+            eyes.get(i).cB(this.actualPosition, endPointsSearchingEyes.get(i));
 //            movingEyes.get(i).update(this.actualPosition, movingEyesList.get(i));
         }
     }
@@ -554,6 +619,7 @@ class Eye implements Constants, Serializable {
     private String name;
     private Line2D eye;
     private int type;//0 = seeing 1 = moving
+    private GamePanel gp;
 
     private double nanotime = System.nanoTime();
 
@@ -569,6 +635,21 @@ class Eye implements Constants, Serializable {
         this.seeAnother = false;
         this.eye = new Line2D.Float(this.position, this.endPosition);
     }
+
+    public Eye(Enemy enemy, Point startPosition, String name, int type, GamePanel gp) {
+        this.enemy = enemy;
+        this.type = type;
+        this.position = startPosition;
+        this.endPosition = new Point(startPosition);
+        this.name = name;
+        this.see = false;
+        this.seeHim = false;
+        this.seeAnother = false;
+        this.eye = new Line2D.Float(this.position, this.endPosition);
+        this.gp = gp;
+    }
+
+
 
     void update(Point pos, Point endPos) {
         this.position.setLocation(pos);
@@ -721,10 +802,26 @@ class Eye implements Constants, Serializable {
         this.eye.setLine(this.position, this.endPosition);
 
         if (type == 0) {// player seeing eyes
-            if (this.eye.intersects(GamePanel.player.getSmallRectangle())) {//player under seeing
+            if (this.eye.intersects(gp.player.getSmallRectangle())) {//player under seeing
                 enemy.setMood(1);//set fury mode
                 enemy.rotateTankImage(nameToSmer());
                 setSeeHim(true);
+            }
+        }
+    }
+
+    public void cB(Point pos, Point endPos) {
+        this.position.setLocation(pos);
+        this.endPosition.setLocation(endPos);
+        this.eye.setLine(this.position, this.endPosition);
+
+        if (type == 0) {// player seeing eyes
+            if (this.eye.intersects(gp.base.getRectangle())) {//player under seeing
+                enemy.setMood(1);//set fury mode
+                enemy.rotateTankImage(nameToSmer());
+                setSeeHim(true);
+                gp.bullets.add(new Bullet(position.getX(), position.getY(), new Point(gp.base.getRectangle().x, gp.base.getRectangle().y), 1));
+
             }
         }
     }

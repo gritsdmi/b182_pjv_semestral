@@ -23,10 +23,10 @@ public class IntegrationTest_EnemySeePlayer {//enemy attack player
         Player player = new Player(gp, 100, 100, 1);
         gp.player = player;
 
-        ////////////////////
-        Enemy enemy = new Enemy(new Point(100, 200));
+        Enemy enemy = new Enemy(new Point(100, 200), gp);
         enemy.setMood(0);
-        enemy.up();
+        assertEquals(0, enemy.getMood());
+        enemy.upC();
         assertEquals(1, enemy.getMood());
 
     }

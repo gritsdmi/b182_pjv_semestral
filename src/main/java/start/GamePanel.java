@@ -115,6 +115,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         enemySpawns = new ArrayList<>();
         drops = new ArrayList<>();
         blocks = new ArrayList<>();
+        bullets = new ArrayList<>();
         busyBlocks = new ArrayList<>();
         isServer = false;
         isClient = false;
