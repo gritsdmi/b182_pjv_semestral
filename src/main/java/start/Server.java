@@ -61,6 +61,7 @@ public class Server implements Runnable {
                 System.out.println("Accepted");
                 gp.setLevel(GamePanel.curLevel);
                 gp.ChangeStage(1);
+                GamePanel.showNets = false;
                 try {
 
                     in = new BufferedReader(new InputStreamReader(socket.getInputStream()));

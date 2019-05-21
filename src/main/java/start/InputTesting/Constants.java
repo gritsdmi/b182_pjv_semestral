@@ -1,4 +1,4 @@
-package start.Logic;
+package start.InputTesting;
 
 public interface Constants {
 

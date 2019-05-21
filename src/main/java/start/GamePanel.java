@@ -1,9 +1,9 @@
 package start;
 
 import start.GameObjects.*;
+import start.InputTesting.*;
 import start.Listeners.Listeners;
 import start.Listeners.MouseListener;
-import start.Logic.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -538,7 +538,11 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         }
     }
 
-
+    public void deleteButtons() {
+        while (buttons.size() > 0) {
+            buttons.remove(0);
+        }
+    }
     public void MenuPaint(Graphics2D g) {
         Graphics2D g2d = g;
         background.draw(g2d);
