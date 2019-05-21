@@ -3,12 +3,10 @@ package UnitTests.GameTests;
 import org.junit.Test;
 import start.GameObjects.Enemy;
 
-import java.awt.*;
-
 import static org.junit.Assert.assertEquals;
 
 public class EnemyTest {
-    Enemy enemy = new Enemy(new Point(100, 100));
+    Enemy enemy = new Enemy();
 
     @Test
     public void test_enemy_takeDamage() {

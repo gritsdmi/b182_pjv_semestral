@@ -9,7 +9,7 @@ public class BlockTest {
     Block block = new Block(1, 100, 100);
 
     @Test
-    public void test_player_takeDamage() {
+    public void test_block_takeDamage() {
         block.setHealth(100);
         assertEquals(100, block.getHealth());
         block.takeDamage(50);
@@ -19,7 +19,7 @@ public class BlockTest {
 
 
     @Test
-    public void test_player_die() {
+    public void test_block_die() {
 
         block.setHealth(100);
         assertEquals(true, block.isAlive());
