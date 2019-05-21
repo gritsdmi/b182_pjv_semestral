@@ -27,21 +27,21 @@ public class TestNickname {
 
     @Test
     public void test_Nickname_tooLong() {
-        String nickName = "qwertyuioas";
+        String nickName = "qwertfwffwefwfyuioas";
         inputNewPlayer.checkInput(nickName);
         assertEquals("Name is too long", inputNewPlayer.getMessage());
     }
 
     @Test
     public void test_Nickname_wrongFormat() {
-        String nickName = "";
+        String nickName = "./']/<";
         inputNewPlayer.checkInput(nickName);
         assertEquals("Wrong format of name. Only letters or numbers are allowed", inputNewPlayer.getMessage());
     }
 
     @Test
     public void test_Nickname_isOk() {
-        String nickName = "";
+        String nickName = "1234";
         inputNewPlayer.checkInput(nickName);
         assertEquals("Ok", inputNewPlayer.getMessage());
     }

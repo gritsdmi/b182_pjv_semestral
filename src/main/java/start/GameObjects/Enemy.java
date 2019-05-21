@@ -505,6 +505,10 @@ public class Enemy implements Constants, Serializable {
     public int getHealth() {
         return health;
     }
+//
+//    void setTempBlock(Block tempBlock){
+//        if()
+//    }
 }
 
 class Eye implements Constants, Serializable {

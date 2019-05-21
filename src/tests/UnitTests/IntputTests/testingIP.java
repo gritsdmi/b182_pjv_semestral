@@ -13,7 +13,7 @@ public class testingIP {
 
     @Test
     public void test_IP_tooLong() {
-        String tooLongInput = "123456789123456789123456";
+        String tooLongInput = "12345678915253234242423423432424242356789876545325345525223456789123456";
         client.checkInput(tooLongInput);
         assertEquals("Too much", client.getErrorMessage());
     }
@@ -42,14 +42,14 @@ public class testingIP {
 
     @Test
     public void test_IPv4_isOk() {
-        String tooLongInput = "adadwadaw";
+        String tooLongInput = "192.168.91.1";
         client.checkInput(tooLongInput);
         assertEquals("IPv4 OK", client.getErrorMessage());
     }
 
     @Test
     public void test_IPv6_isOk() {
-        String tooLongInput = "adadwadaw";
+        String tooLongInput = "2001:718:2:cf:343b:12d6:9870:114f";
         client.checkInput(tooLongInput);
         assertEquals("IPv6 OK", client.getErrorMessage());
     }

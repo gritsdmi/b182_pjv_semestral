@@ -22,6 +22,7 @@ public class InputNewPlayer extends JDialog {
 
     public boolean checkInput(String input) {
         if (input.length() > 3 && input.length() < 20) {
+            errorMessage = "Ok";
             return true;
         } else {
             if (input.length() == 0) {
@@ -29,7 +30,7 @@ public class InputNewPlayer extends JDialog {
                 return false;
             }
             //TODO check spaces error message="Wrong format of name. Only letters or numbers are allowed"
-            if (input.length() <= 3) errorMessage = "Name is short";
+            if (input.length() <= 3) errorMessage = "Name is too short";
             if (input.length() >= 20) errorMessage = "Name is too long";
         }
         return false;

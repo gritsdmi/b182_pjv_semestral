@@ -1,5 +1,6 @@
 package start;
 
+import com.google.common.net.InetAddresses;
 import start.GameObjects.Block;
 import start.GameObjects.Bullet;
 
@@ -38,9 +39,16 @@ public class Client extends JDialog implements Runnable {
         serversIp = ip;
     }
 
+
     ///todo control ip
     public boolean checkInput(String input) {
-        if (input.length() > 3 && input.length() < 20) {
+        if (input.length() > 3 && input.length() < 50) {
+            if (InetAddresses.isInetAddress(input)) {
+                if (input.length() <= 16) errorMessage = "IPv4 OK";
+                else errorMessage = "IPv6 OK";
+            } else {
+                errorMessage = "Wrong format";
+            }
             return true;
         } else {
             if (input.length() == 0) {
@@ -48,7 +56,7 @@ public class Client extends JDialog implements Runnable {
                 return false;
             }
             if (input.length() <= 3) errorMessage = "Too short";
-            if (input.length() >= 20) errorMessage = "Too much";
+            if (input.length() >= 50) errorMessage = "Too much";
         }
         return false;
     }
