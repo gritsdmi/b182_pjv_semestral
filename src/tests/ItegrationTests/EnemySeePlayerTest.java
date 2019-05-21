@@ -10,7 +10,7 @@ import java.awt.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class IntegrationTest_EnemySeePlayer {//enemy attack player
+public class EnemySeePlayerTest {//enemy attack player
 
 //    private GamePanel gp = new GamePanel(new JFrame());
 //

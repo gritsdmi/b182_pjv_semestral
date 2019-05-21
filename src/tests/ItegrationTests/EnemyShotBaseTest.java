@@ -11,13 +11,14 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-public class EnemyShotBase {
+public class EnemyShotBaseTest {
 
     @Test
     public void testEnemyShotBase() {
         GamePanel gp = new GamePanel(new JFrame());
         gp.base = new Base(new Point(300, 300));
         Enemy enemy = new Enemy(new Point(300, 500), gp);
+//        Bullet bul = new Bullet(new Point(enemy.getActualPosition()),new Point())
         gp.bullets = new ArrayList<>();
 
         assertEquals(0, gp.bullets.size());

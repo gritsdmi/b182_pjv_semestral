@@ -10,7 +10,7 @@ import java.awt.*;
 
 import static org.junit.Assert.assertEquals;
 
-public class bulletHitPlayer {
+public class BulletHitPlayerTest {
 
     GamePanel gp = new GamePanel(new JFrame());
     Player player = new Player(gp, 100, 100, 1);
