@@ -20,7 +20,7 @@ public class InputNewPlayer extends JDialog {
         displayContent();
     }
 
-    private boolean checkInput(String input) {
+    public boolean checkInput(String input) {
         if (input.length() > 3 && input.length() < 20) {
             return true;
         } else {

@@ -30,16 +30,7 @@ public class SaveLoadController implements Constants, Serializable {
         return df.format(date);
     }
 
-    public void savePlayer(String nickName) {
-        try {
-            BufferedWriter out = new BufferedWriter(new FileWriter(pathToSavedPlayers));
-            out.write(nickName + "\n");
-        } catch (IOException e) {
-
-        }
-
-    }
-    public boolean saveGame() {
+    public boolean saveGame(String str) {
         System.out.println("Try to save game");
         savedData.add(gp.getPlayerAsArrayList());//worked
         savedData.add(GamePanel.blocks);

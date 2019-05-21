@@ -86,7 +86,6 @@ public class SavedGamesController extends JDialog {
 
 
         if (slc.getExistingSavedGames().length == 0) {
-            System.out.println(slc.getExistingSavedGames().length);
             jP1.add(errorLabel);
         }
 
@@ -99,7 +98,6 @@ public class SavedGamesController extends JDialog {
         jP1.add(goButton);
         jP1.add(backButton);
         jP1.add(delButton);
-//        jP1.add(jScrollPane);
 
         size = errorLabel.getPreferredSize();
         errorLabel.setBounds(insets.left + 50, insets.top + 70, size.width, size.height);
