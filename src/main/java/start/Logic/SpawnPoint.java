@@ -1,4 +1,4 @@
-package start.InputTesting;
+package start.Logic;
 
 import start.GameObjects.Enemy;
 import start.GamePanel;

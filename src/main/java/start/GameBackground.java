@@ -1,6 +1,6 @@
 package start;
 
-import start.InputTesting.Constants;
+import start.Logic.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

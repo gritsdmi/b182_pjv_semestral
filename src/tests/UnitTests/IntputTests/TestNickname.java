@@ -2,7 +2,7 @@ package UnitTests.IntputTests;
 
 import org.junit.Test;
 import start.GamePanel;
-import start.InputTesting.InputNewPlayer;
+import start.Logic.InputNewPlayer;
 
 import javax.swing.*;
 

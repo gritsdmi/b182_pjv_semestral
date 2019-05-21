@@ -1,8 +1,8 @@
 package start.GameObjects;
 
 import start.GamePanel;
-import start.InputTesting.Constants;
-import start.InputTesting.SpawnPoint;
+import start.Logic.Constants;
+import start.Logic.SpawnPoint;
 
 import java.awt.*;
 import java.io.Serializable;

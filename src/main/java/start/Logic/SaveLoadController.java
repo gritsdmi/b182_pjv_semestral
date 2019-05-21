@@ -1,4 +1,4 @@
-package start.InputTesting;
+package start.Logic;
 
 import org.apache.commons.io.FileUtils;
 import start.GamePanel;

@@ -1,7 +1,7 @@
 package start.GameObjects;
 
 import start.GamePanel;
-import start.InputTesting.Constants;
+import start.Logic.Constants;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
