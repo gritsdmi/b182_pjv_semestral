@@ -43,6 +43,10 @@ public class Enemy implements Constants, Serializable {
     private int id;
     private Block tempBlock;
 
+    public Enemy() {
+        this.isAlive = true;
+    }
+
 
     public Enemy(Point startPosition) {
         this.xPosition = (int) startPosition.getX();
@@ -500,15 +504,13 @@ public class Enemy implements Constants, Serializable {
 
     public void setHealth(int hp) {
         this.health = hp;
+        if (this.health < 1) isAlive = false;
     }
 
     public int getHealth() {
         return health;
     }
-//
-//    void setTempBlock(Block tempBlock){
-//        if()
-//    }
+
 }
 
 class Eye implements Constants, Serializable {

@@ -163,6 +163,7 @@ public class Block implements Constants, Serializable {
 
     public void setHealth(int hp) {
         this.health = hp;
+        controlHP();
     }
 
     public int getHealth() {
