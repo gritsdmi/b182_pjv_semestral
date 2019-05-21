@@ -251,9 +251,11 @@ public class GameButton implements Constants, Serializable {
                         GamePanel.name = str;
                     } else {
                         InputNewPlayer inp = new InputNewPlayer(gp);
-                        gp.ChangeStage(0);
-                        GamePanel.name = inp.getEnteredName();
-                        slc.writeNewPlayer(inp.getEnteredName(), number);
+                        if (inp.isAllOk()) {
+                            gp.ChangeStage(0);
+                            GamePanel.name = inp.getEnteredName();
+                            slc.writeNewPlayer(inp.getEnteredName(), number);
+                        }
                     }
                     break;
                 case 'i':
