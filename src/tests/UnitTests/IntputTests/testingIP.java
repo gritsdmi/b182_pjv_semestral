@@ -15,7 +15,7 @@ public class testingIP {
     public void test_IP_tooLong() {
         String tooLongInput = "12345678915253234242423423432424242356789876545325345525223456789123456";
         client.checkInput(tooLongInput);
-        assertEquals("Too much", client.getErrorMessage());
+        assertEquals("Too long", client.getErrorMessage());
     }
 
 

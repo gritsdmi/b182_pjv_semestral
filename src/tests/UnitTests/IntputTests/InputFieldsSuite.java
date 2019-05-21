@@ -11,5 +11,5 @@ import org.junit.runners.Suite;
         testingNickname.class
 
 })
-public class InputFields {
+public class InputFieldsSuite {
 }
