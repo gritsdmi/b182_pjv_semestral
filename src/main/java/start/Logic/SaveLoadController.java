@@ -41,7 +41,8 @@ public class SaveLoadController implements Constants, Serializable {
         savedData.add(gp.getDrops());//may generate some problems with delays
         savedData.add(gp.getWaveAsArrayList());
 
-        filename = "Saved game " + generateNewFilename() + ".dat";
+//        filename = "Saved game " + generateNewFilename() + ".dat";
+        filename = str + ".dat";
 
         Path path = Paths.get(pathToSavedGame + GamePanel.name + '/');
         //if directory exists?

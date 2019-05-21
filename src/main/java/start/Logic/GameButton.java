@@ -279,10 +279,8 @@ public class GameButton implements Constants, Serializable {
                     gp.ChangeStage(3);
                     break;
                 case 'z'://used for saving game button
-                    //TODO jdialog enter save's name
                     InputNewPlayer inp = new InputNewPlayer(gp);
                     if (inp.isAllOk()) {
-
                         if (slc.saveGame(inp.getEnteredName())) System.out.println("Game saved ok");
                     }
                     break;
