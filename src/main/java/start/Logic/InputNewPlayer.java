@@ -11,6 +11,7 @@ public class InputNewPlayer extends JDialog {
 
     private String enteredName;
     private String errorMessage = "";
+    private boolean allOk = false;
 
     public InputNewPlayer(GamePanel gp) {
         super(gp.getMainFrame(), "New Player", true);
@@ -23,7 +24,7 @@ public class InputNewPlayer extends JDialog {
         if (input.length() > 3 && input.length() < 20) {
             return true;
         } else {
-            if (input.length() <= 3) errorMessage = "Not enough";
+            if (input.length() <= 3) errorMessage = "Too short";
             if (input.length() >= 20) errorMessage = "Too much";
         }
         return false;
@@ -45,6 +46,7 @@ public class InputNewPlayer extends JDialog {
                     enteredName = tf.getText();
                     setVisible(false);
                     dispose();
+                    allOk = true;
                 } else {
                     //TODO error message
                     errorLabel.setText(errorMessage);
@@ -59,6 +61,7 @@ public class InputNewPlayer extends JDialog {
                     enteredName = tf.getText();
                     setVisible(false);
                     dispose();
+                    allOk = true;
                 } else {
                     //TODO error message
                     errorLabel.setText(errorMessage);
@@ -84,5 +87,9 @@ public class InputNewPlayer extends JDialog {
 
     public String getEnteredName() {
         return enteredName;
+    }
+
+    public boolean isAllOk() {
+        return allOk;
     }
 }

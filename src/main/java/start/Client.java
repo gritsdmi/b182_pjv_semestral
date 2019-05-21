@@ -43,7 +43,7 @@ public class Client extends JDialog implements Runnable {
         if (input.length() > 3 && input.length() < 20) {
             return true;
         } else {
-            if (input.length() <= 3) errorMessage = "Not enough";
+            if (input.length() <= 3) errorMessage = "Too short";
             if (input.length() >= 20) errorMessage = "Too much";
         }
         return false;
