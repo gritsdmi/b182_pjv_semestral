@@ -17,7 +17,7 @@ public class BulletHitPlayerTest {
     Bullet bullet = new Bullet(100, 200, new Point(125, 125), 1, gp);
 
     @Test
-    public void test() {
+    public void bulletHitPlayerTest() {
         gp.player = player;
         player.setHealth(100);
 
