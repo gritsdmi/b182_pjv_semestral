@@ -180,7 +180,7 @@ public class Client extends JDialog implements Runnable {
     }
 
     public void end() throws IOException {
-        System.out.println("Client closedт...");
+        System.out.println("Client closed...");
 
         clientSocket.close();
         out.close();

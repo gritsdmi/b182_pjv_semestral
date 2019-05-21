@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 public class InputNewPlayer extends JDialog {
 
     private String enteredName;
+    private String errorMessage = "";
 
     public InputNewPlayer(GamePanel gp) {
         super(gp.getMainFrame(), "New Player", true);
@@ -19,7 +20,12 @@ public class InputNewPlayer extends JDialog {
     }
 
     private boolean checkInput(String input) {
-        if (input.length() > 3 && input.length() < 10) return true;
+        if (input.length() > 3 && input.length() < 20) {
+            return true;
+        } else {
+            if (input.length() <= 3) errorMessage = "Not enough";
+            if (input.length() >= 20) errorMessage = "Too much";
+        }
         return false;
     }
 
@@ -29,6 +35,8 @@ public class InputNewPlayer extends JDialog {
         TextField tf = new TextField(20);
         JLabel welkomeLabel = new JLabel("Enter your name");
         JButton okButton = new JButton("Ok");
+        JLabel errorLabel = new JLabel("");
+
 
         tf.addActionListener(new ActionListener() {
             @Override
@@ -39,6 +47,7 @@ public class InputNewPlayer extends JDialog {
                     dispose();
                 } else {
                     //TODO error message
+                    errorLabel.setText(errorMessage);
                 }
             }
         });
@@ -52,6 +61,7 @@ public class InputNewPlayer extends JDialog {
                     dispose();
                 } else {
                     //TODO error message
+                    errorLabel.setText(errorMessage);
                 }
             }
         });
@@ -59,6 +69,7 @@ public class InputNewPlayer extends JDialog {
         jp.add(welkomeLabel);
         jp.add(tf);
         jp.add(okButton);
+        jp.add(errorLabel);
 
 
         setContentPane(jp);
