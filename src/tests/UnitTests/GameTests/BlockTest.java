@@ -2,11 +2,14 @@ package UnitTests.GameTests;
 
 import org.junit.Test;
 import start.GameObjects.Block;
+import start.GamePanel;
+
+import javax.swing.*;
 
 import static org.junit.Assert.assertEquals;
 
 public class BlockTest {
-    Block block = new Block(1, 100, 100);
+    Block block = new Block(1, 100, 100, new GamePanel(new JFrame()));
 
     @Test
     public void test_block_takeDamage() {

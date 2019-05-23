@@ -237,9 +237,8 @@ public class Enemy implements Constants, Serializable {
 
     public void update() {
         if (isAlive) {
-            System.out.println(mood);
             pomuckaProVypocetDelkyBaru = ENEMY_HEALTH;
-            helthBarLenght = 50 / (pomuckaProVypocetDelkyBaru / health);
+            helthBarLenght = 48 / (pomuckaProVypocetDelkyBaru / health);
 
             if (mood == 1 && control50()) {//fury mode && control 50 == true
                 smer = 0;
@@ -255,8 +254,8 @@ public class Enemy implements Constants, Serializable {
                 }
                 if (temp) {
                     mood = 0;
-                } else if (control50()) smer = lastSeenSmer;/////////////////////////////////
-                //roughly equal // TODO override here
+                } else if (control50()) smer = lastSeenSmer;
+                // TODO override here
                 if (roughlyEqual(getPosition(), lastSeen)) {
                     align();
                     if (control50()) mood = 0;

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * class represents level's map
+ * Class represents level's map
  */
 public class MapGenerator implements Constants, Serializable {
 
@@ -83,10 +83,10 @@ public class MapGenerator implements Constants, Serializable {
                 if (blockType == 'x') {
                     spawnPoints.add(new SpawnPoint(this, 1, new Point(xPos, yPos), gp));
                 } else if (blockType != '_' && blockType != 'b') {
-                    gp.blocks.add(new Block((Character.getNumericValue(blockType)), xPos, yPos));
+                    gp.blocks.add(new Block((Character.getNumericValue(blockType)), xPos, yPos, gp));
                 } else if (blockType == 'b' && !baseCreated) {
                     baseCreated = true;
-                    GamePanel.base = new Base(new Point(xPos, yPos));
+                    GamePanel.base = new Base(new Point(xPos, yPos), gp);
 
                 } else {
                     freeSpaces.add(new Point(xPos, yPos));

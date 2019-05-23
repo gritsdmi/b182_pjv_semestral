@@ -16,7 +16,7 @@ public class EnemyShotBaseTest {
     @Test
     public void testEnemyShotBase() {
         GamePanel gp = new GamePanel(new JFrame());
-        gp.base = new Base(new Point(300, 300));
+        gp.base = new Base(new Point(300, 300), gp);
         Enemy enemy = new Enemy(new Point(300, 500), gp);
 //        Bullet bul = new Bullet(new Point(enemy.getActualPosition()),new Point())
         gp.bullets = new ArrayList<>();

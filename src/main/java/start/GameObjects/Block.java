@@ -1,5 +1,6 @@
 package start.GameObjects;
 
+import start.GamePanel;
 import start.Logic.Constants;
 
 import java.awt.*;
@@ -16,14 +17,13 @@ public class Block implements Constants, Serializable {
     private boolean isAlive;
     private int type = -1;
     private int autor = -1;
-
+    private GamePanel gp;
     private Player player;
 
 
     //Constructor
 
-
-    public Block(int type, int x, int y) {
+    public Block(int type, int x, int y, GamePanel gp) {
 
         this.type = type;
         this.xPosition = x;
@@ -31,6 +31,7 @@ public class Block implements Constants, Serializable {
         this.isAlive = true;
         this.color = associateColor();
         this.health = WALL_HEALTH;
+        this.gp = gp;
     }
 
     //testing new blocks for enemy's moving
@@ -73,6 +74,9 @@ public class Block implements Constants, Serializable {
             if (health < 1) {
                 Player.score++;
                 this.isAlive = false;
+                System.out.println(gp.getFreeSpacesMap().size());
+                gp.getFreeSpacesMap().add(new Point(xPosition, yPosition));
+                System.out.println(gp.getFreeSpacesMap().size());
                 return false;
             }
         }

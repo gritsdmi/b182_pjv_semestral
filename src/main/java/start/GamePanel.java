@@ -668,4 +668,5 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         this.IpAdress = ip;
     }
 
+
 }

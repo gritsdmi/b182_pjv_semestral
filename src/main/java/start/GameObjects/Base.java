@@ -14,27 +14,29 @@ public class Base implements Constants, Serializable {
     private int Health;
     private int x;
     private int y;
-    private boolean Alive;
+    private boolean isAlive;
     private Block bl1;
     private Block bl2;
     private Block bl3;
     private Block bl4;
     private transient BufferedImage baseimage;
+    private GamePanel gp;
 
 
-    public Base(Point loc) {
-        x = loc.x;
-        y = loc.y;
+    public Base(Point position, GamePanel gp) {
+        x = position.x;
+        y = position.y;
         Health = 10;
-        bl1 = new Block(WALL_TYPE_INVIS, x, y);
-        bl2 = new Block(WALL_TYPE_INVIS, x + 50, y);
-        bl3 = new Block(WALL_TYPE_INVIS, x, y + 50);
-        bl4 = new Block(WALL_TYPE_INVIS, x + 50, y + 50);
+        this.gp = gp;
+        bl1 = new Block(WALL_TYPE_INVIS, x, y, gp);
+        bl2 = new Block(WALL_TYPE_INVIS, x + 50, y, gp);
+        bl3 = new Block(WALL_TYPE_INVIS, x, y + 50, gp);
+        bl4 = new Block(WALL_TYPE_INVIS, x + 50, y + 50, gp);
         GamePanel.blocks.add(bl1);
         GamePanel.blocks.add(bl2);
         GamePanel.blocks.add(bl3);
         GamePanel.blocks.add(bl4);
-        Alive = true;
+        isAlive = true;
         try {
             baseimage = ImageIO.read(new File("src/main/resources/Entity/Base.png"));
         } catch (IOException e) {
@@ -47,11 +49,11 @@ public class Base implements Constants, Serializable {
     }
 
     public void hit(int damage) {
-        if (Alive) {
+        if (isAlive) {
             Health -= damage;
             System.out.println("base health " + Health);
             if (Health <= 0) {
-                Alive = false;
+                isAlive = false;
                 GamePanel.blocks.remove(bl1);
                 GamePanel.blocks.remove(bl2);
                 GamePanel.blocks.remove(bl3);
@@ -67,7 +69,7 @@ public class Base implements Constants, Serializable {
     }
 
     public void draw(Graphics2D g) {
-        if (Alive) {
+        if (isAlive) {
             g.drawImage(baseimage, x, y, null);
         }
 
