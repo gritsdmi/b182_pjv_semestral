@@ -49,11 +49,11 @@ public class SpawnPoint implements Constants, Serializable {
                 if (controlFreeCellOnSrawnPoint()) {
                     enemies.add(new Enemy(new Point(spawnPosition)));
                     capacity--;
-                    currentAlive = enemies.size();
                     controlCapacity();
                 }
             }
         }
+        currentAlive = enemies.size();
     }
 
     private boolean controlFreeCellOnSrawnPoint() {
@@ -112,7 +112,7 @@ public class SpawnPoint implements Constants, Serializable {
     }
 
     public int getCurrentAlive() {
-        return this.currentAlive;
+        return currentAlive;
     }
 
 }
