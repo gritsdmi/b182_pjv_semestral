@@ -74,9 +74,7 @@ public class Block implements Constants, Serializable {
             if (health < 1) {
                 Player.score++;
                 this.isAlive = false;
-                System.out.println(gp.getFreeSpacesMap().size());
                 gp.getFreeSpacesMap().add(new Point(xPosition, yPosition));
-                System.out.println(gp.getFreeSpacesMap().size());
                 return false;
             }
         }
