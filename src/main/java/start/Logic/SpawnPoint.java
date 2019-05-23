@@ -8,14 +8,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * class represents enemy's spawn point located on Map
+ * class represents enemy's spawn point
+ * Creates new enemies
  *
+ * @see Enemy
  * @see MapGenerator
  */
 public class SpawnPoint implements Constants, Serializable {
 
     private MapGenerator mp;
-    private Point spawnPoint = new Point(0, 0);
+    private Point spawnPosition = new Point(0, 0);
     private ArrayList<Enemy> enemies;
     private double nanotime;
     private int capacity;
@@ -23,13 +25,12 @@ public class SpawnPoint implements Constants, Serializable {
     private double time;
     private GamePanel gp;
 
-//    private int actualEnemiesCount;
 
 
     public SpawnPoint(MapGenerator mp, int capacity, Point spawnPoint, GamePanel gp) {
         this.mp = mp;
         this.capacity = capacity;
-        this.spawnPoint.setLocation(spawnPoint);
+        this.spawnPosition.setLocation(spawnPoint);
         this.enemies = new ArrayList<>();
         this.nanotime = System.nanoTime();
         this.gp = gp;
@@ -43,13 +44,24 @@ public class SpawnPoint implements Constants, Serializable {
     public void update() {
         if (isActive) {
             if (computeSpawningDelay(ENEMY_SPAWN_DELAY) && enemies.size() < ENEMY_MAX_COUNT_ON_MAP) {
-                enemies.add(new Enemy(new Point(spawnPoint)));
-//                System.out.println(enemies.size());
-//                System.out.println("new enemy spawned" + spawnPoint.toString());
-                capacity--;
-                controlCapacity();
+                if (controlFreeCellOnSrawnPoint()) {
+                    enemies.add(new Enemy(new Point(spawnPosition)));
+                    capacity--;
+                    controlCapacity();
+                }
             }
         }
+    }
+
+    private boolean controlFreeCellOnSrawnPoint() {
+        for (Enemy enemy : getEnemies()) {
+            if (getSpawnRectangle().intersects(enemy.getRectangle())) {
+                System.out.println("enemy stay here!");
+                return false;
+            }
+        }
+        return true;
+
     }
 
     private boolean controlCapacity() {
@@ -76,8 +88,8 @@ public class SpawnPoint implements Constants, Serializable {
         isActive = true;
     }
 
-    public Point getSpawnPoint() {
-        return spawnPoint;
+    public Point getSpawnPosition() {
+        return spawnPosition;
     }
 
     public ArrayList<Enemy> getEnemies() {
@@ -90,6 +102,10 @@ public class SpawnPoint implements Constants, Serializable {
 
     public void setEnemies(ArrayList<Enemy> ar) {
         this.enemies = ar;
+    }
+
+    public Rectangle getSpawnRectangle() {
+        return new Rectangle(spawnPosition, new Dimension(50, 50));
     }
 
 

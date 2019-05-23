@@ -16,7 +16,6 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         GamePanel gamePanel = new GamePanel(frame);
 
-//        frame.add(mainPanel, BorderLayout.EAST);
         frame.add(gamePanel, BorderLayout.WEST);
 
         frame.pack();
@@ -24,14 +23,7 @@ public class Main {
         frame.setVisible(true);
         frame.setResizable(false);
 
-//        JLabel lb = new JLabel("asadasdasdas", JLabel.CENTER);
-//        frame.add(lb);
-//        lb.setVisible(true);
         gamePanel.start();
-
-
-//        test();
-
     }
 
     static void test() {
