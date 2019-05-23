@@ -24,6 +24,7 @@ public class SpawnPoint implements Constants, Serializable {
     private boolean isActive;
     private double time;
     private GamePanel gp;
+    private int currentAlive;
 
 
 
@@ -35,6 +36,7 @@ public class SpawnPoint implements Constants, Serializable {
         this.nanotime = System.nanoTime();
         this.gp = gp;
         isActive = true;
+        currentAlive = 0;
     }
 
     public SpawnPoint(GamePanel gp) {
@@ -47,6 +49,7 @@ public class SpawnPoint implements Constants, Serializable {
                 if (controlFreeCellOnSrawnPoint()) {
                     enemies.add(new Enemy(new Point(spawnPosition)));
                     capacity--;
+                    currentAlive = enemies.size();
                     controlCapacity();
                 }
             }
@@ -108,6 +111,8 @@ public class SpawnPoint implements Constants, Serializable {
         return new Rectangle(spawnPosition, new Dimension(50, 50));
     }
 
-
+    public int getCurrentAlive() {
+        return this.currentAlive;
+    }
 
 }
