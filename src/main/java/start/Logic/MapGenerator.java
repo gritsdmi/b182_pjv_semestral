@@ -81,7 +81,7 @@ public class MapGenerator implements Constants, Serializable {
         for (char[] line : actualMap) {
             for (char blockType : line) {
                 if (blockType == 'x') {
-                    spawnPoints.add(new SpawnPoint(this, 1, new Point(xPos, yPos), gp));
+                    spawnPoints.add(new SpawnPoint(this, 0, new Point(xPos, yPos), gp));
                 } else if (blockType != '_' && blockType != 'b') {
                     gp.blocks.add(new Block((Character.getNumericValue(blockType)), xPos, yPos, gp));
                 } else if (blockType == 'b' && !baseCreated) {

@@ -41,14 +41,8 @@ public class GameBackground implements Constants, Serializable {
     public void update() {
 
         if (epilepticmode) {
-            if (i == 0) {
-                color = Color.BLACK;
-                i = 1;
-            } else {
-                color = Color.RED;
-                i = 0;
-            }
-            if ((System.nanoTime() - modeTime) / 1000000 > 6000) {
+
+            if ((System.nanoTime() - modeTime) / 1000000 > 7500) {
 
                 epilepticmode = false;
                 color = Color.WHITE;
@@ -62,9 +56,12 @@ public class GameBackground implements Constants, Serializable {
         if (!GamePanel.menu) {
             if (!epilepticmode) {
                 g.drawImage(image, 0, 0, null);
+
             } else {
-                g.setColor(color);
+                g.drawImage(image, 0, 0, null);
+                g.setColor(new Color(1, 0f, 0f, 0.6f));
                 g.fillRect(0, 0, PANEL_WIDTH, PANEL_HEIGHT);
+                g.setColor(Color.BLACK);
             }
 
         } else {
@@ -80,4 +77,7 @@ public class GameBackground implements Constants, Serializable {
         height = h;
     }
 
+    public void setColor(Color color) {
+        this.color = color;
+    }
 }

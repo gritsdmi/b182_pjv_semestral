@@ -44,6 +44,7 @@ public class SpawnPoint implements Constants, Serializable {
     }
 
     public void update() {
+        controlCapacity();
         if (isActive) {
             if (computeSpawningDelay(ENEMY_SPAWN_DELAY) && enemies.size() < ENEMY_MAX_COUNT_ON_MAP) {
                 if (controlFreeCellOnSrawnPoint()) {
@@ -71,7 +72,7 @@ public class SpawnPoint implements Constants, Serializable {
         if (capacity < 1) {
             isActive = false;
             time = System.nanoTime();
-            gp.startNewWave(time);
+            gp.startNewWave();
 
         } else isActive = true;
         return isActive;
@@ -115,4 +116,7 @@ public class SpawnPoint implements Constants, Serializable {
         return currentAlive;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
 }

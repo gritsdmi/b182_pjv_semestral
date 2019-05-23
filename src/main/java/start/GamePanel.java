@@ -45,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private double startWaveTimer;
     private int wave = 1;
     private SaveLoadController slc;
+    private boolean printNewWave = false;
 
     public static ArrayList<GameButton> buttons;
     private MapGenerator mp;
@@ -198,7 +199,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         buttons = new ArrayList<GameButton>();
         drops = new ArrayList<Drop>();
         if (!isServer && !isClient) {
-            wave = 1;
+            wave = 0;
             player = new Player(this, 600, 600, 1);
             player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
 //            base = new Base(new Point(400, 500));
@@ -266,6 +267,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         menu = false;
 
+
     }
 
     public void ChangeStage(int newStage) {
@@ -288,6 +290,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             case 0:
                 menu = true;
                 stage = 2;
+                background.setColor(Color.ORANGE);
                 while (buttons.size() > 0) {
                     buttons.remove(0);
                 }
@@ -491,24 +494,30 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         if (startWave) {
             checkWaveStarter();
         }
-
+        if ((System.nanoTime() - startWaveTimer) / 1000000 > 2000) {
+            printNewWave = false;
+        }
     }
 
-    public void startNewWave(double time) {
-        startWaveTimer = time;
+    public void startNewWave() {
+
 
         startWave = true;
+
     }
 
     public void checkWaveStarter() {
-        if ((System.nanoTime() - startWaveTimer) / 1000000 > 10000) {
+        if (enemySpawns.get(0).getCurrentAlive() == 0 && enemySpawns.get(1).getCurrentAlive() == 0) {
             wave++;
+
+            printNewWave = true;
+            startWaveTimer = System.nanoTime();
             for (SpawnPoint sp : enemySpawns) {
                 sp.setCapacity(wave);
-//                System.out.println("NEW WAVEww");
                 startWave = false;
             }
         }
+
     }
 
     public boolean delay(double del) {
@@ -547,6 +556,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     }
     public void MenuPaint(Graphics2D g) {
         Graphics2D g2d = g;
+        g2d.setFont(new Font("sa", 1, 20));
         background.draw(g2d);
         g2d.setColor(Color.BLACK);
         g2d.drawString(name, 50, 50);
@@ -577,6 +587,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         menuBackground.draw(g2d);
         // Player draw
         player.draw(g2d);
+        g2d.setFont(new Font("sa", 1, 20));
         g2d.drawString(name, 810, 600);
 //        if (isServer) g2d.drawString(IpAdress, 100, 100);
 
@@ -619,6 +630,12 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(5));
         g2d.drawString("WAVE  " + wave, 810, 300);
+        if (printNewWave) {
+            g2d.setFont(new Font("big", 1, 50));
+            g2d.drawString("WAVE " + wave, 300, 200);
+            g2d.setFont(new Font("sa", 1, 20));
+
+        }
         Graphics2D g2 = (Graphics2D) this.getGraphics();
 
         g2.drawImage(image, 0, 0, this);
