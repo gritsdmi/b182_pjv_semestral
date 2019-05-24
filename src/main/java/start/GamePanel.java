@@ -419,7 +419,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         background.update();
         player.update();
         if (player.getHealth() <= 0) {
-            endingStr = "Yoy lose!";
             ChangeStage(4);
 
 
