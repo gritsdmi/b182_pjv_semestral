@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class GameBackground implements Constants, Serializable {
@@ -28,7 +30,7 @@ public class GameBackground implements Constants, Serializable {
         try {
             image = ImageIO.read(new File("src/main/resources/Entity/map.png"));
         } catch (Exception e) {
-
+            Logger.getLogger(GameBackground.class.getName()).log(Level.SEVERE, "Error loading file", e);
         }
 
     }
@@ -72,12 +74,12 @@ public class GameBackground implements Constants, Serializable {
 
     }
 
-    public void setDim(int w, int h) {
+    void setDim(int w, int h) {
         width = w;
         height = h;
     }
 
-    public void setEpilepticmode(boolean epilepticmode) {
+    void setEpilepticmode(boolean epilepticmode) {
         this.epilepticmode = epilepticmode;
     }
 

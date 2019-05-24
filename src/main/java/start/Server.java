@@ -133,8 +133,8 @@ public class Server implements Runnable {
         }
     }
 
-    public void end() throws IOException {
-//
+    void end() throws IOException {
+
         serverSocket.close();
     }
 }

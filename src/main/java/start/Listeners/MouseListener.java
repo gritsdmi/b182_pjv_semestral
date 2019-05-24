@@ -7,16 +7,11 @@ import java.awt.event.MouseMotionListener;
 
 public class MouseListener implements MouseMotionListener, java.awt.event.MouseListener {
 
-
-
-
     public void mouseDragged(MouseEvent e) {
         if (!GamePanel.menu) {
             GamePanel.player.setDir(e.getPoint());
             GamePanel.player.turelSetDirection(e.getPoint());
-
         }
-
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -25,12 +20,11 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
                 GamePanel.player.turelSetDirection(e.getPoint());
                 GamePanel.player.setDir(e.getPoint());
             }
-
         }
+
         for (int i = 0; i < GamePanel.buttons.size(); i++) {
             GamePanel.buttons.get(i).checkMouse(e.getX(), e.getY());
         }
-
 
     }
 
@@ -45,8 +39,6 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
                 GamePanel.player.setM1pressed(true);
             }
         }
-
-
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -59,17 +51,11 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
         if (!GamePanel.menu) {
             GamePanel.player.setM1pressed(false);
         }
-
-
-
     }
 
     public void mouseEntered(MouseEvent e) {
-
-
     }
 
     public void mouseExited(MouseEvent e) {
-
     }
 }

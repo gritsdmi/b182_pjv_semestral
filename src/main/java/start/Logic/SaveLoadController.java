@@ -30,39 +30,42 @@ public class SaveLoadController implements Constants, Serializable {
         return df.format(date);
     }
 
-    public boolean saveGame(String str) {
+    /**
+     * Method try to save actual game. Create directory (if it not exits)
+     *
+     * @param str represents name of created file
+     * @return boolean true if saved complete successfully, otherwise false
+     */
+    boolean saveGame(String str) {
         System.out.println("Try to save game");
-        savedData.add(gp.getPlayerAsArrayList());//worked
+
+        savedData.add(gp.getPlayerAsArrayList());
         savedData.add(GamePanel.blocks);
         savedData.add(gp.getBaseAsArrayList());
         savedData.add(GamePanel.bullets);
         savedData.add(GamePanel.getEnemySpawns());
         savedData.add(gp.getFreeSpacesMap());
-        savedData.add(gp.getDrops());//may generate some problems with delays
+        savedData.add(gp.getDrops());
         savedData.add(gp.getWaveAsArrayList());
 
 //        filename = "Saved game " + generateNewFilename() + ".dat";
         filename = str + ".dat";
 
         Path path = Paths.get(pathToSavedGame + GamePanel.name + '/');
-        //if directory exists?
+
         if (!Files.exists(path)) {
             try {
                 Files.createDirectories(path);
-//                System.out.println("dir created");
             } catch (IOException e) {
                 //fail to create directory
-                e.printStackTrace();
+                Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "Error creating new file", e);
+                return false;
             }
         }
-
 
         try {
             ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(pathToSavedGame + GamePanel.name + "/" + filename));
             out.writeObject(savedData);
-
-//            System.out.println("Saving player " + GamePanel.player.getPosition() +" "+ GamePanel.player.getHealth());
-//            out.writeObject(GamePanel.player.prepareDataToSerialize());//this works
 
             out.close();
         } catch (IOException ex) {
@@ -77,9 +80,13 @@ public class SaveLoadController implements Constants, Serializable {
 
     }
 
-    public void loadGameFromFile(String file) {
+    /**
+     * Method try to deserialize saved game from file
+     *
+     * @param file represents filename of saved game
+     */
+    void loadGameFromFile(String file) {
         savedData.clear();
-        System.out.println("trying to deserialize");
         file = pathToSavedGame + GamePanel.name + "/" + file;
 
         try {
@@ -96,14 +103,16 @@ public class SaveLoadController implements Constants, Serializable {
             Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "File null pointer exception", e);
 
         }
-//        System.out.println(savedData);
     }
 
-    public ArrayList<ArrayList> getLoadedData() {
-        return savedData;
-    }
-
-    public String[] getExistingSavedGames() {
+    /**
+     * Method parses directory with saved games
+     * Result depend on actulal username
+     * File with saved game should end on '.dat'
+     *
+     * @return String[] array with names of saved games
+     */
+    String[] getExistingSavedGames() {
 
         File dir = new File(pathToSavedGame + GamePanel.name + "/");
         ArrayList<String> ret = new ArrayList<>();
@@ -126,6 +135,11 @@ public class SaveLoadController implements Constants, Serializable {
 
     }
 
+    /**
+     * Method tries parse file, witch contains player names.
+     *
+     * @return String[] array with names of saved players
+     */
     public String[] parseSavedPlayers() {
 
         File file = new File(pathToSavedPlayers);
@@ -135,7 +149,6 @@ public class SaveLoadController implements Constants, Serializable {
             parser = new Scanner(file);
         } catch (FileNotFoundException e) {
             Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "File not found", e);
-
         }
 
         String line;
@@ -152,33 +165,41 @@ public class SaveLoadController implements Constants, Serializable {
             if (count >= 3) break;
         }
 
-
         return temp.toArray(new String[3]);
 
     }
 
-    public boolean deleteFile(String file) {//filename
-
+    /**
+     * Method try to delete file with saved game
+     *
+     * @param file represents name of deleted file
+     * @return boolean true if deleted complete successfully
+     */
+    boolean deleteFile(String file) {
 
         Path path = Paths.get(pathToSavedGame + GamePanel.name + "/" + file);
-        System.out.println("exists? " + Files.exists(path));
 
         try {
             Files.delete(path);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "Deleting error", e);
         }
 
         return true;
     }
 
-    public void writeNewPlayer(String name, int pos) {
+    /**
+     * Method try write new player to saved players file
+     *
+     * @param name represents name of new player
+     * @param pos  represents position(row) in this file
+     */
+    void writeNewPlayer(String name, int pos) {
         File file = new File(pathToSavedPlayers);
         String[] oldData = parseSavedPlayers();
 
         for (int i = 0; i < 3; i++) {
             if (oldData[i] == null && i + 1 == pos) {
-//                System.out.println("here");
                 oldData[i] = name;
                 break;
             }
@@ -197,12 +218,17 @@ public class SaveLoadController implements Constants, Serializable {
 
             fW.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(SaveLoadController.class.getName()).log(Level.SEVERE, "File write error", e);
         }
 
     }
 
-    public void deletePlayer(int placing) {
+    /**
+     * Method delete player from file
+     *
+     * @param placing mean position(row) in this file
+     */
+    void deletePlayer(int placing) {
         int index = placing - 1;
 
         String[] playersInFile = parseSavedPlayers();
@@ -249,6 +275,10 @@ public class SaveLoadController implements Constants, Serializable {
             e.printStackTrace();
         }
 
+    }
+
+    ArrayList<ArrayList> getLoadedData() {
+        return savedData;
     }
 
 }

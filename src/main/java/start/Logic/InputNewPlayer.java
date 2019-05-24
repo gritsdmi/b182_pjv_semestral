@@ -106,11 +106,11 @@ public class InputNewPlayer extends JDialog {
 
     }
 
-    public String getEnteredName() {
+    String getEnteredName() {
         return enteredName;
     }
 
-    public boolean isAllOk() {
+    boolean isAllOk() {
         return allOk;
     }
 

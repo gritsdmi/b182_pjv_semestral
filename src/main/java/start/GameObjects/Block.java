@@ -18,7 +18,6 @@ public class Block implements Constants, Serializable {
     private int type = -1;
     private int autor = -1;
     private GamePanel gp;
-    private Player player;
 
 
     //Constructor
@@ -73,8 +72,6 @@ public class Block implements Constants, Serializable {
         return c;
     }
 
-
-
     private boolean controlHP() {
         if (isAlive) {
             if (health < 1) {
@@ -120,23 +117,23 @@ public class Block implements Constants, Serializable {
 
     }
 
-    public int getxPosition() {
+    int getxPosition() {
         return xPosition;
     }
 
-    public int getyPosition() {
+    int getyPosition() {
         return yPosition;
     }
 
-    public int getWidth() {
+    int getWidth() {
         return width;
     }
 
-    public int getHeight() {
+    int getHeight() {
         return height;
     }
 
-    public int getType() {
+    int getType() {
         return type;
     }
 
@@ -144,19 +141,19 @@ public class Block implements Constants, Serializable {
         return isAlive;
     }
 
-    public Rectangle getRectangle() {
+    Rectangle getRectangle() {
         return new Rectangle(xPosition, yPosition, width, height);
     }
 
-    public Point getCenterPosition() {
+    Point getCenterPosition() {
         return new Point(xPosition + 25, yPosition + 25);
     }
 
-    public void setxPosition(int xPosition) {
+    void setxPosition(int xPosition) {
         this.xPosition = xPosition;
     }
 
-    public void setyPosition(int yPosition) {
+    void setyPosition(int yPosition) {
         this.yPosition = yPosition;
     }
 
@@ -164,7 +161,7 @@ public class Block implements Constants, Serializable {
         return autor;
     }
 
-    public void setPosition(Point position) {
+    void setPosition(Point position) {
         this.xPosition = (int) position.getX();
         this.yPosition = (int) position.getY();
     }

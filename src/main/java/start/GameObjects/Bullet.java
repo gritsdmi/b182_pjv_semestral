@@ -194,7 +194,7 @@ public class Bullet implements Constants, Serializable {
         return isAlive;
     }
 
-    public int getDamage() {
+    int getDamage() {
         return damage;
     }
 

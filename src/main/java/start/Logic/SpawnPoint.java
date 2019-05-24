@@ -116,7 +116,7 @@ public class SpawnPoint implements Constants, Serializable {
         this.enemies = ar;
     }
 
-    public Rectangle getSpawnRectangle() {
+    Rectangle getSpawnRectangle() {
         return new Rectangle(spawnPosition, new Dimension(50, 50));
     }
 

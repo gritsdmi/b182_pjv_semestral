@@ -183,7 +183,6 @@ public class GameButton implements Constants, Serializable {
             playersButtons[i].x = 75 + i * 300;
             playersButtons[i].number = i + 1;
 
-
         }
 
         playersButtons[3] = new GameButton('d', gp);
@@ -242,7 +241,6 @@ public class GameButton implements Constants, Serializable {
 
                     gp.ChangeStage(3);
 
-
                     break;
                 case 'n':
                     gp.ChangeStage(0);
@@ -278,7 +276,6 @@ public class GameButton implements Constants, Serializable {
                         }
                         gp.ChangeStage(1);
                     }
-
 
                     break;
                 case 'j':
@@ -317,6 +314,7 @@ public class GameButton implements Constants, Serializable {
                     break;
                 case 'z'://used for saving game button
                     InputNewPlayer inp = new InputNewPlayer(gp);
+                    inp.displayContent();
                     if (inp.isAllOk()) {
                         if (slc.saveGame(inp.getEnteredName())) System.out.println("Game saved ok");
                     }
@@ -339,8 +337,6 @@ public class GameButton implements Constants, Serializable {
                     break;
 
             }
-
-
         }
     }
 

@@ -6,7 +6,10 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Drop implements Constants, Serializable {
     // Fields
@@ -47,11 +50,9 @@ public class Drop implements Constants, Serializable {
                     break;
 
             }
-        } catch (Exception e) {
-
+        } catch (IOException e) {
+            Logger.getLogger(Drop.class.getName()).log(Level.SEVERE, "Error loading file", e);
         }
-
-
 
     }
 
@@ -92,7 +93,7 @@ public class Drop implements Constants, Serializable {
         g.drawImage(image, x, y, null);
     }
 
-    public int getType() {
+    int getType() {
         return type;
     }
 

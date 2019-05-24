@@ -13,32 +13,20 @@ public class Listeners implements KeyListener {
             int key = e.getKeyCode();
 
             if (key == KeyEvent.VK_W) {
-
                 GamePanel.player.setDirection(1);
-
-
             }
             if (key == KeyEvent.VK_A) {
-
                 GamePanel.player.setDirection(4);
-
             }
 
             if (key == KeyEvent.VK_S) {
                 GamePanel.player.setDirection(3);
-
             }
 
             if (key == KeyEvent.VK_D) {
                 GamePanel.player.setDirection(2);
-
-            }
-            if (key == KeyEvent.VK_SPACE) {
             }
         }
-
-
-
     }
 
 
@@ -49,25 +37,19 @@ public class Listeners implements KeyListener {
             if (key == KeyEvent.VK_W) {
                 GamePanel.player.setDirection(0);
             }
-            if (key == KeyEvent.VK_A) {
 
+            if (key == KeyEvent.VK_A) {
                 GamePanel.player.setDirection(0);
             }
 
             if (key == KeyEvent.VK_S) {
-
                 GamePanel.player.setDirection(0);
             }
 
             if (key == KeyEvent.VK_D) {
                 GamePanel.player.setDirection(0);
             }
-            if (key == KeyEvent.VK_SPACE) {
-            }
         }
-
-
-
     }
 
 

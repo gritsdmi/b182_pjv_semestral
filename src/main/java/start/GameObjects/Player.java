@@ -54,9 +54,6 @@ public class Player implements Constants, Serializable {
 
 
 
-
-
-
     //Constructor
     public Player(GamePanel gp, int x, int y, int type) {
 
@@ -70,8 +67,6 @@ public class Player implements Constants, Serializable {
         shield = false;
         fireLevel = 0;
         isFireUpBuffed = false;
-
-
     }
 
     //Methods
@@ -80,7 +75,7 @@ public class Player implements Constants, Serializable {
      * Method simulates picking up the shield bonus
      * assigns shield variable true and sets the timer of shield
      */
-    public void setShield() {
+    void setShield() {
 
         shield = true;
         shieldTime = System.nanoTime();
@@ -90,13 +85,12 @@ public class Player implements Constants, Serializable {
      * Method simulates picking up the boost bonus
      * decreases reload time, increase speed and sets the timer of boost
      */
-    public void fireRateChange() {
+    void fireRateChange() {
         if (!isFireUpBuffed) {
             fireUpTime = System.nanoTime();
             reload -= 200;
             speed = speed * 2;
             isFireUpBuffed = true;
-
         }
 
     }
@@ -119,24 +113,23 @@ public class Player implements Constants, Serializable {
     }
 
     /**
-     * Method simulates delay effect by 7500 ns
+     * Method simulates delay effect by 7500 ms
      * after time passed returnes player to normal mode
      */
-    public void checkFireUp() {
+    void checkFireUp() {
         if ((System.nanoTime() - fireUpTime) / 1000000 > 7500) {
 
             reload += 200;
             speed = (int) speed / 2;
             isFireUpBuffed = false;
-
         }
     }
 
     /**
-     * Method simulates delay effect by 11000 ns
+     * Method simulates delay effect by 11000 ms
      * after time passed ends shield effect
      */
-    public void checkShield() {
+    void checkShield() {
         if ((System.nanoTime() - shieldTime) / 1000000 > 11000) {
             shield = false;
 
@@ -148,7 +141,7 @@ public class Player implements Constants, Serializable {
      * Method simulates picking up the restoreHealth bonus
      * restore player`s health to maximum
      */
-    public void restoreHealth(Drop drop) {
+    void restoreHealth(Drop drop) {
         this.health = PLAYER_HEALTH;
     }
 
@@ -261,15 +254,11 @@ public class Player implements Constants, Serializable {
 
                 shoot(1);
 
-
             }
             if (isFireUpBuffed) {
                 checkFireUp();
             }
         }
-
-
-
 
     }
 
@@ -369,15 +358,54 @@ public class Player implements Constants, Serializable {
 
     }
 
-    public Rectangle getRectangle() {
+    /**
+     * Method for serialisation
+     *
+     * @return
+     */
+    public ArrayList<ArrayList> prepareDataToSerialize() {
+        ArrayList<Point> points = new ArrayList<>();
+        points.add(this.getPosition());
+        points.add(this.getDir());
+
+        ArrayList<Integer> intData = new ArrayList<>();
+        intData.add(health);
+
+
+        ArrayList<ArrayList> ret = new ArrayList<>();
+        ret.add(points);
+        ret.add(intData);
+
+        return ret;
+    }
+
+    /**
+     * Method decrease player`s health by
+     *
+     * @param damage amount
+     */
+    public void takeDamage(int damage) {
+        if (!shield) {
+            this.health = health - damage;
+            healthBarLength = health;
+        }
+
+    }
+
+    public boolean isAlive() {
+        if (health < 1) return false;
+        else return true;
+    }
+
+    Rectangle getRectangle() {
         return new Rectangle(x, y, PLAYER_SIZE_WIDTH, PLAYER_SIZE_HEIGHT);
     }
 
-    public Rectangle getSmallRectangle() {
+    Rectangle getSmallRectangle() {
         return new Rectangle(x + 10, y, 30, 30); // 30x30
     }
 
-    public Point getCenterPosition() {
+    Point getCenterPosition() {
         return new Point(x + 25, y + 25);
     }
 
@@ -385,7 +413,7 @@ public class Player implements Constants, Serializable {
         return new Point(x, y);
     }
 
-    public boolean isMoving() {
+    boolean isMoving() {
         if (x % 50 == 0 && y % 50 == 0) return false;
         else return true;
     }
@@ -423,49 +451,12 @@ public class Player implements Constants, Serializable {
         M1pressed = m1pressed;
     }
 
-    public Point getDir() {
+    Point getDir() {
         return dir;
     }
 
     public void setDir(Point dir) {
         this.dir = dir;
-    }
-
-    /**
-     * Method for serialisation
-     * @return
-     */
-    public ArrayList<ArrayList> prepareDataToSerialize() {
-        ArrayList<Point> points = new ArrayList<>();
-        points.add(this.getPosition());
-        points.add(this.getDir());
-
-        ArrayList<Integer> intData = new ArrayList<>();
-        intData.add(health);
-
-
-        ArrayList<ArrayList> ret = new ArrayList<>();
-        ret.add(points);
-        ret.add(intData);
-
-        return ret;
-    }
-
-    /**
-     * Method decrease player`s health by
-     * @param damage amount
-     */
-    public void takeDamage(int damage) {
-        if (!shield) {
-            this.health = health - damage;
-            healthBarLength = health;
-        }
-
-    }
-
-    public boolean isAlive() {
-        if (health < 1) return false;
-        else return true;
     }
 
     public Point getTurelDirection() {

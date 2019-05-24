@@ -20,11 +20,6 @@ public class SavedGamesController extends JDialog {
         this.slc = slc;
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         displayContent();
-
-    }
-
-    public boolean isLevelSelect() {
-        return levelSelect;
     }
 
     private void displayContent() {
@@ -52,7 +47,6 @@ public class SavedGamesController extends JDialog {
         });
 
         JButton delButton = new JButton("Delete save");
-
 
 
         JList<String> jList = new JList<>(slc.getExistingSavedGames());
@@ -105,8 +99,6 @@ public class SavedGamesController extends JDialog {
         size = jList.getPreferredSize();
         jList.setBounds(insets.left + 50, insets.top + 100, size.width, size.height);
 
-//        size = jScrollPane.getPreferredSize();
-//        jScrollPane.setBounds(insets.left + 50, insets.top + 100, size.width, size.height);
 
         size = goButton.getPreferredSize();
         goButton.setBounds(insets.left + 350, insets.top + 200, size.width, size.height);
@@ -128,7 +120,12 @@ public class SavedGamesController extends JDialog {
 
     }
 
-    public String getSelectedSave() {
+    String getSelectedSave() {
         return Item[0];
     }
+
+    boolean isLevelSelect() {
+        return levelSelect;
+    }
+
 }

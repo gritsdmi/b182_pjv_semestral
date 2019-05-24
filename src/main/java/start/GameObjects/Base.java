@@ -9,6 +9,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Base implements Constants, Serializable {
     // Fields
@@ -43,7 +45,7 @@ public class Base implements Constants, Serializable {
         try {
             baseimage = ImageIO.read(new File("src/main/resources/Entity/Base.png"));
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(Base.class.getName()).log(Level.SEVERE, "Error loading file", e);
         }
     }
 
@@ -64,7 +66,6 @@ public class Base implements Constants, Serializable {
             }
         }
 
-
     }
 
     private void die() {
@@ -73,6 +74,7 @@ public class Base implements Constants, Serializable {
         GamePanel.blocks.remove(bl2);
         GamePanel.blocks.remove(bl3);
         GamePanel.blocks.remove(bl4);
+
         GamePanel.player.setHealth(0);
     }
 
@@ -102,11 +104,11 @@ public class Base implements Constants, Serializable {
         return health;
     }
 
-    public Rectangle getRectangle() {
+    Rectangle getRectangle() {
         return new Rectangle(x, y, BASE_SIZE_WIDTH, BASE_SIZE_HEIGHT);
     }
 
-    public Point getCenter() {
+    Point getCenter() {
         return new Point(x + 50, y + 50);
     }
 

@@ -781,7 +781,7 @@ class Eye implements Constants, Serializable {
         if (type == 0) {// player seeing eyes
             if (this.eye.intersects(GamePanel.player.getSmallRectangle())) {//player under seeing
                 seeBase = false;
-                System.out.println("see player");
+//                System.out.println("see player");
                 enemy.setMood(1);//set fury mode
                 enemy.rotateTankImage(nameToSmer());
                 if (!GamePanel.player.isMoving()) {
@@ -815,7 +815,7 @@ class Eye implements Constants, Serializable {
                         enemy.setMood(1);
 //                        enemy.setSmer(0);
                         enemy.rotateTankImage(nameToSmer());
-                        System.out.println("see base");
+//                        System.out.println("see base");
                         this.seeBase = true;
                         return true;
 

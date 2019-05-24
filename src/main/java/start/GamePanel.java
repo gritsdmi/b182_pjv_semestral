@@ -380,9 +380,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
                 break;
 
-
-
-
         }
     }
 
@@ -422,8 +419,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         player.update();
         if (player.getHealth() <= 0) {
             ChangeStage(4);
-
-
         }
     }
 
@@ -474,10 +469,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             }
         }
 
-        /**
-         * treads??
-         */
-        //new Enemies update
+        //Enemies update
         for (SpawnPoint sp : enemySpawns) {
             sp.update();
             for (int i = 0; i < sp.getEnemies().size(); i++) {
@@ -507,8 +499,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     }
 
     public void startNewWave() {
-
-
         startWave = true;
 
     }
@@ -561,6 +551,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             buttons.remove(0);
         }
     }
+
     public void MenuPaint(Graphics2D g) {
         Graphics2D g2d = g;
         g2d.setFont(new Font("sa", 1, 20));
@@ -591,7 +582,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     public void paint(Graphics2D g) {
 
-
         Graphics2D g2d = g;
         background.draw(g2d);
         menuBackground.draw(g2d);
@@ -609,7 +599,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         //Bullet draw
         for (int i = 0; i < bullets.size(); i++) {
-            bullets.get(i).draw(g2d);
 
         }
         //Blocks draw
@@ -627,7 +616,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         //Drops draw
         for (int i = 0; i < drops.size(); i++) {
             drops.get(i).draw(g2d);
-
         }
 
         //new Enemies draw
@@ -695,13 +683,11 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         return mainFrame;
     }
 
-    public void setIpAdress(String ip) {
+    void setIpAdress(String ip) {
         this.IpAdress = ip;
     }
 
-    public static Font testfont;
-
-    public void setEndingStr(String endingStr) {
+    void setEndingStr(String endingStr) {
         this.endingStr = endingStr;
     }
 
