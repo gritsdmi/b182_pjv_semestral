@@ -46,7 +46,7 @@ public class Enemy implements Constants, Serializable {
         this.isAlive = true;
     }
 
-    public Enemy(Point startPosition, GamePanel gp) {
+    public Enemy(Point startPosition, GamePanel gp) {//for tests
         this.xPosition = (int) startPosition.getX();
         this.yPosition = (int) startPosition.getY();
         this.isAlive = true;
@@ -118,6 +118,7 @@ public class Enemy implements Constants, Serializable {
         //image fields
         this.rotation = 0;
         rotateTankImage(smer);
+
         this.id = uniqId++;
         tempBlock = new Block(3, xPosition, yPosition, id);
         GamePanel.blocks.add(tempBlock);
@@ -335,9 +336,9 @@ public class Enemy implements Constants, Serializable {
                     movRight.setLocation(this.actualPosition);
                     break;
                 case 4: //down
-                    rightEnd.setLocation(rightEnd.getX(), rightEnd.getY() + 20);
-                    leftEnd.setLocation(leftEnd.getX(), leftEnd.getY() + 20);
-                    downEnd.setLocation(downEnd.getX(), downEnd.getY() + 20);
+//                    rightEnd.setLocation(rightEnd.getX(), rightEnd.getY() + 20);
+//                    leftEnd.setLocation(leftEnd.getX(), leftEnd.getY() + 20);
+//                    downEnd.setLocation(downEnd.getX(), downEnd.getY() + 20);
 
 
                     upEnd.setLocation(this.actualPosition);
@@ -418,8 +419,8 @@ public class Enemy implements Constants, Serializable {
     public void draw(Graphics2D g) {
         if (isAlive) {
             g.drawImage(op.filter(tankImg, null), xPosition, yPosition,null);
-//            for (Eye eye : eyes) eye.draw(g);
-//            for (Eye eye : movingEyes) eye.draw(g);
+            for (Eye eye : eyes) eye.draw(g);
+            for (Eye eye : movingEyes) eye.draw(g);
             g.setColor(Color.RED);
             g.fillRect(xPosition + 2, yPosition - 5, (int) helthBarLenght, 6);
         }
@@ -618,6 +619,7 @@ class Eye implements Constants, Serializable {
     private boolean see; // use for blocks
     private boolean seeHim; //use for player
     private boolean seeAnother; // use for enemies
+    private boolean seeBase;
     private Point position; //start position
     private Point endPosition; //end position
     private String name;
@@ -638,9 +640,10 @@ class Eye implements Constants, Serializable {
         this.seeHim = false;
         this.seeAnother = false;
         this.eye = new Line2D.Float(this.position, this.endPosition);
+        this.seeBase = false;
     }
 
-    public Eye(Enemy enemy, Point startPosition, String name, int type, GamePanel gp) {
+    public Eye(Enemy enemy, Point startPosition, String name, int type, GamePanel gp) {//for tests
         this.enemy = enemy;
         this.type = type;
         this.position = startPosition;
@@ -661,7 +664,10 @@ class Eye implements Constants, Serializable {
         this.eye.setLine(this.position, this.endPosition);
 
         if (controlPlayerCollider() && computeShootingDelay(ENEMY_SHOOTING_DELAY)) {
-            GamePanel.bullets.add(new Bullet(position.getX(), position.getY(), GamePanel.player.getCenterPosition(), 1));
+            if (seeBase)
+                GamePanel.bullets.add(new Bullet(position.getX(), position.getY(), GamePanel.base.getCenter(), 1));
+            else
+                GamePanel.bullets.add(new Bullet(position.getX(), position.getY(), GamePanel.player.getCenterPosition(), 1));
         }
 
     }
@@ -769,8 +775,13 @@ class Eye implements Constants, Serializable {
 
         setSee(false);
 
+
+        //TODO normal -> seeBase; seeBase -> seePlayer; seeBase -> normal
+
         if (type == 0) {// player seeing eyes
             if (this.eye.intersects(GamePanel.player.getSmallRectangle())) {//player under seeing
+                seeBase = false;
+                System.out.println("see player");
                 enemy.setMood(1);//set fury mode
                 enemy.rotateTankImage(nameToSmer());
                 if (!GamePanel.player.isMoving()) {
@@ -793,6 +804,23 @@ class Eye implements Constants, Serializable {
 
                 }
                 setSeeHim(false);
+            }
+
+            //control base
+            for (Block baseblock : GamePanel.blocks) {
+                if (baseblock.getType() == Constants.WALL_TYPE_TEST) {
+                    if (eye.intersects(GamePanel.base.getRectangle()) || eye.intersects(baseblock.getRectangle())) {
+
+                        //enemy see base
+                        enemy.setMood(1);
+//                        enemy.setSmer(0);
+                        enemy.rotateTankImage(nameToSmer());
+                        System.out.println("see base");
+                        this.seeBase = true;
+                        return true;
+
+                    }
+                }
             }
         }
 

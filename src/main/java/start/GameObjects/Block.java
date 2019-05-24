@@ -116,6 +116,8 @@ public class Block implements Constants, Serializable {
 
         }
 
+//        if(autor == -1 ) g.drawRect(xPosition, yPosition, width, height);
+
     }
 
     public int getxPosition() {

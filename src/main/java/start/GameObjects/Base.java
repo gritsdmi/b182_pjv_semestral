@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 public class Base implements Constants, Serializable {
     // Fields
-    private int Health;
+    private int health;
     private int x;
     private int y;
     private boolean isAlive;
@@ -28,7 +28,7 @@ public class Base implements Constants, Serializable {
     public Base(Point position, GamePanel gp) {
         x = position.x;
         y = position.y;
-        Health = 10;
+        health = 10;
         this.gp = gp;
         bl1 = new Block(WALL_TYPE_INVIS, x, y, gp);
         bl2 = new Block(WALL_TYPE_INVIS, x + 50, y, gp);
@@ -56,9 +56,9 @@ public class Base implements Constants, Serializable {
      */
     public void hit(int damage) {
         if (isAlive) {
-            Health -= damage;
-            System.out.println("base health " + Health);
-            if (Health <= 0) {
+            health -= damage;
+            System.out.println("base health " + health);
+            if (health <= 0) {
                 die();
             }
         }
@@ -72,6 +72,7 @@ public class Base implements Constants, Serializable {
         GamePanel.blocks.remove(bl2);
         GamePanel.blocks.remove(bl3);
         GamePanel.blocks.remove(bl4);
+        GamePanel.player.setHealth(0);
     }
 
     public void update() {
@@ -91,11 +92,15 @@ public class Base implements Constants, Serializable {
 
 
     public int getHealth() {
-        return Health;
+        return health;
     }
 
     public Rectangle getRectangle() {
         return new Rectangle(x, y, BASE_SIZE_WIDTH, BASE_SIZE_HEIGHT);
+    }
+
+    public Point getCenter() {
+        return new Point(x + 50, y + 50);
     }
 
 }

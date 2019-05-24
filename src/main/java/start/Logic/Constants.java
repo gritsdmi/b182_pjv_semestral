@@ -27,6 +27,7 @@ public interface Constants {
     int WALL_TYPE_BRICK = 1;
     int WALL_TYPE_TEST = 2;
     int WALL_TYPE_INVIS = 3;
+    int WALL_TYPE_FOR_ENEMY = 5;
     int WALL_HEALTH = 50;
 
     int FPS = 30;
@@ -37,6 +38,7 @@ public interface Constants {
 
     String pathToSavedGame = "src/main/resources/SavedGames/";
     String pathToSavedPlayers = "src/main/resources/Players/SavedPlayers";
+
     int ENEMY_MOVING_SPEED = 2;
     int ENEMY_FIRE_DISTANCE = 300;
     int ENEMY_HEALTH = 80;
