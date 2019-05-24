@@ -260,7 +260,11 @@ public class GameButton implements Constants, Serializable {
                                 GamePanel.curLevel = LEVEL_3;
                                 break;
 
+
                         }
+                        GamePanel.showNets = true;
+                        gp.setInterfaceStr("Waiting for 2nd player. Your IP adresses:");
+                        gp.setInterfaceStrPosition(new Point(100, 100));
                         gp.deleteButtons();
                     } else {
                         switch (number) {
@@ -280,11 +284,12 @@ public class GameButton implements Constants, Serializable {
                     break;
                 case 'j':
                     if (isEmpty == false) {
-                        gp.ChangeStage(0);
                         GamePanel.name = str;
+                        gp.ChangeStage(0);
                     } else {
                         InputNewPlayer inp = new InputNewPlayer(gp);
                         inp.displayContent();
+
                         if (inp.isAllOk()) {
                             GamePanel.name = inp.getEnteredName();
                             gp.ChangeStage(0);

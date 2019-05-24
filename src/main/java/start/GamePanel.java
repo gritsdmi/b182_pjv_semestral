@@ -46,16 +46,16 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private int wave = 1;
     private SaveLoadController slc;
     private boolean printNewWave = false;
+    private Point interfaceStrPosition;
 
     public static ArrayList<GameButton> buttons;
     private MapGenerator mp;
-    private volatile boolean exit = false;
     private GameButton test;
     private transient Server server;
     private transient Client client;
     private String endingStr;
     public static boolean showEndingStr = false;
-
+    private String interfaceStr;
     public static boolean isServer;
     public static boolean isClient;
 
@@ -286,6 +286,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                     buttons.add(newButtons[i]);
                 }
 
+                interfaceStr = "Hi, new player, welcome to our game";
+                interfaceStrPosition = new Point(100, 100);
                 break;
             case 0:
                 menu = true;
@@ -319,7 +321,9 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 isClient = false;
                 isServer = false;
                 showEndingStr = false;
-
+                System.out.println(name);
+                interfaceStr = "Welcome back, " + name + "!";
+                interfaceStrPosition = new Point(100, 100);
                 break;
 
             case 1:
@@ -332,6 +336,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 buttons.add(menuButton);
 
                 background.setDim(PANEL_WIDTH, PANEL_HEIGHT);
+                interfaceStr = "";
                 break;
             case 2:
 
@@ -354,7 +359,18 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 for (int i = 0; i < newButtons.length; i++) {
                     buttons.add(newButtons[i]);
                 }
-                buttons.add(new GameButton('x', this));
+                if (!isServer && !isClient) {
+                    buttons.add(new GameButton('x', this));
+                }
+
+                if (isServer) {
+                    interfaceStr = name + ", Choose level for multiplayer";
+                    interfaceStrPosition = new Point(50, 400);
+                } else {
+                    interfaceStr = name + ", Choose level or load your game:)";
+                    interfaceStrPosition = new Point(50, 400);
+                }
+
                 break;
             case 4:
                 menu = true;
@@ -378,6 +394,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 buttons.add(new GameButton('q', this));
                 buttons.add(new GameButton('f', this));
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
+                interfaceStr = name + ", host game or connect to another server!";
+                interfaceStrPosition = new Point(50, 400);
                 break;
 
         }
@@ -566,7 +584,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         g2d.setFont(new Font("sa", 1, 20));
         background.draw(g2d);
         g2d.setColor(Color.BLACK);
-        g2d.drawString(name, 50, 50);
         //Buttons draw
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).draw(g2d);
@@ -587,6 +604,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         if (showEndingStr) {
             g2d.drawString(endingStr, 200, 600);
         }
+        g2d.setColor(Color.BLACK);
+        g2d.drawString(interfaceStr, interfaceStrPosition.x, interfaceStrPosition.y);
         Graphics2D g2 = (Graphics2D) this.getGraphics();
         g2.drawImage(image, 0, 0, this);
 
@@ -645,7 +664,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(5));
-        if (!(isServer && isClient)) {
+        if (!isServer && !isClient) {
             g2d.drawString("WAVE  " + wave, 810, 300);
         }
 
@@ -703,6 +722,14 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     void setIpAdress(String ip) {
         this.IpAdress = ip;
+    }
+
+    public void setInterfaceStr(String interfaceStr) {
+        this.interfaceStr = interfaceStr;
+    }
+
+    public void setInterfaceStrPosition(Point interfaceStrPosition) {
+        this.interfaceStrPosition = interfaceStrPosition;
     }
 
     void setEndingStr(String endingStr) {

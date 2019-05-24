@@ -55,8 +55,6 @@ public class Server implements Runnable {
                     }
                 }
                 GamePanel.nets = adress;
-                GamePanel.showNets = true;
-                gp.setIpAdress(adress.get(3));
                 socket = serverSocket.accept();
                 System.out.println("Accepted");
                 gp.setLevel(GamePanel.curLevel);
