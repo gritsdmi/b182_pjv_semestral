@@ -15,11 +15,6 @@ public interface Constants {
     int PLAYER_AVOID_DISTANCE = 5;
     int PLAYER_HEALTH = 100;
 
-    byte PLAYER_ACTUAL_DIRECTION_UP = 1;
-    byte PLAYER_ACTUAL_DIRECTION_RIGHT = 2;
-    byte PLAYER_ACTUAL_DIRECTION_LEFT = -2;
-    byte PLAYER_ACTUAL_DIRECTION_DOWN = -1;
-
     int BULLET_SPEED = 10;
     int PLAYER_MOVING_SPEED = 5;
 

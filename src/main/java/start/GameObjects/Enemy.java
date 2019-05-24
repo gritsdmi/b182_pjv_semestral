@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Enemy implements Constants, Serializable {
     //Fields
@@ -73,7 +75,7 @@ public class Enemy implements Constants, Serializable {
         try {
             tankImg = ImageIO.read(new File("src/main/resources/Entity/GrayPixelTank.png"));
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(Base.class.getName()).log(Level.SEVERE, "Error loading file", e);
         }
 
         //image fields
@@ -112,7 +114,7 @@ public class Enemy implements Constants, Serializable {
         try {
             tankImg = ImageIO.read(new File("src/main/resources/Entity/GrayPixelTank.png"));
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(Base.class.getName()).log(Level.SEVERE, "Error loading file", e);
         }
 
         //image fields
@@ -162,8 +164,7 @@ public class Enemy implements Constants, Serializable {
     }
 
 
-    //TODO may be override
-    boolean roughlyEqual(Point pos1, Point pos2) {
+    private boolean roughlyEqual(Point pos1, Point pos2) {
         try {
 
             if (Math.abs(pos1.getX() - pos2.getX()) < 15 && Math.abs(pos1.getY() - pos2.getY()) < 15) {
@@ -189,10 +190,8 @@ public class Enemy implements Constants, Serializable {
         //right line
         Point rightEnd = new Point((int) this.actualPosition.getX() + ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
 
-
         //left line
         Point leftEnd = new Point((int) this.actualPosition.getX() - ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
-
 
         //central down line
         Point downEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + ENEMY_FIRE_DISTANCE);
@@ -219,10 +218,8 @@ public class Enemy implements Constants, Serializable {
         //right line
         Point rightEnd = new Point((int) this.actualPosition.getX() + ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
 
-
         //left line
         Point leftEnd = new Point((int) this.actualPosition.getX() - ENEMY_FIRE_DISTANCE, (int) this.actualPosition.getY());
-
 
         //central down line
         Point downEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() + ENEMY_FIRE_DISTANCE);
@@ -261,7 +258,7 @@ public class Enemy implements Constants, Serializable {
                 if (temp) {
                     mood = 0;
                 } else if (control50()) smer = lastSeenSmer;
-                // TODO override here
+
                 if (roughlyEqual(getPosition(), lastSeen)) {
                     align();
                     if (control50()) mood = 0;
@@ -288,7 +285,7 @@ public class Enemy implements Constants, Serializable {
             this.actualPosition.setLocation(this.xPosition + 25, this.yPosition + 25);
 
 
-            /**ends of eyes*/
+            /*ends of eyes*/
             //central up line
             Point upEnd = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - ENEMY_FIRE_DISTANCE);
             Point movUp = new Point((int) this.actualPosition.getX(), (int) this.actualPosition.getY() - ENEMY_MOVING_OFFSET);
@@ -336,9 +333,9 @@ public class Enemy implements Constants, Serializable {
                     movRight.setLocation(this.actualPosition);
                     break;
                 case 4: //down
-//                    rightEnd.setLocation(rightEnd.getX(), rightEnd.getY() + 20);
-//                    leftEnd.setLocation(leftEnd.getX(), leftEnd.getY() + 20);
-//                    downEnd.setLocation(downEnd.getX(), downEnd.getY() + 20);
+                    rightEnd.setLocation(rightEnd.getX(), rightEnd.getY() + 20);
+                    leftEnd.setLocation(leftEnd.getX(), leftEnd.getY() + 20);
+                    downEnd.setLocation(downEnd.getX(), downEnd.getY() + 20);
 
 
                     upEnd.setLocation(this.actualPosition);
@@ -432,7 +429,7 @@ public class Enemy implements Constants, Serializable {
      * @param bul is bullet, which do damage.
      * @see Bullet
      */
-    public void hit(Bullet bul) {
+    void hit(Bullet bul) {
         if (isAlive) {
             this.health -= bul.getDamage();
             controlHP();
@@ -524,15 +521,15 @@ public class Enemy implements Constants, Serializable {
         return isAlive;
     }
 
-    public int getxPosition() {
+    int getxPosition() {
         return xPosition;
     }
 
-    public int getyPosition() {
+    int getyPosition() {
         return yPosition;
     }
 
-    public int getSmer() {
+    int getSmer() {
         return smer;
     }
 
@@ -548,7 +545,7 @@ public class Enemy implements Constants, Serializable {
         this.smer = smer;
     }
 
-    public void setLastSeenPoint(Point lastSeen) {
+    void setLastSeenPoint(Point lastSeen) {
         this.lastSeen = lastSeen;
     }
 
@@ -556,11 +553,11 @@ public class Enemy implements Constants, Serializable {
         return lastSeen;
     }
 
-    public Point getActualPosition() {
+    Point getActualPosition() {
         return actualPosition;
     }
 
-    public Point getPosition() {
+    Point getPosition() {
         return new Point(xPosition, yPosition);
     }
 
@@ -568,7 +565,7 @@ public class Enemy implements Constants, Serializable {
         return lastSeenSmer;
     }
 
-    public void setLastSeenSmer(int lastSeenSmer) {
+    void setLastSeenSmer(int lastSeenSmer) {
         this.lastSeenSmer = lastSeenSmer;
     }
 
@@ -576,24 +573,29 @@ public class Enemy implements Constants, Serializable {
         return new Rectangle(xPosition, yPosition, 50, 50);
     }
 
-    public int getWight() {
+    int getWight() {
         return wight;
     }
 
-    public int getHeight() {
+    int getHeight() {
         return height;
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
 
+    /**
+     * Method sets new tank picture
+     *
+     * @param pathname
+     */
     public void setEnemyTankPic(String pathname) {
         try {
             tankImg = ImageIO.read(new File("src/main/resources/Entity/GrayPixelTank.png"));
 
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(Base.class.getName()).log(Level.SEVERE, "Error loading file", e);
         }
     }
 
@@ -776,8 +778,6 @@ class Eye implements Constants, Serializable {
         setSee(false);
 
 
-        //TODO normal -> seeBase; seeBase -> seePlayer; seeBase -> normal
-
         if (type == 0) {// player seeing eyes
             if (this.eye.intersects(GamePanel.player.getSmallRectangle())) {//player under seeing
                 seeBase = false;
@@ -799,7 +799,6 @@ class Eye implements Constants, Serializable {
                     if (enemy.getMood() == 1) { //if player was fury on me right now
                         enemy.setMood(2);// last seen mode on
                     } else if (enemy.getMood() == 2) {//if enemy searching player
-                        //todo turn on normal mood
                     }
 
                 }
@@ -815,7 +814,6 @@ class Eye implements Constants, Serializable {
                         enemy.setMood(1);
 //                        enemy.setSmer(0);
                         enemy.rotateTankImage(nameToSmer());
-//                        System.out.println("see base");
                         this.seeBase = true;
                         return true;
 
@@ -878,7 +876,7 @@ class Eye implements Constants, Serializable {
      *
      * @return int converted direction
      */
-    public int nameToSmer() {
+    private int nameToSmer() {
         switch (name) {
             case "Up":
                 return 1;
@@ -892,11 +890,11 @@ class Eye implements Constants, Serializable {
         return 0;
     }
 
-    public boolean isSee() {
+    boolean isSee() {
         return see;
     }
 
-    public void setSee(boolean see) {
+    private void setSee(boolean see) {
         this.see = see;
     }
 
@@ -904,7 +902,7 @@ class Eye implements Constants, Serializable {
         return see;
     }
 
-    public String getName() {
+    String getName() {
         return this.name;
     }
 
@@ -912,15 +910,15 @@ class Eye implements Constants, Serializable {
         return type;
     }
 
-    public boolean isSeeHim() {
+    boolean isSeeHim() {
         return seeHim;
     }
 
-    public void setSeeHim(boolean seeHim) {
+    private void setSeeHim(boolean seeHim) {
         this.seeHim = seeHim;
     }
 
-    public boolean isSeeAnother() {
+    boolean isSeeAnother() {
         return seeAnother;
     }
 }

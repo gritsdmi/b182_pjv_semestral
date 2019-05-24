@@ -65,7 +65,7 @@ public class Client extends JDialog implements Runnable {
     }
 
     /**
-     *
+     * Method creates modal panel
      */
     public void displayContent() {
         JPanel jp = new JPanel(new FlowLayout());
@@ -86,7 +86,6 @@ public class Client extends JDialog implements Runnable {
                     setVisible(false);
                     dispose();
                 } else {
-                    //TODO error message
                     errorLabel.setText(errorMessage);
                 }
             }
@@ -103,13 +102,12 @@ public class Client extends JDialog implements Runnable {
                     allOk = true;
 
                 } else {
-                    //TODO error message
                     errorLabel.setText(errorMessage);
                 }
             }
         });
 
-        //где блять кнопка??й
+
         JButton backButton = new JButton("Back");
         backButton.addActionListener(new ActionListener() {
             @Override
@@ -144,17 +142,7 @@ public class Client extends JDialog implements Runnable {
     public void run() {
         try {
             try {
-//                clientSocket = new Socket("172.16.176.140", 8080);
                 clientSocket = new Socket(serversIp, 8080);
-//                clientSocket = new Socket("10.1.5.223", 8080);
-//                clientSocket = new Socket("2001:718:7:9:56bf:7358:4a6d:3ac0", 8080); // pasha server v NTK
-//                clientSocket = new Socket("2001:718:7:204:15fe:49a5:204b:9ff1", 8080); // Dimaaaaaa server v NTK
-//                clientSocket = new Socket("2001:718:2:cf:343b:12d6:9870:114f", 8080); // pasha server na strahove
-
-//                clientSocket = new Socket("fe80:0:0:0:d118:3c8b:f53e:aeb2", 8080); // pasha server na strahove
-//                clientSocket = new Socket("fe80:0:0:0:d118:3c8b:f53e:aeb2", 8080); // pasha server
-//                clientSocket = new Socket("2001:718:2:1663:0:", 8080); //
-//                clientSocket = new Socket("147.32.219.38", 8080);
 
                 reader = new BufferedReader(new InputStreamReader(System.in));
                 out = new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream()));
@@ -162,7 +150,6 @@ public class Client extends JDialog implements Runnable {
 
                 Point coor = new Point(0, 0);
                 while (true) {
-
 
                     out.write(GamePanel.player.getX() + " " + GamePanel.player.getY() + " " + GamePanel.player.isM1pressed() + " " + GamePanel.player.getTurelDirection().x + " " + GamePanel.player.getTurelDirection().y + "\n");
                     out.flush();
