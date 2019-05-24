@@ -477,7 +477,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             sp.update();
             for (int i = 0; i < sp.getEnemies().size(); i++) {
                 sp.getEnemies().get(i).update();
-                if (!sp.getEnemies().get(i).isAlive()) {
+                if (!sp.getEnemies().get(i).isAlive() || !sp.getEnemies().get(i).isEnemyOnMap()) {
                     sp.getEnemies().remove(i);
                     i--;
                 }
