@@ -13,6 +13,8 @@ import java.io.Serializable;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class GamePanel extends JPanel implements Runnable, Constants, Serializable {
 
@@ -25,14 +27,14 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private transient Graphics2D graphics;
 
     public static GameBackground background;
-    public static MenuBackground menuBackground;
+    private static MenuBackground menuBackground;
     public static Player player;
     public static Player player2;
     public static volatile ArrayList<Bullet> bullets;
     public static volatile ArrayList<Block> blocks;
-    public static ArrayList<Block> busyBlocks;
+    private static ArrayList<Block> busyBlocks;
     private ArrayList<Drop> drops;
-    public static ArrayList<SpawnPoint> enemySpawns;
+    private static ArrayList<SpawnPoint> enemySpawns;
     private GameButton menuButton;
     private GameButton continueButton;
     private GameButton startButton;
@@ -54,7 +56,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private transient Server server;
     private transient Client client;
     private String endingStr;
-    public static boolean showEndingStr = false;
+    private static boolean showEndingStr = false;
     private String interfaceStr;
     public static boolean isServer;
     public static boolean isClient;
@@ -75,9 +77,9 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     //0 - first-start stage
     //1 - action(game) stage
     //2 - pause stage
-    public static int stage;
+    private static int stage;
     public static String curLevel;
-    public static ArrayList<String> nets;
+    static ArrayList<String> nets;
 
 
     private long timerFPS;
@@ -185,7 +187,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     }
 
 
-    public void generateGame(String map) {
+    private void generateGame(String map) {
 
         millisToFPS = 1000 / FPS;
 
@@ -251,7 +253,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         freeSpacesMap = (ArrayList<Point>) loadedData.get(5);
         drops = (ArrayList<Drop>) loadedData.get(6);//may generate some problems with delays
         wave = (Integer) loadedData.get(7).get(0);
-
+        base.setBaseImage();
         player.setTankPictures("src/main/resources/Entity/BluePixelTank.png", "src/main/resources/Entity/BluePixelTankTower.png");
         for (SpawnPoint sp : enemySpawns) {
             for (Enemy enemy : sp.getEnemies()) {
@@ -401,13 +403,17 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         }
     }
 
+    /**
+     * Method to starts new server
+     */
     public void StartServer() {
         server = new Server(this);
 
         try {
             server.start();
         } catch (UnknownHostException e) {
-            e.printStackTrace();
+            Logger.getLogger(GamePanel.class.getName()).log(Level.SEVERE, "Error creating server", e);
+
         }
     }
 
@@ -432,7 +438,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         menu = false;
     }
 
-    public void GameUpdateClient() {
+    private void GameUpdateClient() {
         background.update();
         player.update();
         if (player.getHealth() <= 0) {
@@ -440,7 +446,11 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         }
     }
 
-    public void GameUpdate() {
+    /**
+     * Main update method.
+     * Calls all another update methods
+     */
+    private void GameUpdate() {
 
 
         // Background update
@@ -516,12 +526,15 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         }
     }
 
+    /**
+     * Method sets variable startwave to true
+     */
     public void startNewWave() {
         startWave = true;
 
     }
 
-    public void checkWaveStarter() {
+    private void checkWaveStarter() {
         if (enemySpawns.get(0).getCurrentAlive() == 0 && enemySpawns.get(1).getCurrentAlive() == 0) {
             wave++;
 
@@ -535,6 +548,12 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     }
 
+    /**
+     * Method compute delay
+     *
+     * @param del
+     * @return true or false
+     */
     public boolean delay(double del) {
         if ((System.nanoTime() - delayPlayerShot) / 1000000 > del) {
             delayPlayerShot = System.nanoTime();
@@ -544,6 +563,11 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         }
     }
 
+    /**
+     * Method compute delay
+     * @param del
+     * @return true or false
+     */
     public boolean delay2(double del) {
         if ((System.nanoTime() - delayPlayerShot2) / 1000000 > del) {
             delayPlayerShot2 = System.nanoTime();
@@ -595,8 +619,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 //            for (String str : nets) {
             for (int j = 0; j < nets.size(); j++) {
                 if (j == 0 || j == 1 || j == 2 || j == 3) {
-
-                    g2d.drawString(nets.get(j), 100, i);
+                    String[] temp = nets.get(j).split("%");
+                    g2d.drawString(temp[0], 100, i);
                     i += 50;
                 }
             }

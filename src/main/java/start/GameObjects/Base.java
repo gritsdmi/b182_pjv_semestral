@@ -112,4 +112,12 @@ public class Base implements Constants, Serializable {
         return new Point(x + 50, y + 50);
     }
 
+    public void setBaseImage() {
+        try {
+            baseimage = ImageIO.read(new File("src/main/resources/Entity/Base.png"));
+        } catch (IOException e) {
+            Logger.getLogger(Base.class.getName()).log(Level.SEVERE, "Error loading file", e);
+        }
+    }
+
 }
