@@ -8,6 +8,7 @@ import start.Logic.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.UnknownHostException;
@@ -91,6 +92,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     //Constructor
     public GamePanel(JFrame jFrame) {
+//        loadCustomFonts();
         mainFrame = jFrame;
 
         setLayout(new BorderLayout());
@@ -123,7 +125,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         slc = new SaveLoadController(this);
         savedPlayers = slc.parseSavedPlayers();
-
     }
 
 
@@ -476,7 +477,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             sp.update();
             for (int i = 0; i < sp.getEnemies().size(); i++) {
                 sp.getEnemies().get(i).update();
-                if (!sp.getEnemies().get(i).isAlive()) {
+                if (!sp.getEnemies().get(i).isAlive() || !sp.getEnemies().get(i).isEnemyOnMap()) {
                     sp.getEnemies().remove(i);
                     i--;
                 }
@@ -683,6 +684,25 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     public void setIpAdress(String ip) {
         this.IpAdress = ip;
+    }
+
+    public static Font testfont;
+
+    public static void loadCustomFonts() {
+        try {
+
+            testfont = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/Fonts/kongtext.ttf"));
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+
+            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/Fonts/kongtext.ttf")));
+
+            System.out.println("tru");
+        } catch (Exception e) {
+            System.err.println("font err");
+        }
+
+//        CustomFonts.addFont(new CustomFonts("BACKTO1982.TTF"));
+//        CustomFonts.addFont(new CustomFonts("joystix monospace.ttf"));
     }
 
 

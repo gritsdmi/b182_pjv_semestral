@@ -175,6 +175,11 @@ public class Enemy implements Constants, Serializable {
         return false;
     }
 
+    public boolean isEnemyOnMap() {
+        if (xPosition > PANEL_WIDTH || yPosition > PANEL_HEIGHT || xPosition < 0 || yPosition < 0) return false;
+        return true;
+    }
+
     public void upC() {
 
         //central up line
