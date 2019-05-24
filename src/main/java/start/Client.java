@@ -65,7 +65,8 @@ public class Client extends JDialog implements Runnable {
     }
 
     /**
-     * Method creates modal panel
+     * Method display window of new player registration
+     * includes inputfields and buttons
      */
     public void displayContent() {
         JPanel jp = new JPanel(new FlowLayout());

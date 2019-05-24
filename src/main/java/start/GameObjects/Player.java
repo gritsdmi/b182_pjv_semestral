@@ -290,7 +290,7 @@ public class Player implements Constants, Serializable {
         switch (bonus.getType()) {
             case 0:
                 takeDamage(30);
-                System.out.println("ti govno");
+                System.out.println("BOOM");
                 break;
             case 1:
                 fireRateChange();

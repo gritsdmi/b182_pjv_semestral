@@ -32,7 +32,7 @@ public class InputNewPlayer extends JDialog {
      * @return true if input string is valid
      */
     public boolean checkInput(String input) {
-        if (input.length() > 3 && input.length() < 20) {
+        if (input.length() > 3 && input.length() < 8) {
             errorMessage = "Ok";
             return true;
         } else {
@@ -40,9 +40,8 @@ public class InputNewPlayer extends JDialog {
                 errorMessage = "Field is empty";
                 return false;
             }
-            //TODO check spaces error message="Wrong format of name. Only letters or numbers are allowed"
             if (input.length() <= 3) errorMessage = "Name is too short";
-            if (input.length() >= 10) errorMessage = "Name is too long";
+            if (input.length() >= 8) errorMessage = "Name is too long";
         }
         return false;
     }

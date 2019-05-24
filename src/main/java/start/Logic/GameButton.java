@@ -352,7 +352,12 @@ public class GameButton implements Constants, Serializable {
         g.setColor(color);
         g.fillRect(x, y, width, height);
         g.setColor(Color.WHITE);
-        g.drawString(str, x + 20, y + 30);
+        if (type == 'j') {
+            g.drawString(str, x + 50, y + 80);
+        } else {
+            g.drawString(str, x + 10, y + 40);
+        }
+
     }
 
     public void setX(int x) {
