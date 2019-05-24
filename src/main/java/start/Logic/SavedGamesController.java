@@ -57,7 +57,6 @@ public class SavedGamesController extends JDialog {
                 int selected = ((JList<?>) e.getSource()).getSelectedIndex();
                 goButton.setEnabled(true);
                 delButton.setEnabled(true);
-                //TODO update on delete
                 Item[0] = selected != -1 ? slc.getExistingSavedGames()[selected] : null;
             }
         });
