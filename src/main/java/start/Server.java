@@ -104,6 +104,7 @@ public class Server implements Runnable {
                         oos.reset();
 
                         if (GamePanel.player.getHealth() <= 0 || !GamePanel.isServer) {
+                            gp.setEndingStr("You lose");
                             System.out.println("break server");
                             break;
                         }
@@ -123,8 +124,12 @@ public class Server implements Runnable {
             }
         } catch (Exception e) {
             System.err.println("Error");
-
-            gp.ChangeStage(0);
+            if (GamePanel.player.isAlive()) {
+                gp.setEndingStr("You win");
+            } else {
+                gp.setEndingStr("You lose");
+            }
+            gp.ChangeStage(4);
         }
     }
 

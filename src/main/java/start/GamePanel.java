@@ -8,7 +8,6 @@ import start.Logic.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.UnknownHostException;
@@ -54,6 +53,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     private GameButton test;
     private transient Server server;
     private transient Client client;
+    private String endingStr;
+    public static boolean showEndingStr = false;
 
     public static boolean isServer;
     public static boolean isClient;
@@ -77,8 +78,6 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     public static int stage;
     public static String curLevel;
     public static ArrayList<String> nets;
-
-
 
 
     private long timerFPS;
@@ -319,7 +318,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 }
                 isClient = false;
                 isServer = false;
-
+                showEndingStr = false;
 
                 break;
 
@@ -358,6 +357,9 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 buttons.add(new GameButton('x', this));
                 break;
             case 4:
+                menu = true;
+                background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
+                showEndingStr = true;
                 System.out.println("DIED");
                 System.out.println("UMER");
                 stage = 2;
@@ -417,7 +419,9 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         background.update();
         player.update();
         if (player.getHealth() <= 0) {
+            endingStr = "Yoy lose!";
             ChangeStage(4);
+
 
         }
     }
@@ -486,7 +490,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         if (!isServer) SpawnDrop();
 
-        if (player.getHealth() <= 0) {
+        if (!player.isAlive()) {
+            endingStr = "You lose at " + wave + " wave";
             ChangeStage(4);
         }
         if (isServer) {
@@ -570,9 +575,12 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         if (showNets) {
             int i = 200;
             for (String str : nets) {
-                g2d.drawString(str, 200, i);
+                g2d.drawString(str, 100, i);
                 i += 50;
             }
+        }
+        if (showEndingStr) {
+            g2d.drawString(endingStr, 200, 600);
         }
         Graphics2D g2 = (Graphics2D) this.getGraphics();
         g2.drawImage(image, 0, 0, this);
@@ -637,6 +645,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             g2d.setFont(new Font("sa", 1, 20));
 
         }
+
         Graphics2D g2 = (Graphics2D) this.getGraphics();
 
         g2.drawImage(image, 0, 0, this);
@@ -688,22 +697,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
     public static Font testfont;
 
-    public static void loadCustomFonts() {
-        try {
-
-            testfont = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/Fonts/kongtext.ttf"));
-            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-
-            ge.registerFont(Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/Fonts/kongtext.ttf")));
-
-            System.out.println("tru");
-        } catch (Exception e) {
-            System.err.println("font err");
-        }
-
-//        CustomFonts.addFont(new CustomFonts("BACKTO1982.TTF"));
-//        CustomFonts.addFont(new CustomFonts("joystix monospace.ttf"));
+    public void setEndingStr(String endingStr) {
+        this.endingStr = endingStr;
     }
-
 
 }

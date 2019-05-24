@@ -186,7 +186,12 @@ public class Client extends JDialog implements Runnable {
                 ois.close();
             }
         } catch (IOException | ClassNotFoundException e) {
-            gp.ChangeStage(0);
+            if (GamePanel.player.isAlive()) {
+                gp.setEndingStr("You win");
+            } else {
+                gp.setEndingStr("You lose");
+            }
+            gp.ChangeStage(4);
 //            System.err.println(e);
         }
     }

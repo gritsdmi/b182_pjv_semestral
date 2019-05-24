@@ -268,11 +268,16 @@ public class Player implements Constants, Serializable {
             }
         }
 
-        healthBarLength = health;
+
 
 
     }
 
+    /**
+     * Method creates object Bullet of type:
+     *
+     * @param num end sets its position and direction
+     */
     public void shoot(int num) {
         if (num == 1) {
             if (gp.delay(reload)) {
@@ -453,6 +458,7 @@ public class Player implements Constants, Serializable {
     public void takeDamage(int damage) {
         if (!shield) {
             this.health = health - damage;
+            healthBarLength = health;
         }
 
     }
