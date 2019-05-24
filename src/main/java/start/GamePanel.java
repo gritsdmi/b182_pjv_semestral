@@ -535,7 +535,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         }
     }
 
-    public void SpawnDrop() {
+    private void SpawnDrop() {
         if ((System.nanoTime() - dropDelayTime) / 1000000 > 2000) {
             dropDelayTime = System.nanoTime();
 
@@ -546,11 +546,20 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         }
     }
 
+    /**
+     * Method deleting all buttons from panel
+     */
     public void deleteButtons() {
         while (buttons.size() > 0) {
             buttons.remove(0);
         }
     }
+
+    /**
+     * Method draws menu
+     *
+     * @param g
+     */
 
     public void MenuPaint(Graphics2D g) {
         Graphics2D g2d = g;
@@ -570,7 +579,7 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
             for (int j = 0; j < nets.size(); j++) {
                 if (j == 0 || j == 1 || j == 2 || j == 3) {
 
-                    g2d.drawString(nets.get(i), 100, i);
+                    g2d.drawString(nets.get(j), 100, i);
                     i += 50;
                 }
             }
@@ -585,9 +594,9 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
     }
 
     /**
-     * Main pain method. Call another
+     * Main pain method. Call another draw methods
      *
-     * @param g
+     * @param g Graphics2d
      */
 
     public void paint(Graphics2D g) {
