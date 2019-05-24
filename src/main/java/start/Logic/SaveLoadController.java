@@ -165,6 +165,12 @@ public class SaveLoadController implements Constants, Serializable {
             if (count >= 3) break;
         }
 
+
+//
+//        for(String l : temp){
+//            l.split(":");
+//        }
+
         return temp.toArray(new String[3]);
 
     }

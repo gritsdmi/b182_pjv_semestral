@@ -566,9 +566,13 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         if (showNets) {
             int i = 200;
-            for (String str : nets) {
-                g2d.drawString(str, 100, i);
-                i += 50;
+//            for (String str : nets) {
+            for (int j = 0; j < nets.size(); j++) {
+                if (j == 0 || j == 1 || j == 2 || j == 3) {
+
+                    g2d.drawString(nets.get(i), 100, i);
+                    i += 50;
+                }
             }
         }
         if (showEndingStr) {
