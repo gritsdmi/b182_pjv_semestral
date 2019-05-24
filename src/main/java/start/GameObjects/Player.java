@@ -15,7 +15,9 @@ import java.util.ArrayList;
 
 
 public class Player implements Constants, Serializable {
+
     //Fields
+
     private int x;
     private int y;
     private int speed = PLAYER_MOVING_SPEED;
@@ -24,17 +26,12 @@ public class Player implements Constants, Serializable {
     private boolean shield;
     private double shieldTime;
     private double fireUpTime;
-
-    public static int score = 0;
-
     private double locationX;
     private double locationY;
     private double reload = 400;
     private GamePanel gp;
-
     private boolean nextMove = true;
     private int direction;
-
     private int rotation;
     private boolean banTop = false;
     private boolean prevbanTop = false;
@@ -45,7 +42,6 @@ public class Player implements Constants, Serializable {
     private boolean banLeft = false;
     private boolean prevbanLeft = false;
     private boolean M1pressed = false;
-
     private Point dir;
     private transient BufferedImage tankPicture;
     private transient BufferedImage tankTowerPicture;
@@ -54,27 +50,7 @@ public class Player implements Constants, Serializable {
     private int fireLevel;
     private boolean isFireUpBuffed;
     private int type;
-
-
-    //TUREL
-    //TUREL
-    //TUREL
-    //TUREL
-    //TUREL
-
     private Point turelDirection = new Point(0, 0);
-
-    public Point getTurelDirection() {
-        return turelDirection;
-    }
-
-    public void turelSetDirection(Point direction) {
-        turelDirection = direction;
-    }
-
-    public int getHealth() {
-        return health;
-    }
 
 
 
@@ -100,12 +76,20 @@ public class Player implements Constants, Serializable {
 
     //Methods
 
-    public void setShield(boolean shield) {
+    /**
+     * Method simulates picking up the shield bonus
+     * assigns shield variable true and sets the timer of shield
+     */
+    public void setShield() {
 
-        this.shield = shield;
+        shield = true;
         shieldTime = System.nanoTime();
     }
 
+    /**
+     * Method simulates picking up the boost bonus
+     * decreases reload time, increase speed and sets the timer of boost
+     */
     public void fireRateChange() {
         if (!isFireUpBuffed) {
             fireUpTime = System.nanoTime();
@@ -117,6 +101,12 @@ public class Player implements Constants, Serializable {
 
     }
 
+    /**
+     * Method assigns its pictures variables right pictures from resource file by 2wo String params:
+     *
+     * @param tankPic
+     * @param turelPIc
+     */
     public void setTankPictures(String tankPic, String turelPIc) {
         try {
             tankPicture = ImageIO.read(new File(tankPic));
@@ -128,6 +118,10 @@ public class Player implements Constants, Serializable {
 
     }
 
+    /**
+     * Method simulates delay effect by 7500 ns
+     * after time passed returnes player to normal mode
+     */
     public void checkFireUp() {
         if ((System.nanoTime() - fireUpTime) / 1000000 > 7500) {
 
@@ -138,6 +132,10 @@ public class Player implements Constants, Serializable {
         }
     }
 
+    /**
+     * Method simulates delay effect by 11000 ns
+     * after time passed ends shield effect
+     */
     public void checkShield() {
         if ((System.nanoTime() - shieldTime) / 1000000 > 11000) {
             shield = false;
@@ -145,20 +143,21 @@ public class Player implements Constants, Serializable {
         }
     }
 
-    public void hit(int damage) {
-        if (!shield) {
-            this.health -= damage;
-//            System.out.println("Player get damage " + "HP: " + health);
-        } else {
-//            System.out.println("Blocked");
-        }
 
-    }
-
+    /**
+     * Method simulates picking up the restoreHealth bonus
+     * restore player`s health to maximum
+     */
     public void restoreHealth(Drop drop) {
         this.health = PLAYER_HEALTH;
     }
 
+    /**
+     * Method updates player`s position,
+     * checks available directions to move,
+     * checks states of bonus effects
+     * and sets healthBar length
+     */
     public void update() {
         if (nextMove) {
             prevbanLeft = false;
@@ -289,6 +288,10 @@ public class Player implements Constants, Serializable {
 
     }
 
+    /**
+     * Method calls player`s bonus-effect methods depending on
+     * @param bonus
+     */
     public void takeBounus(Drop bonus) {
         switch (bonus.getType()) {
             case 0:
@@ -305,15 +308,23 @@ public class Player implements Constants, Serializable {
                 break;
             case 3:
                 System.out.println("Shield");
-                setShield(true);
+                setShield();
                 break;
         }
     }
 
+    /**
+     * Method sets player`s health to new by
+     * @param health
+     */
     public void setHealth(int health) {
         this.health = health;
     }
 
+    /**
+     * Method draws object in the game by
+     * @param g
+     */
     public void draw(Graphics2D g) {
 
         locationX = 25;
@@ -323,7 +334,7 @@ public class Player implements Constants, Serializable {
         g.setColor(Color.BLACK);
 // Drawing the rotated image at the required drawing locations
         g.drawImage(op.filter(tankPicture, null), x, y, null);
-        g.drawString(score + "", PANEL_WIDTH + 10, 140);
+
         if (shield) {
             g.setColor(Color.CYAN);
             g.setStroke(new BasicStroke(3));
@@ -341,7 +352,6 @@ public class Player implements Constants, Serializable {
         }
 
 
-
         //TUREL
 
 
@@ -349,7 +359,7 @@ public class Player implements Constants, Serializable {
                 Math.atan2(turelDirection.y - (y + 25), turelDirection.x - (x + 25))) + 90), 25, 50);
         AffineTransformOp turelOp = new AffineTransformOp(turelAt, AffineTransformOp.TYPE_BILINEAR);
 
-// Drawing the rotated image at the required drawing locations
+        // Drawing the rotated image at the required drawing locations
         g.drawImage(turelOp.filter(tankTowerPicture, null), x, y - 25, null);
 
     }
@@ -416,6 +426,10 @@ public class Player implements Constants, Serializable {
         this.dir = dir;
     }
 
+    /**
+     * Method for serialisation
+     * @return
+     */
     public ArrayList<ArrayList> prepareDataToSerialize() {
         ArrayList<Point> points = new ArrayList<>();
         points.add(this.getPosition());
@@ -423,7 +437,7 @@ public class Player implements Constants, Serializable {
 
         ArrayList<Integer> intData = new ArrayList<>();
         intData.add(health);
-        intData.add(score);
+
 
         ArrayList<ArrayList> ret = new ArrayList<>();
         ret.add(points);
@@ -432,6 +446,10 @@ public class Player implements Constants, Serializable {
         return ret;
     }
 
+    /**
+     * Method decrease player`s health by
+     * @param damage amount
+     */
     public void takeDamage(int damage) {
         if (!shield) {
             this.health = health - damage;
@@ -443,6 +461,19 @@ public class Player implements Constants, Serializable {
         if (health < 1) return false;
         else return true;
     }
+
+    public Point getTurelDirection() {
+        return turelDirection;
+    }
+
+    public void turelSetDirection(Point direction) {
+        turelDirection = direction;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
 
 
 }

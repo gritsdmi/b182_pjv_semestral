@@ -106,7 +106,7 @@ public class Bullet implements Constants, Serializable {
             }
             if (GamePanel.player.getRectangle().getX() <= this.xPosition && (GamePanel.player.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
                 if (GamePanel.player.getRectangle().getY() <= this.yPosition && (GamePanel.player.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
-                    GamePanel.player.hit(this.getDamage());
+                    GamePanel.player.takeDamage(this.getDamage());
                     return true;
                 }
             }
@@ -118,14 +118,14 @@ public class Bullet implements Constants, Serializable {
                 if (autor == 2) {
                     if (GamePanel.player.getRectangle().getX() <= this.xPosition && (GamePanel.player.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
                         if (GamePanel.player.getRectangle().getY() <= this.yPosition && (GamePanel.player.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
-                            GamePanel.player.hit(this.getDamage());
+                            GamePanel.player.takeDamage(this.getDamage());
                             return true;
                         }
                     }
                 } else if (autor == 0) {
                     if (GamePanel.player2.getRectangle().getX() <= this.xPosition && (GamePanel.player2.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
                         if (GamePanel.player2.getRectangle().getY() <= this.yPosition && (GamePanel.player2.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
-                            GamePanel.player2.hit(this.getDamage());
+                            GamePanel.player2.takeDamage(this.getDamage());
                             return true;
                         }
                     }
@@ -143,7 +143,7 @@ public class Bullet implements Constants, Serializable {
 
         if (GamePanel.player.getRectangle().getX() <= this.xPosition && (GamePanel.player.getRectangle().getX() + PLAYER_SIZE_WIDTH) >= this.xPosition) {
             if (GamePanel.player.getRectangle().getY() <= this.yPosition && (GamePanel.player.getRectangle().getY() + PLAYER_SIZE_HEIGHT) >= this.yPosition) {
-                GamePanel.player.hit(this.getDamage());
+                GamePanel.player.takeDamage(this.getDamage());
                 this.isAlive = false;
                 return true;
             }
@@ -157,6 +157,10 @@ public class Bullet implements Constants, Serializable {
         if (yPosition < 0 || xPosition < 0 || yPosition > PANEL_HEIGHT || xPosition > PANEL_WIDTH) this.isAlive = false;
     }
 
+    /**
+     * Method updates bullet position
+     * and controls bullet by calling ControlCollider() method
+     */
     public void update() {
         if (isAlive) {
             yPosition += dy * speed;
@@ -168,6 +172,11 @@ public class Bullet implements Constants, Serializable {
 
     }
 
+    /**
+     * Method draws object in the game by
+     *
+     * @param g
+     */
     public void draw(Graphics2D g) {
 
         if (isAlive) {
@@ -189,31 +198,5 @@ public class Bullet implements Constants, Serializable {
         return damage;
     }
 
-    public double getxPosition() {
-        return xPosition;
-    }
 
-    public void setxPosition(double xPosition) {
-        this.xPosition = xPosition;
-    }
-
-    public double getyPosition() {
-        return yPosition;
-    }
-
-    public void setyPosition(double yPosition) {
-        this.yPosition = yPosition;
-    }
-
-    public Point getDir() {
-        return dir;
-    }
-
-    public void setDir(Point dir) {
-        this.dir = dir;
-    }
-
-    public void setAlive(boolean alive) {
-        isAlive = alive;
-    }
 }

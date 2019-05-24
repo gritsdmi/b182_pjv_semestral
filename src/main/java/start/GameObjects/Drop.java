@@ -1,6 +1,5 @@
 package start.GameObjects;
 
-import start.GamePanel;
 import start.Logic.Constants;
 
 import javax.imageio.ImageIO;
@@ -10,6 +9,8 @@ import java.io.File;
 import java.io.Serializable;
 
 public class Drop implements Constants, Serializable {
+    // Fields
+
     private int x;
     private int y;
     private Player player;
@@ -18,9 +19,7 @@ public class Drop implements Constants, Serializable {
     private double lifeTimer;
     private transient BufferedImage image;
 
-    public boolean isDead() {
-        return dead;
-    }
+    //Constructor
 
     public Drop(int x, int y, int type, Player player) {
         lifeTimer = System.nanoTime();
@@ -56,7 +55,13 @@ public class Drop implements Constants, Serializable {
 
     }
 
+    //Methods
 
+    /**
+     * Method simulates delay effect by 10000 ns
+     *
+     * @return true if needed time passed
+     */
     public boolean checkTimer() {
         if (((System.nanoTime() - lifeTimer) / 1000000) > 10000) {
             return true;
@@ -65,32 +70,24 @@ public class Drop implements Constants, Serializable {
         }
     }
 
+
+    /**
+     * Method controls collision of drop`s collider with other collider of player
+     * in case of collision method calls player`s methods depending on drop`s type
+     */
     public void update() {
         if (((player.getX() + 5 > x) && (player.getX() + 5 < x + 50) && (player.getY() + 5 > y) && (player.getY() + 5 < y + 50)) || ((player.getX() + 45 > x) && (player.getX() + 45 < x + 50) && (player.getY() + 45 > y) && (player.getY() + 45 < y + 50))) {
-            switch (type) {
-                case 0:
-                    player.hit(30);
-                    System.out.println("BAM");
-                    break;
-                case 1:
-                    player.fireRateChange();
-                    GamePanel.background.startMode();
-                    break;
-                case 2:
-                    System.out.println("restore health");
-                    player.restoreHealth(this);
-                    break;
-                case 3:
-                    System.out.println("Shield");
-                    player.setShield(true);
-                    break;
-            }
+            player.takeBounus(this);
 
             dead = true;
 
         }
     }
 
+    /**
+     * Method draws object in the game by
+     * @param g
+     */
     public void draw(Graphics2D g) {
         g.drawImage(image, x, y, null);
     }
@@ -99,7 +96,7 @@ public class Drop implements Constants, Serializable {
         return type;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public boolean isDead() {
+        return dead;
     }
 }

@@ -46,6 +46,13 @@ public class Block implements Constants, Serializable {
 
     }
 
+    //Methods
+
+    /**
+     * Method assign right value to color variable depending on type variable
+     *
+     * @return color variable
+     */
     private Color associateColor() {
         Color c;
         switch (this.type) {
@@ -67,12 +74,10 @@ public class Block implements Constants, Serializable {
     }
 
 
-    //Methods
 
     private boolean controlHP() {
         if (isAlive) {
             if (health < 1) {
-                Player.score++;
                 this.isAlive = false;
                 gp.getFreeSpacesMap().add(new Point(xPosition, yPosition));
                 return false;
@@ -95,6 +100,10 @@ public class Block implements Constants, Serializable {
         controlHP();
     }
 
+    /**
+     * Method draws object in the game by
+     * @param g
+     */
     public void draw(Graphics2D g) {
         if (isAlive && (type != WALL_TYPE_INVIS)) {
             g.setColor(color);

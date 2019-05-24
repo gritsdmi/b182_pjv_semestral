@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 public class GameButton implements Constants, Serializable {
 
+    //Fields
+
     private char type;
     private Color color;
     private int x;
@@ -20,6 +22,7 @@ public class GameButton implements Constants, Serializable {
     private boolean isEmpty;
     private BufferedReader in;
 
+    //Constructor
 
     public GameButton(char type, GamePanel gp) {
         this.gp = gp;
@@ -138,6 +141,12 @@ public class GameButton implements Constants, Serializable {
         }
     }
 
+    /**
+     * Method creates array of GameButtons which represents level buttons of length:
+     *
+     * @param amount
+     * @return this array
+     */
     public GameButton[] createLevelButtons(int amount) {
         GameButton[] levelButtons = new GameButton[amount];
         int heightN = 150;
@@ -154,6 +163,10 @@ public class GameButton implements Constants, Serializable {
         return levelButtons;
     }
 
+    /**
+     * Method creates array of GameButtons which represents players buttons
+     * @return this array
+     */
     public GameButton[] createPlayersButtons() {
         GameButton[] playersButtons = new GameButton[6];
         for (int i = 0; i < GamePanel.savedPlayers.length; i++) {
