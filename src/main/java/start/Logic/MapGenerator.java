@@ -88,7 +88,7 @@ public class MapGenerator implements Constants, Serializable {
                     baseCreated = true;
                     GamePanel.base = new Base(new Point(xPos, yPos), gp);
 
-                } else {
+                } else if (blockType != 'b') {
                     freeSpaces.add(new Point(xPos, yPos));
                 }
 
