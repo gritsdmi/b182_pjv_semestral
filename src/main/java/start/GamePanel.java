@@ -584,6 +584,12 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
         g2.dispose();
     }
 
+    /**
+     * Main pain method. Call another
+     *
+     * @param g
+     */
+
     public void paint(Graphics2D g) {
 
         Graphics2D g2d = g;
