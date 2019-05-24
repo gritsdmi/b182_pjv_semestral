@@ -358,6 +358,8 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
                 break;
             case 4:
                 menu = true;
+                background.setColor(Color.ORANGE);
+                background.setEpilepticmode(false);
                 background.setDim(PANEL_WIDTH + 150, PANEL_HEIGHT);
                 showEndingStr = true;
                 System.out.println("DIED");

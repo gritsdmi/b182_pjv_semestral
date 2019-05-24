@@ -77,6 +77,10 @@ public class GameBackground implements Constants, Serializable {
         height = h;
     }
 
+    public void setEpilepticmode(boolean epilepticmode) {
+        this.epilepticmode = epilepticmode;
+    }
+
     public void setColor(Color color) {
         this.color = color;
     }

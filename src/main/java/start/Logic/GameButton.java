@@ -128,7 +128,7 @@ public class GameButton implements Constants, Serializable {
                 y = 730;
                 width = 150;
                 height = 70;
-                str = "Change player";
+                str = "Change \n player";
                 break;
             case 'd':
                 color = Color.darkGray;
