@@ -211,7 +211,11 @@ public class GameButton implements Constants, Serializable {
             SaveLoadController slc = new SaveLoadController(gp);
             switch (type) {
                 case 'm':
-                    gp.ChangeStage(2);
+                    if (GamePanel.isClient || GamePanel.isServer) {
+                        gp.ChangeStage(0);
+                    } else {
+                        gp.ChangeStage(2);
+                    }
                     break;
                 case 's':
                     gp.ChangeStage(0);
@@ -221,11 +225,9 @@ public class GameButton implements Constants, Serializable {
                     gp.ChangeStage(1);
                     break;
                 case 'p':
-                    if (GamePanel.isClient || GamePanel.isServer) {
-                        gp.ChangeStage(0);
-                    } else {
-                        gp.ChangeStage(3);
-                    }
+
+                    gp.ChangeStage(3);
+
 
                     break;
                 case 'n':
