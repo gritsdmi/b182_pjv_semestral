@@ -22,13 +22,14 @@ public class Base implements Constants, Serializable {
     private Block bl4;
     private transient BufferedImage baseimage;
     private GamePanel gp;
+    private int healthBarLength;
 
     // Constructor
 
     public Base(Point position, GamePanel gp) {
         x = position.x;
         y = position.y;
-        health = 10;
+        health = 100;
         this.gp = gp;
         bl1 = new Block(WALL_TYPE_INVIS, x, y, gp);
         bl2 = new Block(WALL_TYPE_INVIS, x + 50, y, gp);
@@ -86,6 +87,12 @@ public class Base implements Constants, Serializable {
     public void draw(Graphics2D g) {
         if (isAlive) {
             g.drawImage(baseimage, x, y, null);
+            g.setColor(Color.GREEN);
+
+            g.fillRect(825, 200, (int) health, 30);
+            g.setColor(Color.BLACK);
+            g.drawRect(825, 200, 100, 30);
+            g.drawString("hp base", 830, 190);
         }
 
     }

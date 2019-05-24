@@ -25,10 +25,12 @@ public class MouseListener implements MouseMotionListener, java.awt.event.MouseL
                 GamePanel.player.turelSetDirection(e.getPoint());
                 GamePanel.player.setDir(e.getPoint());
             }
-            for (int i = 0; i < GamePanel.buttons.size(); i++) {
-                GamePanel.buttons.get(i).checkMouse(e.getX(), e.getY());
-            }
+
         }
+        for (int i = 0; i < GamePanel.buttons.size(); i++) {
+            GamePanel.buttons.get(i).checkMouse(e.getX(), e.getY());
+        }
+
 
     }
 

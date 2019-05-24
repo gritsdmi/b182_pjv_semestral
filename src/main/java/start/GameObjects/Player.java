@@ -353,7 +353,7 @@ public class Player implements Constants, Serializable {
             g.setColor(Color.BLACK);
             g.setStroke(new BasicStroke(3));
             g.drawRect(825, 100, 100, 30);
-            g.drawString("hp", 805, 110);
+            g.drawString("hp", 860, 90);
         }
 
 

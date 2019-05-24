@@ -9,17 +9,28 @@ import java.awt.event.ActionListener;
 
 public class InputNewPlayer extends JDialog {
 
+    //Fields
+
     private String enteredName;
     private String errorMessage = "";
     private boolean allOk = false;
+
+    //Constuctor
 
     public InputNewPlayer(GamePanel gp) {
         super(gp.getMainFrame(), "New Player", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         enteredName = "";
-//        displayContent();
     }
 
+    //Method
+
+    /**
+     * Method checks user`s input
+     *
+     * @param input
+     * @return true if input string is valid
+     */
     public boolean checkInput(String input) {
         if (input.length() > 3 && input.length() < 20) {
             errorMessage = "Ok";
@@ -31,11 +42,15 @@ public class InputNewPlayer extends JDialog {
             }
             //TODO check spaces error message="Wrong format of name. Only letters or numbers are allowed"
             if (input.length() <= 3) errorMessage = "Name is too short";
-            if (input.length() >= 20) errorMessage = "Name is too long";
+            if (input.length() >= 10) errorMessage = "Name is too long";
         }
         return false;
     }
 
+    /**
+     * Method display window of new player registration
+     * includes inputfields and buttons
+     */
     void displayContent() {
         JPanel jp = new JPanel(new FlowLayout());
 

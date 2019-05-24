@@ -14,6 +14,9 @@ import java.util.ArrayList;
 
 
 public class Client extends JDialog implements Runnable {
+
+    //Fields
+
     private BufferedWriter out;
     private BufferedReader in;
     private BufferedReader reader;
@@ -24,23 +27,23 @@ public class Client extends JDialog implements Runnable {
     private String serversIp = "";
     private boolean allOk = false;
     private String errorMessage = "";
-
-
     private GamePanel gp;
+
+    //Constructor
 
     public Client(GamePanel gp) {
         super(gp.getMainFrame(), "Entering ip", true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         this.gp = gp;
-//        displayContent();
-    }
-
-    public void setServersIp(String ip) {
-        serversIp = ip;
     }
 
 
-    ///todo control ip
+    /**
+     * Method checks user`s input
+     *
+     * @param input
+     * @return true if input string is valid
+     */
     public boolean checkInput(String input) {
         if (input.length() > 3 && input.length() < 50) {
             if (InetAddresses.isInetAddress(input)) {
@@ -61,6 +64,9 @@ public class Client extends JDialog implements Runnable {
         return false;
     }
 
+    /**
+     *
+     */
     public void displayContent() {
         JPanel jp = new JPanel(new FlowLayout());
 

@@ -16,6 +16,8 @@ import java.util.ArrayList;
  */
 public class SpawnPoint implements Constants, Serializable {
 
+    // Fields
+
     private MapGenerator mp;
     private Point spawnPosition = new Point(0, 0);
     private ArrayList<Enemy> enemies;
@@ -26,7 +28,7 @@ public class SpawnPoint implements Constants, Serializable {
     private GamePanel gp;
     private int currentAlive;
 
-
+    //Constructor
 
     public SpawnPoint(MapGenerator mp, int capacity, Point spawnPoint, GamePanel gp) {
         this.mp = mp;
@@ -43,6 +45,12 @@ public class SpawnPoint implements Constants, Serializable {
         this.gp = gp;
     }
 
+    //Methods
+
+    /**
+     * Method creates objects of type Enemy if capacity allows
+     * decrements capacity every iteration
+     */
     public void update() {
         controlCapacity();
         if (isActive) {

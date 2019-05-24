@@ -43,7 +43,7 @@ public class GameButton implements Constants, Serializable {
                 y = 300;
                 width = 150;
                 height = 70;
-                str = "Start new game";
+                str = "New game";
                 break;
             case 'c':
                 color = Color.GRAY;
@@ -73,7 +73,7 @@ public class GameButton implements Constants, Serializable {
                 y = 200;
                 width = 250;
                 height = 100;
-                str = "Start new game";
+                str = "New game";
                 break;
             case 'i':
                 color = Color.GRAY;
@@ -89,7 +89,7 @@ public class GameButton implements Constants, Serializable {
                 y = 600;
                 width = 150;
                 height = 70;
-                str = "Play as client";
+                str = "Client";
                 break;
             case 'f':
                 color = Color.GRAY;
@@ -97,7 +97,7 @@ public class GameButton implements Constants, Serializable {
                 y = 100;
                 width = 150;
                 height = 70;
-                str = "Play as server";
+                str = "Server";
                 break;
             case 'z':
                 color = Color.GRAY;
@@ -128,7 +128,7 @@ public class GameButton implements Constants, Serializable {
                 y = 730;
                 width = 150;
                 height = 70;
-                str = "Change \n player";
+                str = "Back";
                 break;
             case 'd':
                 color = Color.darkGray;
@@ -197,6 +197,13 @@ public class GameButton implements Constants, Serializable {
         playersButtons[5].x = 125 + 2 * 300;
         return playersButtons;
     }
+
+    /**
+     * Method simulates buttons "hover" effect , takes mouse coords
+     *
+     * @param mouseX
+     * @param mouseY
+     */
     public void checkMouse(int mouseX, int mouseY) {
         if ((mouseX >= x) && (mouseX <= x + width) && (mouseY >= y) && (mouseY <= y + height)) {
             color = color.darker();
@@ -206,6 +213,13 @@ public class GameButton implements Constants, Serializable {
         }
     }
 
+    /**
+     * Method simulates buttons "click" effect , takes mouse coords
+     * @param mouseX
+     * @param mouseY
+     *
+     * if clicked calls needed stage of gamePanel depending on type
+     */
     public void checkMouseClick(int mouseX, int mouseY) {
         if ((mouseX >= x) && (mouseX <= x + width) && (mouseY >= y) && (mouseY <= y + height)) {
             SaveLoadController slc = new SaveLoadController(gp);
@@ -334,6 +348,10 @@ public class GameButton implements Constants, Serializable {
 
     }
 
+    /**
+     * Method draws object in the game by
+     * @param g
+     */
     public void draw(Graphics2D g) {
         g.setColor(color);
         g.fillRect(x, y, width, height);
