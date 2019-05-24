@@ -599,11 +599,10 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         //Bullet draw
         for (int i = 0; i < bullets.size(); i++) {
-
+            bullets.get(i).draw(g2d);
         }
+
         //Blocks draw
-
-
         for (int i = 0; i < blocks.size(); i++) {
             if (blocks.get(i).getAutor() == -1) blocks.get(i).draw(g2d);
         }

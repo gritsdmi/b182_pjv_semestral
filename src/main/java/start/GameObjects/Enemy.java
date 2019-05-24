@@ -416,8 +416,8 @@ public class Enemy implements Constants, Serializable {
     public void draw(Graphics2D g) {
         if (isAlive) {
             g.drawImage(op.filter(tankImg, null), xPosition, yPosition,null);
-            for (Eye eye : eyes) eye.draw(g);
-            for (Eye eye : movingEyes) eye.draw(g);
+//            for (Eye eye : eyes) eye.draw(g);
+//            for (Eye eye : movingEyes) eye.draw(g);
             g.setColor(Color.RED);
             g.fillRect(xPosition + 2, yPosition - 5, (int) helthBarLenght, 6);
         }

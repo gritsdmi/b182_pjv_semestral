@@ -194,7 +194,7 @@ public class Client extends JDialog implements Runnable {
         }
     }
 
-    public void end() throws IOException {
+    void end() throws IOException {
         System.out.println("Client closed...");
 
         clientSocket.close();
@@ -202,7 +202,7 @@ public class Client extends JDialog implements Runnable {
         ois.close();
     }
 
-    public boolean isAllOk() {
+    boolean isAllOk() {
         return allOk;
     }
 
