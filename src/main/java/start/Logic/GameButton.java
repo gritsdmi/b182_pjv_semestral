@@ -221,7 +221,12 @@ public class GameButton implements Constants, Serializable {
                     gp.ChangeStage(1);
                     break;
                 case 'p':
-                    gp.ChangeStage(3);
+                    if (GamePanel.isClient || GamePanel.isServer) {
+                        gp.ChangeStage(0);
+                    } else {
+                        gp.ChangeStage(3);
+                    }
+
                     break;
                 case 'n':
                     gp.ChangeStage(0);

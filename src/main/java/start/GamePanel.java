@@ -639,7 +639,10 @@ public class GamePanel extends JPanel implements Runnable, Constants, Serializab
 
         g2d.setColor(Color.BLACK);
         g2d.setStroke(new BasicStroke(5));
-        g2d.drawString("WAVE  " + wave, 810, 300);
+        if (!(isServer && isClient)) {
+            g2d.drawString("WAVE  " + wave, 810, 300);
+        }
+
         if (printNewWave) {
             g2d.setFont(new Font("big", 1, 50));
             g2d.drawString("WAVE " + wave, 300, 200);
