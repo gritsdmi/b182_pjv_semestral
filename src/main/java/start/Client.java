@@ -176,6 +176,7 @@ public class Client extends JDialog implements Runnable {
                     GamePanel.player2.turelSetDirection((Point) ois.readObject());
                     if (GamePanel.player.getHealth() <= 0) {
                         System.out.println("break server");
+                        gp.setEndingStr("You lose");
                         break;
                     }
 
