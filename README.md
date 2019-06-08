@@ -4,4 +4,4 @@ Repositar je urcen k spolupracovani nad semestralni praci z predmetu B0B36PJV
 
 Tematem semestralni prace je vyvoj arkadni hry Tanky
 
-Viz Wiki[](https://gitlab.fel.cvut.cz/gritsdmi/gritsdmi/wikis/home) 
+Viz [Wiki](https://gitlab.fel.cvut.cz/gritsdmi/gritsdmi/wikis/home) 
